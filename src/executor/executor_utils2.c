@@ -28,21 +28,32 @@ static void	fill_args(char **tokens, int idx)
 	}
 }
 
-static char	**get_path_dirs(void)
+void	remove_filename_quotes(void)
 {
-	int		i;
-	char	*path;
-	char	**path_dirs;
+	int			i;
+	int			j;
+	t_command	*cmd;
+	char		**subtokens;
 
 	i = 0;
-	path = get_key_value(g_minishell.envp_list, "PATH");
-	path_dirs = ft_split_old(path, ':');
-	while (path_dirs[i])
+	while (i < g_minishell.number_of_cmds)
 	{
-		append(&path_dirs[i], ft_strdup("/"));
+		j = 0;
+		cmd = &g_minishell.commands[i];
+		while (cmd->args[j])
+		{
+			if (is_redirect(cmd->args[j]))
+			{
+				subtokens = get_subtokens(cmd->args[j + 1], 0);
+				clear_subtokens(subtokens);
+				free(cmd->args[j + 1]);
+				cmd->args[++j] = concat_subtokens(subtokens);
+				free(subtokens);
+			}
+			j++;
+		}
 		i++;
 	}
-	return (path_dirs);
 }
 
 void	remove_quotes(void)

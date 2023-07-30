@@ -63,6 +63,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	**ft_split(char const *s, char c);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_itoa(int n);
+int		ft_strcmp(const char *s1, const char *s2);
 int		ft_lstsize(t_node *lst);
 void	ft_lstadd_front(t_node **lst, t_node *new);
 void	ft_lstadd_back(t_node **lst, t_node *new);

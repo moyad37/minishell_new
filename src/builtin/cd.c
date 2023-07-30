@@ -62,7 +62,8 @@ int	change_home(void)
 		swap_pwds(value);
 	else
 	{
-		ft_printf(STDERR_FILENO, "bash: cd: HOME not set\n");
+		//ft_printf(STDERR_FILENO, "bash: cd: HOME not set\n");
+		write(2, "bash: cd: HOME not set\n", 24);
 		return (1);
 	}
 	return (0);
@@ -89,14 +90,20 @@ int	type_of_file(char *file)
 	return (NO_SUCH_FILE);
 }
 
-static void	print_error(t_command cmd, int filetype)
+static void	print_error_cd(t_command cmd, int filetype)
 {
 	if (filetype == REG_FILE)
-		ft_printf(STDERR_FILENO, \
-		"bash: cd: %s: Not a directory\n", cmd.args[1]);
+	{
+		write(STDERR_FILENO,"bash: cd:",9);
+		ft_putstr_fd(cmd.args[1], 2);
+		write(STDERR_FILENO,": Not a directory\n",18);
+	}
 	else
-		ft_printf(STDERR_FILENO, \
-		"bash: cd: %s: No such file or directory\n", cmd.args[1]);
+	{
+		write(STDERR_FILENO,"bash: cd:",9);
+		ft_putstr_fd(cmd.args[1], 2);
+		write(STDERR_FILENO,": No such file or directory\n",27);
+	}
 }
 /*
 Diese Funktion implementiert den Befehl "cd" (change directory) in einer Shell.
@@ -143,13 +150,15 @@ int status = 1;
     if (cmd.number_of_args == 1) {
         status = change_home();
     }
-    else if (cmd.number_of_args > 2) {
-        ft_printf(STDERR_FILENO, "bash: cd: too many arguments\n");
+    else if (cmd.number_of_args > 2) 
+	{
+        //ft_printf(STDERR_FILENO, "bash: cd: too many arguments\n");
+        write(2, "bash: cd: too many arguments\n", 30);
     }
     else {
         int filetype = type_of_file(cmd.args[1]);
         if (filetype == REG_FILE || filetype == NO_SUCH_FILE) {
-            print_error(cmd, filetype);
+            print_error_cd(cmd, filetype);
         }
         else {
             status = 0;

@@ -69,7 +69,8 @@ Interpretiert Sonderzeichen in den Argumenten mit Hilfe von interpret_special_ch
 Gibt die Argumente nacheinander aus, getrennt durch Leerzeichen.
 Fügt einen Zeilenumbruch ('\n') am Ende hinzu.
 */
-void print_args(int size, char** args, int out_fd) {
+void print_args(int size, char** args, int out_fd)
+{
     int i = 1;
 
     if (valid_dash_n(args[1]))

@@ -1,7 +1,7 @@
 
 #include "../../inc/minishell.h"
 
-int handler(int sig)
+void handler(int sig)
 {
     if(!sig)
         print_error("no signal resived. \n", 2);

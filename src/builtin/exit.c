@@ -47,6 +47,12 @@ Diese Funktion implementiert den Befehl "exit" in einer Shell. Wenn kein Argumen
   dass das Argument gültig ist. Danach wird die Ausgabe "exit" gemacht und der Kindprozess 
   mit dem exit_code beendet. Der Rückgabewert 0 gibt an, dass der Befehl erfolgreich ausgeführt wurde.
 */
+void print_error_exit(int fd, char *str)
+{
+	ft_putstr_fd("bash: exit: ",2);
+	ft_putstr_fd(str, fd);
+	ft_putstr_fd(": numeric argument required\n",2);
+}
 
 int	ft_exit(t_command cmd)
 {
@@ -85,19 +91,19 @@ int	ft_exit(t_command cmd)
 
 		if (exit_code == 0 && ft_strlen(cmd.args[1]) > 1)
 		{
-			ft_printf(STDERR_FILENO, "bash: exit: %s: numeric argument required\n", cmd.args[1]);
+			print_error_exit(STDERR_FILENO, cmd.args[1]);
+			//ft_printf(STDERR_FILENO, "bash: exit: %s: numeric argument required\n", cmd.args[1]);
 			exit_code = 2;
 		}
 		else if (cmd.number_of_args > 2)
 		{
-			ft_printf(STDERR_FILENO, "bash: exit: too many arguments\n");
+			write(STDERR_FILENO, "bash: exit: too many arguments\n", 31);
 			exit_code = 1;
 		}
 
 		ft_putstr_fd("exit\n", STDIN_FILENO);
 		die_child(0, exit_code);
 	}
-
 	return 0;
 }
 

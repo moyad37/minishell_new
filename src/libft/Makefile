@@ -39,6 +39,7 @@ SRC =  ft_isalpha.c\
 	ft_calloc.c\
 	ft_strdup.c\
 	ft_substr.c\
+	ft_strcmp.c\
 	ft_strjoin.c\
 	ft_itoa.c\
 	ft_lstadd_back.c\

@@ -12,19 +12,50 @@ static void	init_executor(char **tokens)
 	init_bin_path();
 }
 
-
-void	init_bin_path(void)
+static char	**get_path_dirs(void)
 {
-	int	i;
-	int	args;
+	int		i;
+	char	*path;
+	char	**path_dirs;
 
 	i = 0;
-	args = g_minishell.number_of_cmds;
-	while (i < args)
+	path = get_key_value(g_minishell.envp_list, "PATH");
+	path_dirs = ft_split_old(path, ':');
+	while (path_dirs[i])
 	{
-		set_bin(&g_minishell.commands[i]);
+		append(&path_dirs[i], ft_strdup("/"));
 		i++;
 	}
+	return (path_dirs);
+}
+
+static char	*get_bin_path(t_command *command)
+{
+	int		i;
+	char	*bin;
+	char	**path_dirs;
+
+	i = 0;
+	path_dirs = get_path_dirs();
+	while (path_dirs[i] && command->args[0] && ft_strlen(command->args[0]) > 0)
+	{
+		bin = ft_strjoin(path_dirs[i], command->args[0]);
+		if (!is_dir(bin) && access(bin, F_OK | X_OK) == 0)
+		{
+			ft_free_matrix((void **)path_dirs);
+			return (bin);
+		}
+		else if (access(bin, F_OK) == 0 && access(bin, X_OK) == -1)
+		{
+			command->error = EACCES;
+			ft_free(bin);
+			break ;
+		}
+		ft_free(bin);
+		i++;
+	}
+	ft_free_matrix((void **)path_dirs);
+	return (NULL);
 }
 
 static void	set_bin(t_command *cmd)
@@ -43,35 +74,6 @@ static void	set_bin(t_command *cmd)
 		cmd->error = ENOENT;
 	else if (cmd->error == 0 && cmd->bin_path == NULL)
 		cmd->error = ENOCMD;
-}
-
-
-void	remove_filename_quotes(void)
-{
-	int			i;
-	int			j;
-	t_command	*cmd;
-	char		**subtokens;
-
-	i = 0;
-	while (i < g_minishell.number_of_cmds)
-	{
-		j = 0;
-		cmd = &g_minishell.commands[i];
-		while (cmd->args[j])
-		{
-			if (is_redirect(cmd->args[j]))
-			{
-				subtokens = get_subtokens(cmd->args[j + 1], 0);
-				clear_subtokens(subtokens);
-				free(cmd->args[j + 1]);
-				cmd->args[++j] = concat_subtokens(subtokens);
-				free(subtokens);
-			}
-			j++;
-		}
-		i++;
-	}
 }
 
 void	init_commands(char **tokens, int idx)

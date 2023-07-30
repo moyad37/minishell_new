@@ -2,7 +2,7 @@
 
 int is_quote(char c)
 {
-    return (c == SINGLE_QUOTE || c == DOUBLE_QUOTE);
+    return (c == '\'' || c == '"');
 }
 
 int is_meta_char(char c)
@@ -10,11 +10,14 @@ int is_meta_char(char c)
     return strchr(">|<", c) != NULL;
 }
 
+/*
 static int	is_empty_quote(char *str)
 {
-	return (*str == str[1])
+	if(*str == str[1])
+		return 1;
+	return 0;
 }
-
+*/
 
 int	has_error(t_command *cmd)
 {

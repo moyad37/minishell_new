@@ -8,7 +8,7 @@ SRCS	= minishell.c\
 			src/help/die_free_close_child.c src/help/free.c src/help/hanldes.c src/help/redirects.c src/help/set_fd.c\
 			src/lexer_parser/lexer.c src/lexer_parser/lexer2.c src/lexer_parser/lexer3.c src/lexer_parser/parser.c src/lexer_parser/parser2.c src/lexer_parser/parser3.c src/lexer_parser/start.c\
 			src/signals/signal_handler.c\
-			src/utils/atol_split.c src/utils/builtins_utils.c src/utils/give_envp.c src/utils/heredoc.c src/utils/key_utils.c src/utils/swap_fd.c src/utils/utils.c\
+			src/utils/atol_split.c src/utils/builtins_utils.c src/utils/give_envp.c src/utils/heredoc.c src/utils/key_utils.c src/utils/swap_fd.c src/utils/utils.c src/utils/append.c\
 			src/init.c src/matrix_utils.c
 			
 CC		= @clang

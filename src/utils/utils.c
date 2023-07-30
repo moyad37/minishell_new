@@ -49,3 +49,16 @@ void	make_dups(t_command cmd)
 	dup2(cmd.input_fd, 0);
 	dup2(cmd.output_fd, 1);
 }
+
+void	ft_print_matrix_fd(char **matrix, int fd)
+{
+	int	i;
+
+	i = 0;
+	while (matrix[i])
+	{
+		ft_putstr_fd(matrix[i], fd);
+		ft_putchar_fd('\n', fd);
+		i++;
+	}
+}

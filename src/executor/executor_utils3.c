@@ -31,7 +31,7 @@ void	clear_subtokens(char **subtokens)
 	}
 }
 
-
+/*
 static char	*get_bin_path(t_command *command)
 {
 	int		i;
@@ -60,7 +60,7 @@ static char	*get_bin_path(t_command *command)
 	ft_free_matrix((void **)path_dirs);
 	return (NULL);
 }
-
+*/
 static void	erase_external_quotes(char *str)
 {
 	int	last_pos;
@@ -70,4 +70,34 @@ static void	erase_external_quotes(char *str)
 	ft_memmove(str, str + 1, str_len);
 	last_pos = str_len - 2;
 	ft_memset(str + last_pos, 0, 1);
+}
+
+
+static int	run_single_cmd(t_command cmd)
+{
+	int	pid;
+
+	if (get_builtin_pos(cmd.args[0]) != -1)
+	{
+		run_builtin(cmd, g_minishell.builtins[get_builtin_pos(cmd.args[0])]);
+		return (-1);
+	}
+	pid = fork();
+	g_minishell.on_fork = 1;
+	if (pid == 0)
+	{
+		signal(SIGQUIT, SIG_DFL);
+		if (cmd.input_fd == -1 || cmd.output_fd == -1)
+			die_child(0, 1);
+		if (cmd.error && get_builtin_pos(cmd.args[0]) == -1)
+			die_child(0, cmd.error);
+		if (cmd.bin_path && cmd.args[0])
+		{
+			make_dups(cmd);
+			close_fds_in_child();
+			execve(cmd.bin_path, cmd.args, g_minishell.envp);
+		}
+		die_child(0, cmd.error);
+	}
+	return (pid);
 }

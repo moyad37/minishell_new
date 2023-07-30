@@ -1,5 +1,24 @@
 #include "../../inc/minishell.h"
 
+static void	loop_wait(int pid, int *status)
+{
+	int	i;
+	int	size;
+
+	i = 0;
+	size = g_minishell.number_of_cmds;
+	waitpid(pid, status, 0);
+	while (i < size - 1)
+	{
+		wait(NULL);
+		i++;
+	}
+	if (WIFEXITED(*status))
+		g_minishell.status_code = WEXITSTATUS(*status);
+	else if (WIFSIGNALED(*status))
+		g_minishell.status_code = 128 + WTERMSIG(*status);
+}
+
 void	executor(char **tokens)
 {
 	int	i;
@@ -24,3 +43,4 @@ void	executor(char **tokens)
 		loop_wait(pid, &status);
 	g_minishell.on_fork = 0;
 }
+

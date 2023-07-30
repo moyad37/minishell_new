@@ -1,25 +1,6 @@
 #include "../../inc/minishell.h"
 
 /*
-Überprüft, ob eine gegebene Zeichenkette (var) ein gültiger Bezeichner ist.
-Überprüft, ob das erste Zeichen kein Buchstabe (!ft_isalpha(var[0])) und kein Unterstrich (var[0] != '_') ist.
-Durchläuft die Zeichenkette ab dem zweiten Zeichen und überprüft, ob jedes Zeichen ein gültiges Bash-Zeichen ist (!is_bash_char(var[i])).
-Gibt 1 zurück, wenn die Zeichenkette ein gültiger Bezeichner ist.
-*/
-static int is_valid_identifier(const char *var)
-{
-	if (!ft_isalpha(var[0]) && var[0] != '_')
-		return 0;
-
-	for (int i = 1; var[i] && var[i] != '='; i++)
-	{
-		if (!is_bash_char(var[i]))
-			return 0;
-	}
-
-	return 1;
-}
-/*
 Löscht einen bestimmten Umgebungsvariablenknoten aus der Liste (envp_list) basierend auf dem Schlüssel (key).
 Durchläuft die Liste, um den entsprechenden Knoten zu finden.
 Wenn der erste Knoten der zu löschende Knoten ist, wird der Anfang der Liste auf den nächsten Knoten gesetzt und der erste Knoten wird freigegeben.
@@ -49,6 +30,28 @@ void delet_specific_node(t_node **envp_list, const char *key)
 	prev->next = curr->next;
 	ft_lstdelone(curr, &free);
 }
+
+/*
+Überprüft, ob eine gegebene Zeichenkette (var) ein gültiger Bezeichner ist.
+Überprüft, ob das erste Zeichen ein Buchstabe (ft_isalpha(var[0])) oder ein Unterstrich (var[0] != '_') ist.
+Durchläuft die Zeichenkette ab dem zweiten Zeichen und überprüft, ob jedes Zeichen ein gültiges Bash-Zeichen ist (is_bash_char(var[i])).
+Gibt 1 zurück, wenn die Zeichenkette ein gültiger Bezeichner ist.
+*/
+//static
+int is_valid_identifier(const char *var)
+{
+    if (!ft_isalpha(var[0]) && var[0] != '_')
+        return 0;
+
+    for (int i = 1; var[i] && var[i] != '='; i++)
+    {
+        if (!is_bash_char(var[i]))
+            return 0;
+    }
+
+    return 1;
+}
+
 /*
 Führt das Unsetzen einer Umgebungsvariable aus.
 Überprüft, ob die Zeichenkette delet_var ein gültiger Bezeichner ist.
@@ -60,7 +63,10 @@ static int exec_unset(char *delet_var)
 {
 	if (!is_valid_identifier(delet_var))
 	{
-		ft_printf(STDERR_FILENO, "bash: unset: `%s': not a valid identifier\n", delet_var);
+		ft_putstr_fd("bash: unset: '",STDERR_FILENO);
+		ft_putstr_fd(delet_var, STDERR_FILENO);
+		ft_putstr_fd("': not a valid identifier\n",STDERR_FILENO);
+		//ft_printf(STDERR_FILENO, "bash: unset: `%s': not a valid identifier\n", delet_var);
 		return 1;
 	}
 

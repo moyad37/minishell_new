@@ -1,24 +1,7 @@
 #include "../../inc/minishell.h"
 
-/*
-Überprüft, ob eine gegebene Zeichenkette (var) ein gültiger Bezeichner ist.
-Überprüft, ob das erste Zeichen ein Buchstabe (ft_isalpha(var[0])) oder ein Unterstrich (var[0] != '_') ist.
-Durchläuft die Zeichenkette ab dem zweiten Zeichen und überprüft, ob jedes Zeichen ein gültiges Bash-Zeichen ist (is_bash_char(var[i])).
-Gibt 1 zurück, wenn die Zeichenkette ein gültiger Bezeichner ist.
-*/
-static int is_valid_identifier(const char *var)
-{
-    if (!ft_isalpha(var[0]) && var[0] != '_')
-        return 0;
 
-    for (int i = 1; var[i] && var[i] != '='; i++)
-    {
-        if (!is_bash_char(var[i]))
-            return 0;
-    }
 
-    return 1;
-}
 /*
 Druckt die exportierten Umgebungsvariablen auf den Ausgabekanal.
 Behandelt die Ausgabe des Befehls basierend auf dem Umleitungsstatus (handle_output).
@@ -34,9 +17,21 @@ static void print_export(t_command cmd)
     while (tmp)
     {
         if (tmp->key && tmp->value)
-            ft_printf(out, "declare -x %s=\"%s\"\n", tmp->key, tmp->value);
+        {
+            ft_putstr_fd("declare -x ",out);
+            ft_putstr_fd(tmp->key,out);
+            ft_putstr_fd("\"",out);
+            ft_putstr_fd(tmp->value,out);
+            ft_putstr_fd("\" \n",out);
+        }
+        //ft_printf(out, "declare -x %s=\"%s\"\n", tmp->key, tmp->value);
         else
-            ft_printf(out, "declare -x %s\n", tmp->key);
+        {
+            ft_putstr_fd("declare -x ",out);
+            ft_putstr_fd(tmp->key,out);
+            ft_putstr_fd("\n",out);
+        }
+            //ft_printf(out, "declare -x %s\n", tmp->key);
         tmp = tmp->next;
     }
 }
@@ -87,6 +82,12 @@ Andernfalls wird der Export der Umgebungsvariable mit exec_export durchgeführt.
 Wenn die Shell im Kindprozessmodus ist, wird die_child aufgerufen, um den Kindprozess zu beenden.
 Der Status wird zurückgegeben.
 */
+void print_error_export(int fd, char *str)
+{
+	ft_putstr_fd("bash: export: '",fd);
+	ft_putstr_fd(str, fd);
+	ft_putstr_fd("': not a valid identifier\n",fd);
+}
 
 int ft_export(t_command cmd)
 {
@@ -98,24 +99,20 @@ int ft_export(t_command cmd)
         print_export(cmd);
         return status;
     }
-
     while (cmd.args[i])
     {
         if (!is_valid_identifier(cmd.args[i]))
         {
-            ft_printf(STDERR_FILENO, "bash: export: `%s': not a valid identifier\n", cmd.args[i]);
+            print_error_export(STDERR_FILENO, cmd.args[i]);
+            //ft_printf(STDERR_FILENO, "bash: export: `%s': not a valid identifier\n", cmd.args[i]);
             status = 1;
         }
         else
-        {
             exec_export(cmd.args[i]);
-        }
-
         i++;
     }
-
     if (g_minishell.on_fork)
         die_child(0, status);
-
     return status;
 }
+

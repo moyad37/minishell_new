@@ -21,7 +21,12 @@ static void	err_on_input_redirect(char *filename)
 		error = ENOENT;
 	else
 		error = EACCES;
-	ft_printf(STDERR_FILENO, "bash: %s: %s\n", filename, strerror(error));
+	ft_putstr_fd("bash: ", 2);
+	ft_putstr_fd(filename, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(strerror(error), 2);
+	ft_putstr_fd("\n", 2);
+	//ft_printf(STDERR_FILENO, "bash: %s: %s\n", filename, strerror(error));
 }
 
 static void	err_on_output_redirect(char *filename)
@@ -32,7 +37,12 @@ static void	err_on_output_redirect(char *filename)
 		error = ENAMETOOLONG;
 	else
 		error = EACCES;
-	ft_printf(STDERR_FILENO, "bash: %s: %s\n", filename, strerror(error));
+	ft_putstr_fd("bash: ", 2);
+	ft_putstr_fd(filename, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(strerror(error), 2);
+	ft_putstr_fd("\n", 2);	
+	//ft_printf(STDERR_FILENO, "bash: %s: %s\n", filename, strerror(error));
 }
 
 void	handle_error(t_command *cmd, char *filename)
