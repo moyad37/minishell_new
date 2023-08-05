@@ -101,6 +101,7 @@ static char	*get_str(char const *s, char c)
 	str[i] = '\0';
 	return (str);
 }
+
 /*
 int	main(void)
 {
@@ -124,3 +125,4 @@ int	main(void)
 	return (0);
 }
 */
+

@@ -29,3 +29,41 @@ static void	set_input_fd(t_command *cmd, char *redirect, char *filename)
 		g_minishell.heredoc.heredoc_exited = heredoc(cmd, delim);
 	}
 }
+
+static void	fill_fds(t_command *cmd)
+{
+	int	i;
+
+	i = 0;
+	cmd->input_fd = 0;
+	cmd->output_fd = 1;
+	while (cmd->args[i])
+	{
+		if (is_input_redirect(cmd->args[i]))
+			set_input_fd(cmd, cmd->args[i], cmd->args[i + 1]);
+		else if (is_output_redirect(cmd->args[i]))
+			set_output_fd(cmd, cmd->args[i], cmd->args[i + 1]);
+		if (has_error(cmd))
+		{
+			handle_error(cmd, cmd->args[i + 1]);
+			return ;
+		}
+		if (is_redirect(cmd->args[i]))
+			i++;
+		i++;
+	}
+}
+
+void	init_redirects(void)
+{
+	int	i;
+	int	args;
+
+	i = 0;
+	args = g_minishell.number_of_cmds;
+	while (i < args && !g_minishell.heredoc.heredoc_exited)
+	{
+		fill_fds(&g_minishell.commands[i]);
+		i++;
+	}
+}

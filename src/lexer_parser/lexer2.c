@@ -22,6 +22,34 @@ int	get_pos(char c, char *set)
     return -1;
 }
 
+static int	count_metachars(char *cmd)
+{
+	/*
+	
+	int		i;
+	int		amount_of_metachars;
+
+	i = 0;
+	amount_of_metachars = 0;
+	while (cmd[i])
+	{
+		if (is_meta_char(cmd[i]))
+			amount_of_metachars++;
+		i++;
+	}
+	return (amount_of_metachars);
+	*/
+	int amount_of_metachars = 0;
+    for (int i = 0; cmd[i]; i++)
+    {
+        if (is_meta_char(cmd[i]))
+        {
+            amount_of_metachars++;
+        }
+    }
+    return amount_of_metachars;
+}
+
 
 char	*init_human_readable_cmd(char *cmd)
 {
@@ -46,16 +74,3 @@ int max_spaces_to_insert = count_metachars(cmd) * 2;
     return new_cmd;
 }
 
-static void	init_set(char set[6])
-{
-/*
-	set[0] = 1;
-	set[1] = 2;
-	set[2] = 3;
-	set[3] = 4;
-	set[4] = 5;
-	set[5] = 6;
-*/
-    char values[6] = {1, 2, 3, 4, 5, 6};
-    memcpy(set, values, sizeof(values));
-}

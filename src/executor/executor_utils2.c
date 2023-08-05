@@ -1,5 +1,70 @@
 #include "../../inc/minishell.h"
 
+
+static char	**get_path_dirs(void)
+{
+	int		i;
+	char	*path;
+	char	**path_dirs;
+
+	i = 0;
+	path = get_key_value(g_minishell.envp_list, "PATH");
+	path_dirs = ft_split(path, ':');
+	while (path_dirs[i])
+	{
+		append(&path_dirs[i], ft_strdup("/"));
+		i++;
+	}
+	return (path_dirs);
+}
+
+static char	*get_bin_path(t_command *command)
+{
+	int		i;
+	char	*bin;
+	char	**path_dirs;
+
+	i = 0;
+	path_dirs = get_path_dirs();
+	while (path_dirs[i] && command->args[0] && ft_strlen(command->args[0]) > 0)
+	{
+		bin = ft_strjoin(path_dirs[i], command->args[0]);
+		if (!is_dir(bin) && access(bin, F_OK | X_OK) == 0)
+		{
+			ft_free_matrix((void **)path_dirs);
+			return (bin);
+		}
+		else if (access(bin, F_OK) == 0 && access(bin, X_OK) == -1)
+		{
+			command->error = EACCES;
+			ft_free(bin);
+			break ;
+		}
+		ft_free(bin);
+		i++;
+	}
+	ft_free_matrix((void **)path_dirs);
+	return (NULL);
+}
+
+static void	set_bin(t_command *cmd)
+{
+	cmd->error = 0;
+	if (cmd->args[0] && access(cmd->args[0], F_OK | X_OK) == 0 \
+			&& !is_dir(cmd->args[0]))
+		cmd->bin_path = ft_strdup(cmd->args[0]);
+	else
+		cmd->bin_path = get_bin_path(cmd);
+	if (cmd->bin_path && cmd->args[0] == NULL)
+		cmd->error = 1;
+	else if (is_dir(cmd->args[0]) && access(cmd->args[0], F_OK | X_OK) == 0)
+		cmd->error = EISDIR;
+	else if (ft_strchr(cmd->args[0], 47) && cmd->bin_path == NULL)
+		cmd->error = ENOENT;
+	else if (cmd->error == 0 && cmd->bin_path == NULL)
+		cmd->error = ENOCMD;
+}
+
 void	init_bin_path(void)
 {
 	int	i;
@@ -10,79 +75,6 @@ void	init_bin_path(void)
 	while (i < args)
 	{
 		set_bin(&g_minishell.commands[i]);
-		i++;
-	}
-}
-
-static void	fill_args(char **tokens, int idx)
-{
-	int	i;
-	int	args;
-
-	i = 0;
-	args = g_minishell.commands[idx].number_of_args;
-	while (i < args)
-	{
-		g_minishell.commands[idx].args[i] = ft_strdup(tokens[i]);
-		i++;
-	}
-}
-
-void	remove_filename_quotes(void)
-{
-	int			i;
-	int			j;
-	t_command	*cmd;
-	char		**subtokens;
-
-	i = 0;
-	while (i < g_minishell.number_of_cmds)
-	{
-		j = 0;
-		cmd = &g_minishell.commands[i];
-		while (cmd->args[j])
-		{
-			if (is_redirect(cmd->args[j]))
-			{
-				subtokens = get_subtokens(cmd->args[j + 1], 0);
-				clear_subtokens(subtokens);
-				free(cmd->args[j + 1]);
-				cmd->args[++j] = concat_subtokens(subtokens);
-				free(subtokens);
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-void	remove_quotes(void)
-{
-	int	i;
-	int	args;
-
-	i = 0;
-	args = g_minishell.number_of_cmds;
-	while (i < args)
-	{
-		erase_empty_quotes_and_ext_quotes(g_minishell.commands[i].args);
-		i++;
-	}
-}
-
-static void	erase_empty_quotes_and_ext_quotes(char **tokens)
-{
-	int		i;
-	char	**subtokens;
-
-	i = 0;
-	while (tokens[i] != NULL)
-	{
-		subtokens = get_subtokens(tokens[i], 0);
-		clear_subtokens(subtokens);
-		free(tokens[i]);
-		tokens[i] = concat_subtokens(subtokens);
-		free(subtokens);
 		i++;
 	}
 }

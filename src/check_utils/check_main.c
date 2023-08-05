@@ -10,15 +10,6 @@ int is_meta_char(char c)
     return strchr(">|<", c) != NULL;
 }
 
-/*
-static int	is_empty_quote(char *str)
-{
-	if(*str == str[1])
-		return 1;
-	return 0;
-}
-*/
-
 int	has_error(t_command *cmd)
 {
 	if (g_minishell.heredoc.heredoc_exited != 0 \

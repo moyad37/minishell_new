@@ -1,32 +1,35 @@
 #include "../../inc/minishell.h"
 
-static int	count_metachars(char *cmd)
+static int	is_duplicate_meta_char(char *str)
 {
 	/*
 	
-	int		i;
-	int		amount_of_metachars;
-
-	i = 0;
-	amount_of_metachars = 0;
-	while (cmd[i])
-	{
-		if (is_meta_char(cmd[i]))
-			amount_of_metachars++;
-		i++;
-	}
-	return (amount_of_metachars);
+	if (*str != '|' && (is_meta_char(*str) && *str == *(str + 1)))
+		return (1);
+	return (0);
 	*/
-	int amount_of_metachars = 0;
-    for (int i = 0; cmd[i]; i++)
-    {
-        if (is_meta_char(cmd[i]))
-        {
-            amount_of_metachars++;
-        }
-    }
-    return amount_of_metachars;
+	 return (*str != '|' && (is_meta_char(*str) && *str == *(str + 1)));
 }
+
+static void	put_space_if_needed(char *cmd, int *i)
+{ /*
+	if (is_duplicate_meta_char(&cmd[*i]))
+		*i += space_duplicate_metachars(&cmd[*i], *i) + 2;
+	else if (is_meta_char(cmd[*i]))
+		*i += put_spaces(&cmd[*i], *i) + 1;
+	*/
+ if (is_duplicate_meta_char(&cmd[*i]))
+    {
+        *i += space_duplicate_metachars(&cmd[*i], *i) + 2;
+    }
+    else if (is_meta_char(cmd[*i]))
+    {
+        *i += put_spaces(&cmd[*i], *i) + 1;
+    }
+}
+
+
+
 
 int	space_duplicate_metachars(char *str, int pos)
 {
@@ -77,34 +80,8 @@ int	space_duplicate_metachars(char *str, int pos)
     return count;
 }
 
-static void	fix_tokens(char **tokens, char set[6])
-{
-	/*
-	int	i;
 
-	i = 0;
-	while (tokens[i] != NULL)
-	{
-		replace_between(tokens[i], set, SET1);
-		i++;
-	}
-	*/
-	for (int i = 0; tokens[i] != NULL; i++)
-    {
-        replace_between(tokens[i], set, SET1);
-    }
-}
 
-static int	is_duplicate_meta_char(char *str)
-{
-	/*
-	
-	if (*str != '|' && (is_meta_char(*str) && *str == *(str + 1)))
-		return (1);
-	return (0);
-	*/
-	 return (*str != '|' && (is_meta_char(*str) && *str == *(str + 1)));
-}
 
 
 char	*human_readable_cmd(char *cmd)

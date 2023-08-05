@@ -23,6 +23,30 @@ int syntax_error_on_redirect(char *next_token)
     return 0;
 }
 
+static char	*extract_key(char *var)
+{
+	/*
+	char	*end_var;
+	char	*key;
+
+	end_var = var;
+	if (var[0] == '?')
+		return (ft_strdup("?"));
+	while (is_bash_char(*end_var))
+		end_var++;
+	key = ft_substr(var, 0, end_var - var);
+	return (key);
+	*/
+	char *end_var = var;
+    char *key;
+    if (var[0] == '?')
+        return ft_strdup("?");
+    while (is_bash_char(*end_var))
+        end_var++;
+    key = ft_substr(var, 0, end_var - var);
+    return key;
+}
+
 
 void	expand_vars(char **token)
 {

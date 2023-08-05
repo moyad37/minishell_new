@@ -24,48 +24,67 @@ long int ft_latoi(const char *nptr)
 }
 
 
-static int	count_words(const char *s, char c)
+static int	ft_is_space(char c)
 {
-	size_t	words;
-
-	words = 0;
-	while (*s)
-	{
-		while (*s == c)
-			s++;
-		if (*s && *s != c)
-			words++;
-		while (*s && *s != c)
-			s++;
-	}
-	return (words);
+	if (c == ' ' || (c >= 9 && c <= 13))
+		return (1);
+	return (0);
 }
 
-char	**ft_split_old(const char *str, char c)
+static int	len_until_set(char const *s)
+{
+	int	count;
+
+	count = 0;
+	while (!ft_is_space(*s) && *s)
+	{
+		s++;
+		count++;
+	}
+	return (count);
+}
+
+static int	number_of_words(char const *s)
+{
+	int		count;
+
+	count = 0;
+	while (*s)
+	{
+		if (!ft_is_space(*s))
+			count++;
+		while (!ft_is_space(*s) && *s)
+			s++;
+		while (ft_is_space(*s) && *s)
+			s++;
+	}
+	return (count);
+}
+
+char	**ft_split2(char const *s)
 {
 	int		i;
-	char	**lst;
-	size_t	curr_word_len;
+	int		words;
+	int		len_current_word;
+	char	**splitted_string;
 
 	i = 0;
-	if (!str)
-		return (0);
-	lst = (char **)ft_calloc(sizeof(char *), count_words(str, c) + 1);
-	if (!lst)
-		return (0);
-	while (*str)
+	if (!s)
+		return (NULL);
+	words = number_of_words(s);
+	splitted_string = ft_calloc(words + 1, sizeof(char *));
+	while (*s && words != 0)
 	{
-		while (*str == c)
-			str++;
-		if (*str)
+		if (!ft_is_space(*s))
 		{
-			if (!ft_strchr(str, c))
-				curr_word_len = ft_strlen((char *)str);
-			else
-				curr_word_len = ft_strchr(str, c) - str;
-			lst[i++] = ft_substr(str, 0, curr_word_len);
-			str += curr_word_len;
+			len_current_word = len_until_set(s);
+			*(splitted_string + i) = ft_substr(s, 0, len_current_word);
+			i++;
 		}
+		while (!ft_is_space(*s) && *s)
+			s++;
+		while (ft_is_space(*s) && *s)
+			s++;
 	}
-	return (lst);
+	return (splitted_string);
 }

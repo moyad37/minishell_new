@@ -1,20 +1,21 @@
 #include "../../inc/minishell.h"
 
-int parser(char ***tokens)
+static int	has_unclosed_quote(char *token)
 {
-    int i = 0;
-    int idx_err = get_syntax_error_idx(*tokens);
-    if (idx_err != -2)
-        return print_invalid_syntax(idx_err, *tokens);
-    int size = ft_count_matrix((void **)*tokens);
-    while ((*tokens)[i])
-    {
-        expand_token((*tokens) + i);
-        i++;
-    }
-    if (count_null(size, *tokens) != 0)
-        *tokens = remove_null(size, *tokens);
-    return 0;
+	int		i;
+	char	quote;
+
+	i = 0;
+	quote = 0;
+	while (token[i])
+	{
+		if (is_quote(token[i]) && quote == 0)
+			quote = token[i];
+		else if (is_quote(token[i]) && token[i] == quote)
+			quote = 0;
+		i++;
+	}
+	return (quote);
 }
 
 int get_syntax_error_idx(char **tokens)
@@ -63,26 +64,21 @@ void expand_token(char **token)
     free(subtokens);
 }
 
-static char	*extract_key(char *var)
-{
-	/*
-	char	*end_var;
-	char	*key;
 
-	end_var = var;
-	if (var[0] == '?')
-		return (ft_strdup("?"));
-	while (is_bash_char(*end_var))
-		end_var++;
-	key = ft_substr(var, 0, end_var - var);
-	return (key);
-	*/
-	char *end_var = var;
-    char *key;
-    if (var[0] == '?')
-        return ft_strdup("?");
-    while (is_bash_char(*end_var))
-        end_var++;
-    key = ft_substr(var, 0, end_var - var);
-    return key;
+
+int parser(char ***tokens)
+{
+    int i = 0;
+    int idx_err = get_syntax_error_idx(*tokens);
+    if (idx_err != -2)
+        return print_invalid_syntax(idx_err, *tokens);
+    int size = ft_count_matrix((void **)*tokens);
+    while ((*tokens)[i])
+    {
+        expand_token((*tokens) + i);
+        i++;
+    }
+    if (count_null(size, *tokens) != 0)
+        *tokens = remove_null(size, *tokens);
+    return 0;
 }

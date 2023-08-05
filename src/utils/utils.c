@@ -1,5 +1,5 @@
 #include "../../inc/minishell.h"
-
+/*
 static void	copy_tokens(char **new, char **copy)
 {
 	int	i;
@@ -16,7 +16,7 @@ static void	copy_tokens(char **new, char **copy)
 		i++;
 	}
 }
-
+*/
 int	count_args(char **tokens)
 {
 	int	i;

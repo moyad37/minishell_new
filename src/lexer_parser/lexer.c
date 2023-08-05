@@ -1,47 +1,38 @@
 #include "../../inc/minishell.h"
 
+static void	init_set(char set[6])
+{
+/*
+	set[0] = 1;
+	set[1] = 2;
+	set[2] = 3;
+	set[3] = 4;
+	set[4] = 5;
+	set[5] = 6;
+*/
+    char values[6] = {1, 2, 3, 4, 5, 6};
+    memcpy(set, values, sizeof(values));
+}
 
-char	**lexer(char *cmd)
+static void	fix_tokens(char **tokens, char set[6])
 {
 	/*
-	char	*str;
-	char	**tokens;
+	int	i;
 
-	str = human_readable_cmd(cmd);
-	replace_between(str, SET1, set);
-	tokens = ft_split(str);
-	fix_tokens(tokens, set);
-	free(str);
-	return (tokens);
+	i = 0;
+	while (tokens[i] != NULL)
+	{
+		replace_between(tokens[i], set, SET1);
+		i++;
+	}
 	*/
-	char	set[6];
-	init_set(set);
-	char *str = human_readable_cmd(cmd);
-    replace_between(str, SET1, set);
-    char **tokens = ft_split(str);
-    fix_tokens(tokens, set);
-    free(str);
-    return tokens;
-
-}
-
-
-static void	put_space_if_needed(char *cmd, int *i)
-{ /*
-	if (is_duplicate_meta_char(&cmd[*i]))
-		*i += space_duplicate_metachars(&cmd[*i], *i) + 2;
-	else if (is_meta_char(cmd[*i]))
-		*i += put_spaces(&cmd[*i], *i) + 1;
-	*/
- if (is_duplicate_meta_char(&cmd[*i]))
+	for (int i = 0; tokens[i] != NULL; i++)
     {
-        *i += space_duplicate_metachars(&cmd[*i], *i) + 2;
-    }
-    else if (is_meta_char(cmd[*i]))
-    {
-        *i += put_spaces(&cmd[*i], *i) + 1;
+        replace_between(tokens[i], set, SET1);
     }
 }
+
+
 
 int	put_spaces(char *str, int pos)
 {
@@ -133,5 +124,29 @@ void	replace_between(char *str, char *set1, char *set2)
             quote = '\0';
         }
     }
+
+}
+
+char	**lexer(char *cmd)
+{
+	/*
+	char	*str;
+	char	**tokens;
+
+	str = human_readable_cmd(cmd);
+	replace_between(str, SET1, set);
+	tokens = ft_split(str);
+	fix_tokens(tokens, set);
+	free(str);
+	return (tokens);
+	*/
+	char	set[6];
+	init_set(set);
+	char *str = human_readable_cmd(cmd);
+    replace_between(str, SET1, set);
+    char **tokens = ft_split2(str);
+    fix_tokens(tokens, set);
+    free(str);
+    return tokens;
 
 }

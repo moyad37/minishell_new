@@ -1,5 +1,5 @@
 NAME	= minishell
-
+LIBFT_PATH =	./src/libft
 SRCS	= minishell.c\
 			src/builtin/cd.c src/builtin/echo.c src/builtin/env.c src/builtin/exit.c src/builtin/export.c src/builtin/pwd.c src/builtin/unset.c\
 			src/check_utils/check_arg.c src/check_utils/check_main.c src/check_utils/check_main2.c\
@@ -15,21 +15,30 @@ CC		= @clang
 LIBS	= -libft -lft -lreadline
 CFLAGS	= -Wall -Werror -Wextra
 OBJS	= ${SRCS:.c=.o}
+LIBFT_FLAGS =	-L $(LIBFT_PATH) -lft
 
-all : ${NAME}
+all: libft ${NAME}
 
-.c.o :
-	@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+libft:
+	@make -C $(LIBFT_PATH) --no-print-directory
 
-$(NAME): ${OBJS}
+#.c.o :
+#	@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+
+$(NAME): ${OBJS} $(LIBFT_PATH)/libft.a
 	@make -s -C libft 
-	${CC} ${CFLAGS} -o ${NAME} ${SRCS} ${LIBS}
+	cc $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT_FLAGS) -lreadline
+
+$(LIBFT_PATH)/libft.a:
+	make -C $(LIBFT_PATH) --no-print-directory
 
 clean:
 	@rm -f ${OBJS}
-	
+	make -C $(LIBFT_PATH) clean --no-print-directory
+
 fclean : clean
 	@rm -f ${NAME}
+	make -C $(LIBFT_PATH) fclean --no-print-directory
 
 re: fclean all
 

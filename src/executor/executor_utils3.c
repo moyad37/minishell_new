@@ -1,19 +1,50 @@
 #include "../../inc/minishell.h"
 
-static int	count_commands(char **tokens)
+
+void	remove_filename_quotes(void)
 {
-	int	i;
-	int	j;
+	int			i;
+	int			j;
+	t_command	*cmd;
+	char		**subtokens;
 
 	i = 0;
-	j = 0;
-	while (tokens[i])
+	while (i < g_minishell.number_of_cmds)
 	{
-		if (ft_strcmp("|", tokens[i]) == 0)
+		j = 0;
+		cmd = &g_minishell.commands[i];
+		while (cmd->args[j])
+		{
+			if (is_redirect(cmd->args[j]))
+			{
+				subtokens = get_subtokens(cmd->args[j + 1], 0);
+				clear_subtokens(subtokens);
+				free(cmd->args[j + 1]);
+				cmd->args[++j] = concat_subtokens(subtokens);
+				free(subtokens);
+			}
 			j++;
+		}
 		i++;
 	}
-	return (j + 1);
+}
+
+static int	is_empty_quote(char *str)
+{
+	if(*str == str[1])
+		return 1;
+	return 0;
+}
+
+static void	erase_external_quotes(char *str)
+{
+	int	last_pos;
+	int	str_len;
+
+	str_len = ft_strlen(str);
+	ft_memmove(str, str + 1, str_len);
+	last_pos = str_len - 2;
+	ft_memset(str + last_pos, 0, 1);
 }
 
 void	clear_subtokens(char **subtokens)
@@ -61,43 +92,6 @@ static char	*get_bin_path(t_command *command)
 	return (NULL);
 }
 */
-static void	erase_external_quotes(char *str)
-{
-	int	last_pos;
-	int	str_len;
-
-	str_len = ft_strlen(str);
-	ft_memmove(str, str + 1, str_len);
-	last_pos = str_len - 2;
-	ft_memset(str + last_pos, 0, 1);
-}
 
 
-static int	run_single_cmd(t_command cmd)
-{
-	int	pid;
 
-	if (get_builtin_pos(cmd.args[0]) != -1)
-	{
-		run_builtin(cmd, g_minishell.builtins[get_builtin_pos(cmd.args[0])]);
-		return (-1);
-	}
-	pid = fork();
-	g_minishell.on_fork = 1;
-	if (pid == 0)
-	{
-		signal(SIGQUIT, SIG_DFL);
-		if (cmd.input_fd == -1 || cmd.output_fd == -1)
-			die_child(0, 1);
-		if (cmd.error && get_builtin_pos(cmd.args[0]) == -1)
-			die_child(0, cmd.error);
-		if (cmd.bin_path && cmd.args[0])
-		{
-			make_dups(cmd);
-			close_fds_in_child();
-			execve(cmd.bin_path, cmd.args, g_minishell.envp);
-		}
-		die_child(0, cmd.error);
-	}
-	return (pid);
-}

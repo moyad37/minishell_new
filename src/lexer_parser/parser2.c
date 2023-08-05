@@ -68,3 +68,19 @@ char	*concat_subtokens(char **subtokens)
     }
     return expanded_token;
 }
+
+char	*ft_strndup(const char *s, size_t n)
+{
+	size_t	i;
+	char	*dup;
+
+	i = 0;
+	dup = (char *) malloc(sizeof(char) * n + 1);
+	while (*(s + i) && i < n)
+	{
+		*(dup + i) = *(s + i);
+		i++;
+	}
+	*(dup + i) = '\0';
+	return (dup);
+}

@@ -11,20 +11,28 @@
 # include <dirent.h>
 # include <fcntl.h>
 # include <string.h>
-# include "../src/libft/libft.h"
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <sys/types.h>
+# include "../src/libft/libft.h"
+
+# define SINGLE_QUOTE 39
+# define DOUBLE_QUOTE 34
+# define DEL_ASCII 127
+# define SET1 " \t\v\n\f\r"
+# define TMPFILE ".tmpheredoc"
+# define READ_END 0
+# define WR_END 1
+# define NO_SUCH_FILE -1
+# define DIR_FILE 0
+# define REG_FILE 1
 
 # define ENOENT 2
 # define EACCES 13
 # define ENAMETOOLONG 36
 # define EISDIR 126
 # define ENOCMD 127
-#define NO_SUCH_FILE 1
-#define REG_FILE 2
-#define DIR_FILE 3
 
 typedef struct s_command
 {
@@ -113,47 +121,47 @@ void	ft_free(void *ptr);
 int	handle_exec(int idx, t_command *curr);
 
 //help redirects
-void	remove_redirects(void);
+//static void	copy_tokens(char **new, char **copy);
 //static void	remove_redirect(char ***command_args);
-//static int	exclude_redirects(char **tokens);
-//static void	fill_fds(t_command *cmd);
 void	init_redirects(void);
-
-//help set_fd
 //static void	set_output_fd(t_command *cmd, char *redirect, char *filename);
 //static void	set_input_fd(t_command *cmd, char *redirect, char *filename);
 
+//help set_fd
+void	remove_redirects(void);
+//static int	exclude_redirects(char **tokens);
+//static void	fill_fds(t_command *cmd);
+
 //executor executor_utils
-static void	init_executor(char **tokens);
-static char	*get_bin_path(t_command *command);
-static void	set_bin(t_command *cmd);
 void	init_commands(char **tokens, int idx);
-static char	**get_path_dirs(void);
+//static void	fill_args(char **tokens, int idx);
+void	remove_filename_quotes(void);
+void	remove_quotes(void);
 
 //executor executor_utils2
-void	remove_filename_quotes(void);
+//static char	*get_bin_path(t_command *command);
+//static void	set_bin(t_command *cmd);
+//static char	**get_path_dirs(void);
 void	init_bin_path(void);
-	//static
-void	fill_args(char **tokens, int idx);
-void	remove_quotes(void);
 //static void	erase_empty_quotes_and_ext_quotes(char **tokens);
 
 //executor executor_utils3
-	//static
-int	count_commands(char **tokens);
+//static int	count_commands(char **tokens);
 void	clear_subtokens(char **subtokens);
+//static int	is_empty_quote(char *str);
 //static char	*get_bin_path(t_command *command);
 //static void	erase_external_quotes(char *str);
-int	run_single_cmd(t_command cmd);
+//static int	run_single_cmd(t_command cmd);
 
 //executor executor
 void	executor(char **tokens);
+//static void	init_executor(char **tokens);
 //void	loop_wait(int pid, int *status);
 
 //utils atol_split
 long int ft_latoi(const char *nptr);
 //static int	count_words(const char *s, char c);
-char	**ft_split_old(const char *str, char c);
+char	**ft_split2(const char *s);
 
 //utils append
 void	append(char **s1, char *s2);
@@ -194,7 +202,7 @@ char **remove_null(int size, char **tokens);
 int count_null(int size, char **tokens);
 int syntax_error_on_pipe(char **tokens, int pos);
 char	*concat_subtokens(char **subtokens);
-
+char	*ft_strndup(const char *s, size_t n);
 //lexer_parser parser3
 int print_invalid_syntax(int idx_err, char **tokens);
 int syntax_error_on_redirect(char *next_token);
@@ -214,8 +222,8 @@ void	ft_free_spatial_matrix(void ***matrix);
 //utils give envp
 char* ft_strncpy(char* destination, const char* source, size_t num);
 char **get_matrix_with_key_value(char *env_variable) ;
-char **get_envp_list(char **envp);
-int amount_of_valid_keys(char **envp);
+t_node *get_envp_list(char **envp);
+//static int amount_of_valid_keys(char **envp);
 char **get_envp();
 
 //utils key_utils
@@ -229,7 +237,6 @@ int key_exists(t_node *envp_list, char *key);
 void	swap_stream_fd(char *stream, t_command *command, int new_fd);
 
 //utils utils
-//static void	copy_tokens(char **new, char **copy);
 int	count_args(char **tokens);
 void	update_number_of_args(void);
 void	make_dups(t_command cmd);
@@ -251,7 +258,6 @@ int check_arg(int ac, char **av, char **envp);
 //check_utils check_main
 int is_quote(char c);
 int is_meta_char(char c);
-//static int	is_empty_quote(char *str);
 int	has_error(t_command *cmd);
 int	is_dir(const char *path);
 

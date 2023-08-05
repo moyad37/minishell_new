@@ -1,29 +1,21 @@
 #include "../../inc/minishell.h"
 
-void	remove_redirects(void)
+
+static void	copy_tokens(char **new, char **copy)
 {
 	int	i;
-	int	args;
+	int	j;
 
 	i = 0;
-	args = g_minishell.number_of_cmds;
-	while (i < args)
+	j = 0;
+	while (copy[i])
 	{
-		remove_redirect(&g_minishell.commands[i].args);
+		if (is_redirect(copy[i]))
+			i++;
+		else
+			new[j++] = ft_strdup(copy[i]);
 		i++;
 	}
-}
-
-static void	remove_redirect(char ***command_args)
-{
-	int		tokens_amount;
-	char	**new_tokens;
-
-	tokens_amount = exclude_redirects(*command_args);
-	new_tokens = ft_calloc(sizeof(char *), tokens_amount + 1);
-	copy_tokens(new_tokens, *command_args);
-	ft_free_matrix((void **)*command_args);
-	*command_args = new_tokens;
 }
 
 static int	exclude_redirects(char **tokens)
@@ -44,41 +36,31 @@ static int	exclude_redirects(char **tokens)
 	return (mem_to_alloc);
 }
 
-
-static void	fill_fds(t_command *cmd)
+static void	remove_redirect(char ***command_args)
 {
-	int	i;
+	int		tokens_amount;
+	char	**new_tokens;
 
-	i = 0;
-	cmd->input_fd = 0;
-	cmd->output_fd = 1;
-	while (cmd->args[i])
-	{
-		if (is_input_redirect(cmd->args[i]))
-			set_input_fd(cmd, cmd->args[i], cmd->args[i + 1]);
-		else if (is_output_redirect(cmd->args[i]))
-			set_output_fd(cmd, cmd->args[i], cmd->args[i + 1]);
-		if (has_error(cmd))
-		{
-			handle_error(cmd, cmd->args[i + 1]);
-			return ;
-		}
-		if (is_redirect(cmd->args[i]))
-			i++;
-		i++;
-	}
+	tokens_amount = exclude_redirects(*command_args);
+	new_tokens = ft_calloc(sizeof(char *), tokens_amount + 1);
+	copy_tokens(new_tokens, *command_args);
+	ft_free_matrix((void **)*command_args);
+	*command_args = new_tokens;
 }
 
-void	init_redirects(void)
+
+void	remove_redirects(void)
 {
 	int	i;
 	int	args;
 
 	i = 0;
 	args = g_minishell.number_of_cmds;
-	while (i < args && !g_minishell.heredoc.heredoc_exited)
+	while (i < args)
 	{
-		fill_fds(&g_minishell.commands[i]);
+		remove_redirect(&g_minishell.commands[i].args);
 		i++;
 	}
 }
+
+
