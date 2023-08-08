@@ -10,7 +10,7 @@ int main(int ac, char **av, char **envp)
         print_error("arg error, make sure you have like so : './minishell' \n", 2);
     signal(SIGINT, handler);
     signal(SIGQUIT, SIG_IGN);
-    init_minishell(envp, g_minishell);
+    init_minishell(envp);
     while (1)
     {
         cmd_line = readline("$ ");

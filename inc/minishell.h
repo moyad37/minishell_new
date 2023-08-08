@@ -103,7 +103,7 @@ int is_valid_identifier(const char *var);
 
 
 //init
-void    init_minishell(char **envp, t_minishell g_minishell);
+void    init_minishell(char **envp);
 
 //help die_free_close_child
 void	die_child(int heredoc, int exit_code);

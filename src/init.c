@@ -1,6 +1,6 @@
 #include "../inc/minishell.h"
 
-void    init_minishell(char **envp, t_minishell g_minishell)
+void    init_minishell(char **envp)
 {
     g_minishell.status_code = 0;
     g_minishell.on_fork = 0;

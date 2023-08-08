@@ -1,45 +1,47 @@
-NAME	= minishell
-LIBFT_PATH =	./src/libft
-SRCS	= minishell.c\
-			src/builtin/cd.c src/builtin/echo.c src/builtin/env.c src/builtin/exit.c src/builtin/export.c src/builtin/pwd.c src/builtin/unset.c\
-			src/check_utils/check_arg.c src/check_utils/check_main.c src/check_utils/check_main2.c\
-			src/errors_and_free/error.c\
-			src/executor/executor.c src/executor/executor_utils.c src/executor/executor_utils2.c src/executor/executor_utils3.c\
-			src/help/die_free_close_child.c src/help/free.c src/help/hanldes.c src/help/redirects.c src/help/set_fd.c\
-			src/lexer_parser/lexer.c src/lexer_parser/lexer2.c src/lexer_parser/lexer3.c src/lexer_parser/parser.c src/lexer_parser/parser2.c src/lexer_parser/parser3.c src/lexer_parser/start.c\
-			src/signals/signal_handler.c\
-			src/utils/atol_split.c src/utils/builtins_utils.c src/utils/give_envp.c src/utils/heredoc.c src/utils/key_utils.c src/utils/swap_fd.c src/utils/utils.c src/utils/append.c\
-			src/init.c src/matrix_utils.c
-			
-CC		= @clang
-LIBS	= -libft -lft -lreadline
-CFLAGS	= -Wall -Werror -Wextra
-OBJS	= ${SRCS:.c=.o}
-LIBFT_FLAGS =	-L $(LIBFT_PATH) -lft
+.SUFFIXES:
+.SUFFIXES: .c .o
 
-all: libft ${NAME}
+SHELL       = /bin/sh
 
-libft:
-	@make -C $(LIBFT_PATH) --no-print-directory
+NAME        = minishell
 
-#.c.o :
-#	@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+SRCS        = minishell.c \
+            src/builtin/cd.c src/builtin/echo.c src/builtin/env.c src/builtin/exit.c src/builtin/export.c src/builtin/pwd.c src/builtin/unset.c \
+            src/check_utils/check_arg.c src/check_utils/check_main.c src/check_utils/check_main2.c \
+            src/errors_and_free/error.c \
+            src/executor/executor.c src/executor/executor_utils.c src/executor/executor_utils2.c src/executor/executor_utils3.c \
+            src/help/die_free_close_child.c src/help/free.c src/help/handles.c src/help/redirects.c src/help/set_fd.c \
+            src/lexer_parser/lexer.c src/lexer_parser/lexer2.c src/lexer_parser/lexer3.c src/lexer_parser/parser.c src/lexer_parser/parser2.c src/lexer_parser/parser3.c src/lexer_parser/start.c \
+            src/signals/signal_handler.c \
+            src/utils/atol_split.c src/utils/builtins_utils.c src/utils/give_envp.c src/utils/heredoc.c src/utils/key_utils.c src/utils/swap_fd.c src/utils/utils.c src/utils/append.c \
+            src/init.c src/matrix_utils.c
 
-$(NAME): ${OBJS} $(LIBFT_PATH)/libft.a
-	@make -s -C libft 
-	cc $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT_FLAGS) -lreadline
+OBJS        = ${SRCS:.c=.o}
 
-$(LIBFT_PATH)/libft.a:
-	make -C $(LIBFT_PATH) --no-print-directory
+CC          = gcc
+RM          = rm -f
+
+LIBFT_FLAGS = -L./src/libft -lft -lreadline
+
+CFLAGS      = -Wall -Wextra -Werror -g3 -I./inc -I./src/libft
+
+all:    ${NAME}
+
+.c.o:
+	${CC} ${CFLAGS} -c $< -o $@
+
+$(NAME): ${OBJS}
+	make -C ./src/libft
+	${CC} ${OBJS} ${LIBFT_FLAGS} -o ${NAME}
 
 clean:
-	@rm -f ${OBJS}
-	make -C $(LIBFT_PATH) clean --no-print-directory
+	make -C ./src/libft clean
+	${RM} ${OBJS}
 
-fclean : clean
-	@rm -f ${NAME}
-	make -C $(LIBFT_PATH) fclean --no-print-directory
+fclean: clean
+	make -C ./src/libft fclean
+	${RM} ${NAME}
 
-re: fclean all
+re:     fclean all
 
-.PHONY: all clean fclean re
+.PHONY : all clean fclean re
