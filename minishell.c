@@ -14,7 +14,7 @@ int main(int ac, char **av, char **envp)
     while (1)
     {
         cmd_line = readline("$ ");
-        tokens = pipeline_validation(cmd_line);
+        tokens = Start_validiere_und_tokenize_Eingabe(cmd_line);
         if (tokens)
         {
             executor(tokens);

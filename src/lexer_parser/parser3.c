@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
 
-int print_invalid_syntax(int idx_err, char **tokens)
+int zeige_Syntaxfehlermeldung(int idx_err, char **tokens)
 {
     char *err_token;
     if (tokens[idx_err + 1] == NULL)
@@ -13,7 +13,7 @@ int print_invalid_syntax(int idx_err, char **tokens)
     return 1;
 }
 
-int syntax_error_on_redirect(char *next_token)
+int prüfe_Umleitungs_Syntaxfehler(char *next_token)
 {
     if (next_token == NULL || is_redirect(next_token) || ft_strcmp(next_token, "|") == 0)
     {
@@ -23,7 +23,7 @@ int syntax_error_on_redirect(char *next_token)
     return 0;
 }
 
-static char	*extract_key(char *var)
+static char	*get_variable_key(char *var)
 {
 	/*
 	char	*end_var;
@@ -48,7 +48,7 @@ static char	*extract_key(char *var)
 }
 
 
-void	expand_vars(char **token)
+void	erweitere_Umgebungsvariablen(char **token)
 {
 	/*
 	int		i;
@@ -62,7 +62,7 @@ void	expand_vars(char **token)
 	{
 		if (is_valid_var(&(*token)[i]))
 		{
-			key = extract_key(&(*token)[i + 1]);
+			key = get_variable_key(&(*token)[i + 1]);
 			value = get_key_value(g_minishell.envp_list, key);
 			if ((*token)[i + 1] == '?')
 				append(&new_token, value);
@@ -85,7 +85,7 @@ void	expand_vars(char **token)
     {
         if (is_valid_var(&(*token)[i]))
         {
-            key = extract_key(&(*token)[i + 1]);
+            key = get_variable_key(&(*token)[i + 1]);
             value = get_key_value(g_minishell.envp_list, key);
             if ((*token)[i + 1] == '?')
                 append(&new_token, value);
@@ -103,7 +103,7 @@ void	expand_vars(char **token)
     *token = new_token;
 }
 
-char	**get_subtokens(char *token, int idx)
+char	**extrahiere_Subtokens_aus_Token(char *token, int idx)
 {
 	/*
 	int		i;
@@ -120,7 +120,7 @@ char	**get_subtokens(char *token, int idx)
 		i++;
 	if (quoted && zitat(token[i]))
 		i++;
-	subtokens = get_subtokens(token + i, idx + 1);
+	subtokens = extrahiere_Subtokens_aus_Token(token + i, idx + 1);
 	subtokens[idx] = ft_substr(token, 0, i);
 	return (subtokens);
 	*/
@@ -135,7 +135,7 @@ char	**get_subtokens(char *token, int idx)
         i++;
     if (quoted && zitat(token[i]))
         i++;
-    subtokens = get_subtokens(token + i, idx + 1);
+    subtokens = extrahiere_Subtokens_aus_Token(token + i, idx + 1);
     subtokens[idx] = ft_substr(token, 0, i);
     return subtokens;
 }

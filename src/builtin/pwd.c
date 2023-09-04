@@ -4,7 +4,7 @@ Die Funktion ft_pwd nimmt einen Befehlsparameter cmd entgegen und gibt einen Int
 
 int out: Eine Variable, die den Ausgabekanal speichert.
 
-handle_output(cmd, &out): Behandelt die Ausgabe des Befehls basierend auf dem Umleitungsstatus (handle_output).
+verwalte_Befehlsausgabe(cmd, &out): Behandelt die Ausgabe des Befehls basierend auf dem Umleitungsstatus (verwalte_Befehlsausgabe).
 
 char *cwd = getcwd(NULL, 0): Ruft das aktuelle Arbeitsverzeichnis mit getcwd ab und speichert es in der Zeichenkette cwd.
 
@@ -16,7 +16,7 @@ ft_free(cwd): Befreit den Speicher, der für cwd allokiert wurde.
 
 if (g_minishell.on_fork): Überprüft, ob die Shell im Kindprozessmodus ist.
 
-die_child(0, 0): Beendet den Kindprozess, wenn die Shell im Kindprozessmodus ist.
+ChildProEnd(0, 0): Beendet den Kindprozess, wenn die Shell im Kindprozessmodus ist.
 
 return 0: Gibt den Rückgabewert 0 zurück, um anzuzeigen, dass der Befehl erfolgreich ausgeführt wurde.
 */
@@ -26,7 +26,7 @@ int	ft_pwd(t_command cmd)
 	int		out;
 
 	out = 1;
-	handle_output(cmd, &out);
+	verwalte_Befehlsausgabe(cmd, &out);
 	cwd = getcwd(NULL, 0);
 	if (cmd.args[0])
 	{
@@ -36,6 +36,6 @@ int	ft_pwd(t_command cmd)
 	//ft_printf(out, "%s\n", cwd);
 	ft_free(cwd);
 	if (g_minishell.on_fork)
-		die_child(0, 0);
+		ChildProEnd(0, 0);
 	return (0);
 }

@@ -1,11 +1,11 @@
 #include "../../inc/minishell.h"
 
-void	die_child(int heredoc, int exit_code)
+void	ChildProEnd(int heredoc, int exit_code)
 {
 	if (heredoc)
 		close(g_minishell.heredoc.fd);
 	else
-		close_fds_in_child();
+		cleanupChild();
 	ft_free_commands();
 	ft_free_matrix((void **)g_minishell.envp);
 	ft_free_list(&g_minishell.envp_list);
@@ -20,7 +20,7 @@ void	ft_free_commands(void)
 
 	i = 0;
 	args = g_minishell.number_of_cmds;
-	close_fds();
+	cleanup_command_fds();
 	while (i < args)
 	{
 		ft_free_matrix((void **)g_minishell.commands[i].args);
@@ -32,7 +32,7 @@ void	ft_free_commands(void)
 }
 
 
-void	close_fds_in_child(void)
+void	cleanupChild(void)
 {
 	int			i;
 	int			size;
@@ -55,7 +55,7 @@ void	close_fds_in_child(void)
 	}
 }
 
-void	close_fds(void)
+void	cleanup_command_fds(void)
 {
 	int	i;
 	int	commands_size;
@@ -79,7 +79,7 @@ void	die(void)
 	rl_clear_history();
 	ft_free_list(&g_minishell.envp_list);
 	ft_free_matrix((void **)g_minishell.envp);
-	close_fds();
+	cleanup_command_fds();
 	unlink(TMPFILE);
 	write(1, "exit\n", 5);
 	exit(0);

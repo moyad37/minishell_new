@@ -1,10 +1,10 @@
 #include "../../inc/minishell.h"
 
-char **remove_null(int size, char **tokens)
+char **bereinige_String_Array(int size, char **tokens)
 {
     int i = 0;
     int j = 0;
-    int null_pos = count_null(size, tokens);
+    int null_pos = zaehle_Null_Zeiger(size, tokens);
     char **new_tokens = ft_calloc(sizeof(char *), size - null_pos + 1);
     while (i < size)
     {
@@ -19,7 +19,7 @@ char **remove_null(int size, char **tokens)
     return new_tokens;
 }
 
-int count_null(int size, char **tokens)
+int zaehle_Null_Zeiger(int size, char **tokens)
 {
     int i = 0;
     int count = 0;
@@ -32,7 +32,7 @@ int count_null(int size, char **tokens)
     return count;
 }
 
-int syntax_error_on_pipe(char **tokens, int pos)
+int check_pipe_syntax_error(char **tokens, int pos)
 {
     if (pos == 0)
         return -2;
@@ -44,7 +44,7 @@ int syntax_error_on_pipe(char **tokens, int pos)
     return 0;
 }
 
-char	*concat_subtokens(char **subtokens)
+char	*konkateniere_Subtokens_zu_String(char **subtokens)
 {
 	/*
 	int		i;

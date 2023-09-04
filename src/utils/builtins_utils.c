@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
 
-int	get_builtin_pos(char *str)
+int	finde_Position_builtin(char *str)
 {
 	if (!str)
 		return (-1);
@@ -22,7 +22,7 @@ int	get_builtin_pos(char *str)
 }
 
 
-void	handle_input(t_command cmd, int *fd)
+void	verwalte_Befehlseingabe(t_command cmd, int *fd)
 {
 	if (cmd.input_fd != STDIN_FILENO)
 		*fd = cmd.input_fd;
@@ -30,7 +30,7 @@ void	handle_input(t_command cmd, int *fd)
 		*fd = cmd.pipe[0];
 }
 
-void	handle_output(t_command cmd, int *fd)
+void	verwalte_Befehlsausgabe(t_command cmd, int *fd)
 {
 	if (cmd.output_fd != STDOUT_FILENO)
 		*fd = cmd.output_fd;
@@ -38,7 +38,7 @@ void	handle_output(t_command cmd, int *fd)
 		*fd = cmd.pipe[1];
 }
 
-void	run_builtin(t_command cmd, int (*builtin)(t_command cmd))
+void	stert_builtin(t_command cmd, int (*builtin)(t_command cmd))
 {
 	if (g_minishell.on_fork)
 		builtin(cmd);
@@ -53,5 +53,5 @@ void	run_builtin(t_command cmd, int (*builtin)(t_command cmd))
 void	update_env(void)
 {
 	ft_free_matrix((void **)g_minishell.envp);
-	g_minishell.envp = get_envp();
+	g_minishell.envp = create_envp_array();
 }

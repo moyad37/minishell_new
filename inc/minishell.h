@@ -110,31 +110,31 @@ int		ft_unset(t_command cmd);
 void    init_minishell(char **envp);
 
 //help die_free_close_child
-void	die_child(int heredoc, int exit_code);
+void	ChildProEnd(int heredoc, int exit_code);
 void	ft_free_commands(void);
-void	close_fds_in_child(void);
-void	close_fds(void);
+void	cleanupChild(void);
+void	cleanup_command_fds(void);
 void	die(void);
 
 //help free
 void	ft_free(void *ptr);
 
 //help handles
-//static void	handle_dups(t_command *prev, t_command *curr, t_command *next);
-//static int	run_n_cmds(t_command *prev, t_command *curr, t_command *next);
-int	handle_exec(int idx, t_command *curr);
+//static void	manageCommandDescriptors(t_command *prev, t_command *curr, t_command *next);
+//static int	executeCommandSequence(t_command *prev, t_command *curr, t_command *next);
+int	runPipedCommand(int idx, t_command *curr);
 
 //help redirects
-//static void	copy_tokens(char **new, char **copy);
+//static void	filter_and_copy_non_redirects(char **new, char **copy);
 //static void	remove_redirect(char ***command_args);
-void	init_redirects(void);
-//static void	set_output_fd(t_command *cmd, char *redirect, char *filename);
-//static void	set_input_fd(t_command *cmd, char *redirect, char *filename);
+void	configure_cmd_fds(void);
+//static void	konfiguriere_ausgabeumleitung(t_command *cmd, char *redirect, char *filename);
+//static void	konfiguriere_eingabeumleitung(t_command *cmd, char *redirect, char *filename);
 
 //help set_fd
-void	remove_redirects(void);
-//static int	exclude_redirects(char **tokens);
-//static void	fill_fds(t_command *cmd);
+void	deleteRedirects(void);
+//static int	count_non_redirect_tokens(char **tokens);
+//static void	konfiguriere_befehlsdateideskriptoren(t_command *cmd);
 
 //executor executor_utils
 void	initCommands(char **tokens, int idx);
@@ -171,29 +171,29 @@ char	**ft_split2(const char *s);
 void	append(char **s1, char *s2);
 
 //utils builtins_utils
-int	get_builtin_pos(char *str);
-void	handle_input(t_command cmd, int *fd);
-void	handle_output(t_command cmd, int *fd);
-void	run_builtin(t_command cmd, int (*builtin)(t_command cmd));
+int	finde_Position_builtin(char *str);
+void	verwalte_Befehlseingabe(t_command cmd, int *fd);
+void	verwalte_Befehlsausgabe(t_command cmd, int *fd);
+void	stert_builtin(t_command cmd, int (*builtin)(t_command cmd));
 void	update_env(void);
 
 //lexer_parser lexer
 char	**lexer(char *cmd);
-//static void	put_space_if_needed(char *cmd, int *i);
-int	put_spaces(char *str, int pos);
-void	replace_between(char *str, char *set1, char *set2);
+//static void	passe_Befehlsformatierung_an(char *cmd, int *i);
+int	insert_spaces_for_formatting(char *str, int pos);
+void	update_characters_between_quotes(char *str, char *set1, char *set2);
 
 //lexer_parser lexer2
-int	get_pos(char c, char *set);
-char	*init_human_readable_cmd(char *cmd);
+int	find_position_in_set(char c, char *set);
+char	*init_readable_command(char *cmd);
 //static void	init_set(char set[6]);
 
 //lexer_parser lexer3
-//static int	count_metachars(char *cmd);
-int	space_duplicate_metachars(char *str, int pos);
+//static int	count_special_marks(char *cmd);
+int	fuege_Leerzeichen_fuer_doppelte_Sonderzeichen_ein(char *str, int pos);
 //static void	fix_tokens(char **tokens, char set[6]);
-//static int	is_duplicate_meta_char(char *str);
-char	*human_readable_cmd(char *cmd);
+//static int	has_duplicate_special_marks(char *str);
+char	*erzeuge_lesefreundlichen_Befehl(char *cmd);
 
 //lexer_parser parser
 int parser(char ***tokens);
@@ -202,19 +202,19 @@ void expand_token(char **token);
 //static char	*extract_key(char *var);
 
 //lexer_parser parser2
-char **remove_null(int size, char **tokens);
-int count_null(int size, char **tokens);
-int syntax_error_on_pipe(char **tokens, int pos);
-char	*concat_subtokens(char **subtokens);
+char **bereinige_String_Array(int size, char **tokens);
+int zaehle_Null_Zeiger(int size, char **tokens);
+int check_pipe_syntax_error(char **tokens, int pos);
+char	*konkateniere_Subtokens_zu_String(char **subtokens);
 char	*ft_strndup(const char *s, size_t n);
 //lexer_parser parser3
-int print_invalid_syntax(int idx_err, char **tokens);
-int syntax_error_on_redirect(char *next_token);
-void	expand_vars(char **token);
-char	**get_subtokens(char *token, int idx);
+int zeige_Syntaxfehlermeldung(int idx_err, char **tokens);
+int prüfe_Umleitungs_Syntaxfehler(char *next_token);
+void	erweitere_Umgebungsvariablen(char **token);
+char	**extrahiere_Subtokens_aus_Token(char *token, int idx);
 
 //lexer_parser start
-char	**pipeline_validation(char *cmd);
+char	**Start_validiere_und_tokenize_Eingabe(char *cmd);
 
 //matrix utils
 void	ft_free_matrix(void **matrix);
@@ -225,10 +225,10 @@ void	ft_free_spatial_matrix(void ***matrix);
 
 //utils give envp
 char* ft_strncpy(char* destination, const char* source, size_t num);
-char **get_matrix_with_key_value(char *env_variable) ;
-t_node *get_envp_list(char **envp);
-//static int amount_of_valid_keys(char **envp);
-char **get_envp();
+char **erstelle_Schlüssel_Wert_Matrix(char *env_variable) ;
+t_node *create_envp_list(char **envp);
+//static int zähle_gültig_envp(char **envp);
+char **create_envp_array();
 
 //utils key_utils
 char *get_key_value(t_node *envp_list, char *key);

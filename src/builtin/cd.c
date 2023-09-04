@@ -109,7 +109,7 @@ Andernfalls wird der Dateityp des angegebenen Pfads überprüft.
 Wenn es sich um eine reguläre Datei oder eine nicht vorhandene Datei handelt, wird eine entsprechende Fehlermeldung ausgegeben.
 Andernfalls wird das Arbeitsverzeichnis gewechselt und der Status auf 0 gesetzt.
 Die Umgebungsvariablen werden aktualisiert.
-Wenn die Shell im Kindprozessmodus (g_minishell.on_fork) ist, wird die_child aufgerufen, um den Kindprozess zu beenden.
+Wenn die Shell im Kindprozessmodus (g_minishell.on_fork) ist, wird ChildProEnd aufgerufen, um den Kindprozess zu beenden.
 Der Status wird zurückgegeben.
 */
 int	ft_cd(t_command cmd)
@@ -136,7 +136,7 @@ int	ft_cd(t_command cmd)
 	}
 	update_env();
 	if (g_minishell.on_fork)
-		die_child(0, status);
+		ChildProEnd(0, status);
 	return (status);
 	*/
 
@@ -159,7 +159,7 @@ int status = 1;
     update_env();
 
     if (g_minishell.on_fork) {
-        die_child(0, status);
+        ChildProEnd(0, status);
     }
 
     return status;

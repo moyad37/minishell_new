@@ -84,21 +84,21 @@ void printModifiedArgs(int num_args, char** args, int output_fd) {
 }
 /*
 Implementiert den Befehl "echo" in einer Shell.
-Behandelt die Ausgabe des Befehls basierend auf dem Umleitungsstatus (handle_output).
+Behandelt die Ausgabe des Befehls basierend auf dem Umleitungsstatus (verwalte_Befehlsausgabe).
 Überprüft, ob die Shell im Kindprozessmodus (g_minishell.on_fork) ist und ob die Ein- und Ausgabekanäle gültig sind.
 Wenn keine Argumente vorhanden sind, gibt der Befehl einen Zeilenumbruch aus.
 Ansonsten überprüft er das erste Argument auf den richtigen Aufbau des Optionsschalters -n.
 Verwendet print_args, um die Argumente auszugeben und gegebenenfalls einen Zeilenumbruch hinzuzufügen.
-Wenn die Shell im Kindprozessmodus ist, wird die_child aufgerufen, um den Kindprozess zu beenden.
+Wenn die Shell im Kindprozessmodus ist, wird ChildProEnd aufgerufen, um den Kindprozess zu beenden.
 Gibt den entsprechenden Status zurück.
 */
 int ft_echo(t_command cmd)
 {
      int out = 1;
-    handle_output(cmd, &out);
+    verwalte_Befehlsausgabe(cmd, &out);
 
     if (g_minishell.on_fork && (cmd.input_fd == -1 || cmd.output_fd == -1))
-        die_child(0, 1);
+        ChildProEnd(0, 1);
 
     if (!g_minishell.on_fork && (cmd.input_fd == -1 || cmd.output_fd == -1))
         return 1;
@@ -115,7 +115,7 @@ int ft_echo(t_command cmd)
     }
 
     if (g_minishell.on_fork)
-        die_child(0, 0);
+        ChildProEnd(0, 0);
 
     return 0;
 }

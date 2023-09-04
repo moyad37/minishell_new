@@ -23,9 +23,9 @@ static int	signalCommandOn(t_command cmd)
 {
 	int	pid;
 
-	if (get_builtin_pos(cmd.args[0]) != -1)
+	if (finde_Position_builtin(cmd.args[0]) != -1)
 	{
-		run_builtin(cmd, g_minishell.builtins[get_builtin_pos(cmd.args[0])]);
+		stert_builtin(cmd, g_minishell.builtins[finde_Position_builtin(cmd.args[0])]);
 		return (-1);
 	}
 	pid = fork();
@@ -34,16 +34,16 @@ static int	signalCommandOn(t_command cmd)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		if (cmd.input_fd == -1 || cmd.output_fd == -1)
-			die_child(0, 1);
-		if (cmd.error && get_builtin_pos(cmd.args[0]) == -1)
-			die_child(0, cmd.error);
+			ChildProEnd(0, 1);
+		if (cmd.error && finde_Position_builtin(cmd.args[0]) == -1)
+			ChildProEnd(0, cmd.error);
 		if (cmd.bin_path && cmd.args[0])
 		{
 			make_dups(cmd);
-			close_fds_in_child();
+			cleanupChild();
 			execve(cmd.bin_path, cmd.args, g_minishell.envp);
 		}
-		die_child(0, cmd.error);
+		ChildProEnd(0, cmd.error);
 	}
 	return (pid);
 }
@@ -53,8 +53,8 @@ static void	initExecutor(char **tokens)
 	initCommands(tokens, 0);
 	ft_free_matrix((void **)tokens);
 	deleteQu();
-	init_redirects();
-	remove_redirects();
+	configure_cmd_fds();
+	deleteRedirects();
 	deleteQuote();
 	update_number_of_args();
 	initBinWay();
@@ -77,7 +77,7 @@ void	executor(char **tokens)
 	}
 	if (g_minishell.number_of_cmds > 1)
 		while (++i < g_minishell.number_of_cmds)
-			pid = handle_exec(i, &g_minishell.commands[i]);
+			pid = runPipedCommand(i, &g_minishell.commands[i]);
 	else
 		pid = signalCommandOn(g_minishell.commands[0]);
 	if (pid != -1)

@@ -9,7 +9,7 @@ static char	*validate_line(void)
 	if (!line)
 		return (NULL);
 	append(&line, ft_strdup("\n"));
-	expand_vars(&line);
+	erweitere_Umgebungsvariablen(&line);
 	return (line);
 }
 
@@ -18,7 +18,7 @@ static void	handler_heredoc(int signal)
 	if (signal == SIGINT)
 	{
 		write(STDOUT_FILENO, "\n", 1);
-		die_child(1, 130);
+		ChildProEnd(1, 130);
 	}
 }
 
@@ -62,7 +62,7 @@ static void	get_heredoc_fd(int fd, char *arg)
 		ft_free(g_minishell.heredoc.line);
 	}
 	close(fd);
-	die_child(1, 0);
+	ChildProEnd(1, 0);
 }
 
 int	heredoc(t_command *cmd, char *arg)

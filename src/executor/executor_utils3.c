@@ -17,10 +17,10 @@ void	deleteQu(void)
 		{
 			if (is_redirect(cmd->args[j]))
 			{
-				subtokens = get_subtokens(cmd->args[j + 1], 0);
+				subtokens = extrahiere_Subtokens_aus_Token(cmd->args[j + 1], 0);
 				lerreUnterTokens(subtokens);
 				free(cmd->args[j + 1]);
-				cmd->args[++j] = concat_subtokens(subtokens);
+				cmd->args[++j] = konkateniere_Subtokens_zu_String(subtokens);
 				free(subtokens);
 			}
 			j++;

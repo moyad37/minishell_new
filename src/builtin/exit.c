@@ -61,7 +61,7 @@ int	ft_exit(t_command cmd)
 
 	exit_code = 0;
 	if (cmd.args[1] == NULL)
-		die_child(0, exit_code);
+		ChildProEnd(0, exit_code);
 	if (has_non_numeric_char(cmd.args[1]))
 	{
 		ft_printf(STDERR_FILENO, \
@@ -76,14 +76,14 @@ int	ft_exit(t_command cmd)
 	else
 		exit_code = get_exit_code(cmd);
 	ft_putstr_fd("exit\n", STDIN_FILENO);
-	die_child(0, exit_code);
+	ChildProEnd(0, exit_code);
 	return (0);
 	*/
 
 	if (cmd.args[1] == NULL)
 	{
 		ft_putstr_fd("exit\n", STDIN_FILENO);
-		die_child(0, 0);
+		ChildProEnd(0, 0);
 	}
 	else
 	{
@@ -102,7 +102,7 @@ int	ft_exit(t_command cmd)
 		}
 
 		ft_putstr_fd("exit\n", STDIN_FILENO);
-		die_child(0, exit_code);
+		ChildProEnd(0, exit_code);
 	}
 	return 0;
 }

@@ -4,14 +4,14 @@
 
 /*
 Druckt die exportierten Umgebungsvariablen auf den Ausgabekanal.
-Behandelt die Ausgabe des Befehls basierend auf dem Umleitungsstatus (handle_output).
+Behandelt die Ausgabe des Befehls basierend auf dem Umleitungsstatus (verwalte_Befehlsausgabe).
 Durchläuft die Liste der Umgebungsvariablenknoten und gibt die exportierten Variablen aus.
 Verwendet ft_printf, um die Ausgabe im Format "declare -x KEY="VALUE"" zu formatieren.
 */
 static void print_export(t_command cmd)
 {
     int out = 1;
-    handle_output(cmd, &out);
+    verwalte_Befehlsausgabe(cmd, &out);
 
     t_node *tmp = g_minishell.envp_list;
     while (tmp)
@@ -59,7 +59,7 @@ static void	exec_export(char *new_var)
 		ft_lstadd_back(&g_minishell.envp_list, new_node);
 		return ;
 	}
-	key_and_value = get_matrix_with_key_value(new_var);
+	key_and_value = erstelle_Schlüssel_Wert_Matrix(new_var);
 	key = key_and_value[0];
 	value = key_and_value[1];
 	if (!key_exists(g_minishell.envp_list, key))
@@ -93,7 +93,7 @@ Durchläuft die Argumente des Befehls ab dem zweiten Argument.
 Überprüft, ob jedes Argument ein gültiger Bezeichner ist.
 Wenn es sich nicht um einen gültigen Bezeichner handelt, wird eine Fehlermeldung ausgegeben und der Status wird auf 1 gesetzt.
 Andernfalls wird der Export der Umgebungsvariable mit exec_export durchgeführt.
-Wenn die Shell im Kindprozessmodus ist, wird die_child aufgerufen, um den Kindprozess zu beenden.
+Wenn die Shell im Kindprozessmodus ist, wird ChildProEnd aufgerufen, um den Kindprozess zu beenden.
 Der Status wird zurückgegeben.
 */
 void print_error_export(int fd, char *str)
@@ -126,7 +126,7 @@ int ft_export(t_command cmd)
         i++;
     }
     if (g_minishell.on_fork)
-        die_child(0, status);
+        ChildProEnd(0, status);
     return status;
 }
 

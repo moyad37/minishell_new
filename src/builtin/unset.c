@@ -86,7 +86,7 @@ Implementiert den Befehl "unset" in einer Shell.
 Durchläuft die Argumente des Befehls ab dem zweiten Argument.
 Ruft remove_env_variable für jedes Argument auf und überprüft den Rückgabewert.
 Wenn remove_env_variable einen Fehler zurückgibt, wird der Status auf 1 gesetzt.
-Wenn die Shell im Kindprozessmodus ist, wird die_child aufgerufen, um den Kindprozess zu beenden.
+Wenn die Shell im Kindprozessmodus ist, wird ChildProEnd aufgerufen, um den Kindprozess zu beenden.
 Der Status wird zurückgegeben.
 */
 int ft_unset(t_command cmd)
@@ -105,7 +105,7 @@ int ft_unset(t_command cmd)
 	}
 
 	if (g_minishell.on_fork)
-		die_child(0, status);
+		ChildProEnd(0, status);
 
 	return status;
 }

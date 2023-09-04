@@ -1,7 +1,7 @@
 
 #include "../../inc/minishell.h"
 
-static void	set_output_fd(t_command *cmd, char *redirect, char *filename)
+static void	konfiguriere_ausgabeumleitung(t_command *cmd, char *redirect, char *filename)
 {
 	int	flags;
 
@@ -17,7 +17,7 @@ static void	set_output_fd(t_command *cmd, char *redirect, char *filename)
 	}
 }
 
-static void	set_input_fd(t_command *cmd, char *redirect, char *filename)
+static void	konfiguriere_eingabeumleitung(t_command *cmd, char *redirect, char *filename)
 {
 	char	*delim;
 
@@ -30,7 +30,7 @@ static void	set_input_fd(t_command *cmd, char *redirect, char *filename)
 	}
 }
 
-static void	fill_fds(t_command *cmd)
+static void	konfiguriere_befehlsdateideskriptoren(t_command *cmd)
 {
 	int	i;
 
@@ -40,9 +40,9 @@ static void	fill_fds(t_command *cmd)
 	while (cmd->args[i])
 	{
 		if (is_input_redirect(cmd->args[i]))
-			set_input_fd(cmd, cmd->args[i], cmd->args[i + 1]);
+			konfiguriere_eingabeumleitung(cmd, cmd->args[i], cmd->args[i + 1]);
 		else if (is_output_redirect(cmd->args[i]))
-			set_output_fd(cmd, cmd->args[i], cmd->args[i + 1]);
+			konfiguriere_ausgabeumleitung(cmd, cmd->args[i], cmd->args[i + 1]);
 		if (checkErrorExistiert(cmd))
 		{
 			handle_error(cmd, cmd->args[i + 1]);
@@ -54,7 +54,7 @@ static void	fill_fds(t_command *cmd)
 	}
 }
 
-void	init_redirects(void)
+void	configure_cmd_fds(void)
 {
 	int	i;
 	int	args;
@@ -63,7 +63,7 @@ void	init_redirects(void)
 	args = g_minishell.number_of_cmds;
 	while (i < args && !g_minishell.heredoc.heredoc_exited)
 	{
-		fill_fds(&g_minishell.commands[i]);
+		konfiguriere_befehlsdateideskriptoren(&g_minishell.commands[i]);
 		i++;
 	}
 }

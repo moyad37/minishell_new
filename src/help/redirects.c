@@ -1,7 +1,7 @@
 #include "../../inc/minishell.h"
 
 
-static void	copy_tokens(char **new, char **copy)
+static void	filter_and_copy_non_redirects(char **new, char **copy)
 {
 	int	i;
 	int	j;
@@ -18,7 +18,7 @@ static void	copy_tokens(char **new, char **copy)
 	}
 }
 
-static int	exclude_redirects(char **tokens)
+static int	count_non_redirect_tokens(char **tokens)
 {
 	int	i;
 	int	mem_to_alloc;
@@ -41,15 +41,15 @@ static void	remove_redirect(char ***command_args)
 	int		tokens_amount;
 	char	**new_tokens;
 
-	tokens_amount = exclude_redirects(*command_args);
+	tokens_amount = count_non_redirect_tokens(*command_args);
 	new_tokens = ft_calloc(sizeof(char *), tokens_amount + 1);
-	copy_tokens(new_tokens, *command_args);
+	filter_and_copy_non_redirects(new_tokens, *command_args);
 	ft_free_matrix((void **)*command_args);
 	*command_args = new_tokens;
 }
 
 
-void	remove_redirects(void)
+void	deleteRedirects(void)
 {
 	int	i;
 	int	args;

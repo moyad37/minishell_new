@@ -10,10 +10,10 @@ static void	erase_empty_quotes_and_ext_quotes(char **tokens)
 	i = 0;
 	while (tokens[i] != NULL)
 	{
-		subtokens = get_subtokens(tokens[i], 0);
+		subtokens = extrahiere_Subtokens_aus_Token(tokens[i], 0);
 		lerreUnterTokens(subtokens);
 		free(tokens[i]);
-		tokens[i] = concat_subtokens(subtokens);
+		tokens[i] = konkateniere_Subtokens_zu_String(subtokens);
 		free(subtokens);
 		i++;
 	}

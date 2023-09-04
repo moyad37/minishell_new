@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
 
-static int	is_duplicate_meta_char(char *str)
+static int	has_duplicate_special_marks(char *str)
 {
 	/*
 	
@@ -11,27 +11,27 @@ static int	is_duplicate_meta_char(char *str)
 	 return (*str != '|' && (special_mark(*str) && *str == *(str + 1)));
 }
 
-static void	put_space_if_needed(char *cmd, int *i)
+static void	passe_Befehlsformatierung_an(char *cmd, int *i)
 { /*
-	if (is_duplicate_meta_char(&cmd[*i]))
-		*i += space_duplicate_metachars(&cmd[*i], *i) + 2;
+	if (has_duplicate_special_marks(&cmd[*i]))
+		*i += fuege_Leerzeichen_fuer_doppelte_Sonderzeichen_ein(&cmd[*i], *i) + 2;
 	else if (special_mark(cmd[*i]))
-		*i += put_spaces(&cmd[*i], *i) + 1;
+		*i += insert_spaces_for_formatting(&cmd[*i], *i) + 1;
 	*/
- if (is_duplicate_meta_char(&cmd[*i]))
+ if (has_duplicate_special_marks(&cmd[*i]))
     {
-        *i += space_duplicate_metachars(&cmd[*i], *i) + 2;
+        *i += fuege_Leerzeichen_fuer_doppelte_Sonderzeichen_ein(&cmd[*i], *i) + 2;
     }
     else if (special_mark(cmd[*i]))
     {
-        *i += put_spaces(&cmd[*i], *i) + 1;
+        *i += insert_spaces_for_formatting(&cmd[*i], *i) + 1;
     }
 }
 
 
 
 
-int	space_duplicate_metachars(char *str, int pos)
+int	fuege_Leerzeichen_fuer_doppelte_Sonderzeichen_ein(char *str, int pos)
 {
 	/*
 	int	i;
@@ -84,7 +84,7 @@ int	space_duplicate_metachars(char *str, int pos)
 
 
 
-char	*human_readable_cmd(char *cmd)
+char	*erzeuge_lesefreundlichen_Befehl(char *cmd)
 {
 	/*
 	int		i;
@@ -93,7 +93,7 @@ char	*human_readable_cmd(char *cmd)
 
 	i = 0;
 	quoted = '\0';
-	new_cmd = init_human_readable_cmd(cmd);
+	new_cmd = init_readable_command(cmd);
 	while (new_cmd[i])
 	{
 		if (zitat(new_cmd[i]) && quoted == '\0')
@@ -102,7 +102,7 @@ char	*human_readable_cmd(char *cmd)
 			i++;
 		}
 		else if (quoted == '\0' && special_mark(new_cmd[i]))
-			put_space_if_needed(new_cmd, &i);
+			passe_Befehlsformatierung_an(new_cmd, &i);
 		else if (quoted == new_cmd[i])
 		{
 			quoted = '\0';
@@ -116,7 +116,7 @@ char	*human_readable_cmd(char *cmd)
 	*/
 
  char quoted = '\0';
-    char *new_cmd = init_human_readable_cmd(cmd);
+    char *new_cmd = init_readable_command(cmd);
     for (int i = 0; new_cmd[i];)
     {
         if (zitat(new_cmd[i]) && quoted == '\0')
@@ -126,7 +126,7 @@ char	*human_readable_cmd(char *cmd)
         }
         else if (quoted == '\0' && special_mark(new_cmd[i]))
         {
-            put_space_if_needed(new_cmd, &i);
+            passe_Befehlsformatierung_an(new_cmd, &i);
         }
         else if (quoted == new_cmd[i])
         {

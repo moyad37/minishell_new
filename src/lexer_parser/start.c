@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
 
-char	**pipeline_validation(char *cmd)
+char	**Start_validiere_und_tokenize_Eingabe(char *cmd)
 {
 	/*
 	char	**tokens;

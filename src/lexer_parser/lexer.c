@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
 
-static void	init_set(char set[6])
+static void	first_init(char set[6])
 {
 /*
 	set[0] = 1;
@@ -14,7 +14,7 @@ static void	init_set(char set[6])
     memcpy(set, values, sizeof(values));
 }
 
-static void	fix_tokens(char **tokens, char set[6])
+static void	update_tokens_with_set(char **tokens, char set[6])
 {
 	/*
 	int	i;
@@ -22,19 +22,22 @@ static void	fix_tokens(char **tokens, char set[6])
 	i = 0;
 	while (tokens[i] != NULL)
 	{
-		replace_between(tokens[i], set, SET1);
+		update_characters_between_quotes(tokens[i], set, SET1);
 		i++;
 	}
 	*/
-	for (int i = 0; tokens[i] != NULL; i++)
-    {
-        replace_between(tokens[i], set, SET1);
-    }
+	int i;
+	i = 0;
+	while(tokens[i] != NULL)
+	{
+        update_characters_between_quotes(tokens[i], set, SET1);
+		i++;
+	}
 }
 
 
 
-int	put_spaces(char *str, int pos)
+int	insert_spaces_for_formatting(char *str, int pos)
 {
 	/*
 	int	i;
@@ -83,7 +86,7 @@ int	put_spaces(char *str, int pos)
     return count;
 }
 
-void	replace_between(char *str, char *set1, char *set2)
+void	update_characters_between_quotes(char *str, char *set1, char *set2)
 {
 	/*
 	int		i;
@@ -98,7 +101,7 @@ void	replace_between(char *str, char *set1, char *set2)
 			quote = str[i];
 		else if (quote != '\0' && ft_strchr(set1, str[i]))
 		{
-			corresponding_position = get_pos(str[i], set1);
+			corresponding_position = find_position_in_set(str[i], set1);
 			str[i] = set2[corresponding_position];
 		}
 		else if (str[i] == quote)
@@ -116,7 +119,7 @@ void	replace_between(char *str, char *set1, char *set2)
         }
         else if (quote != '\0' && strchr(set1, str[i]) != NULL)
         {
-            int corresponding_position = get_pos(str[i], set1);
+            int corresponding_position = find_position_in_set(str[i], set1);
             str[i] = set2[corresponding_position];
         }
         else if (str[i] == quote)
@@ -133,19 +136,19 @@ char	**lexer(char *cmd)
 	char	*str;
 	char	**tokens;
 
-	str = human_readable_cmd(cmd);
-	replace_between(str, SET1, set);
+	str = erzeuge_lesefreundlichen_Befehl(cmd);
+	update_characters_between_quotes(str, SET1, set);
 	tokens = ft_split(str);
-	fix_tokens(tokens, set);
+	update_tokens_with_set(tokens, set);
 	free(str);
 	return (tokens);
 	*/
 	char	set[6];
-	init_set(set);
-	char *str = human_readable_cmd(cmd);
-    replace_between(str, SET1, set);
+	first_init(set);
+	char *str = erzeuge_lesefreundlichen_Befehl(cmd);
+    update_characters_between_quotes(str, SET1, set);
     char **tokens = ft_split2(str);
-    fix_tokens(tokens, set);
+    update_tokens_with_set(tokens, set);
     free(str);
     return tokens;
 
