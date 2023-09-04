@@ -5,20 +5,19 @@
 Überprüft, ob alle weiteren Zeichen des Strings 'n' sind. Wenn nicht, wird 0 zurückgegeben.
 Gibt 1 zurück, wenn der String den richtigen Aufbau hat.
 */
-int valid_dash_n(const char* dash_n)
+int isNFlag(const char* flag)
 {
     size_t length;
     size_t i;
 
     i = 1;
-    if (dash_n[0] != '-')
+    if (flag[0] != '-')
         return 0;
 
-    length = ft_strlen(dash_n);
+    length = ft_strlen(flag);
 
-    while (i < length)
-    {
-        if (dash_n[i] != 'n')
+    while (i < length) {
+        if (flag[i] != 'n')
             return 0;
         i++;
     }
@@ -33,8 +32,7 @@ Wenn nach dem Backslash 't' folgt, wird es durch ein Tabulatorzeichen '\t' erset
 Andernfalls wird der Backslash und das nachfolgende Zeichen unverändert kopiert.
 Das Ergebnis wird in derselben Zeichenkette (str) gespeichert.
 */
-void interpret_special_characters(char* str)
-{
+void replaceSpecialChars(char* str) {
     size_t len = ft_strlen(str);
     size_t i = 0;
     size_t j = 0;
@@ -47,7 +45,7 @@ void interpret_special_characters(char* str)
             } else if (str[i] == 't') {
                 str[j] = '\t';
             } else {
-                // Copy the backslash and the character literally
+                // Kopiere das Backslash und das Zeichen wörtlich
                 str[j] = '\\';
                 j++;
                 str[j] = str[i];
@@ -62,6 +60,7 @@ void interpret_special_characters(char* str)
 
     str[j] = '\0';
 }
+
 /*
 Druckt die Argumente eines Befehls auf den Ausgabestrom (out_fd).
 Beginnt bei Index 1, es sei denn, das erste Argument hat den richtigen Aufbau für den Optionsschalter -n.
@@ -69,19 +68,18 @@ Interpretiert Sonderzeichen in den Argumenten mit Hilfe von interpret_special_ch
 Gibt die Argumente nacheinander aus, getrennt durch Leerzeichen.
 Fügt einen Zeilenumbruch ('\n') am Ende hinzu.
 */
-void print_args(int size, char** args, int out_fd)
-{
+void printModifiedArgs(int num_args, char** args, int output_fd) {
     int i = 1;
 
-    if (valid_dash_n(args[1]))
+    if (isNFlag(args[1]))
         i++;
 
-    for (; i < size; i++) {
-        interpret_special_characters(args[i]);
-        ft_putstr_fd(args[i], out_fd);
+    for (; i < num_args; i++) {
+        replaceSpecialChars(args[i]);
+        ft_putstr_fd(args[i], output_fd);
 
-        if (i != size - 1)
-            ft_putstr_fd(" ", out_fd);
+        if (i != num_args - 1)
+            ft_putstr_fd(" ", output_fd);
     }
 }
 /*
@@ -94,8 +92,9 @@ Verwendet print_args, um die Argumente auszugeben und gegebenenfalls einen Zeile
 Wenn die Shell im Kindprozessmodus ist, wird die_child aufgerufen, um den Kindprozess zu beenden.
 Gibt den entsprechenden Status zurück.
 */
-int ft_echo(t_command cmd) {
-    int out = 1;
+int ft_echo(t_command cmd)
+{
+     int out = 1;
     handle_output(cmd, &out);
 
     if (g_minishell.on_fork && (cmd.input_fd == -1 || cmd.output_fd == -1))
@@ -107,8 +106,8 @@ int ft_echo(t_command cmd) {
     if (cmd.number_of_args < 2) {
         ft_putstr_fd("\n", out);
     } else {
-        int comparison = valid_dash_n(cmd.args[1]);
-        print_args(cmd.number_of_args, cmd.args, out);
+        int comparison = isNFlag(cmd.args[1]);
+        printModifiedArgs(cmd.number_of_args, cmd.args, out);
 
         if (comparison == 0) {
             ft_putstr_fd("\n", out);

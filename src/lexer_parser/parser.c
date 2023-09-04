@@ -9,9 +9,9 @@ static int	has_unclosed_quote(char *token)
 	quote = 0;
 	while (token[i])
 	{
-		if (is_quote(token[i]) && quote == 0)
+		if (zitat(token[i]) && quote == 0)
 			quote = token[i];
-		else if (is_quote(token[i]) && token[i] == quote)
+		else if (zitat(token[i]) && token[i] == quote)
 			quote = 0;
 		i++;
 	}

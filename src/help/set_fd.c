@@ -43,7 +43,7 @@ static void	fill_fds(t_command *cmd)
 			set_input_fd(cmd, cmd->args[i], cmd->args[i + 1]);
 		else if (is_output_redirect(cmd->args[i]))
 			set_output_fd(cmd, cmd->args[i], cmd->args[i + 1]);
-		if (has_error(cmd))
+		if (checkErrorExistiert(cmd))
 		{
 			handle_error(cmd, cmd->args[i + 1]);
 			return ;

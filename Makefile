@@ -18,7 +18,7 @@ SRCS        = minishell.c \
 
 OBJS        = ${SRCS:.c=.o}
 
-CC          = gcc
+CC          = cc
 RM          = rm -f
 
 LIBFT_FLAGS = -L./src/libft -lft -lreadline

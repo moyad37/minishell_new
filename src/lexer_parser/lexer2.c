@@ -33,7 +33,7 @@ static int	count_metachars(char *cmd)
 	amount_of_metachars = 0;
 	while (cmd[i])
 	{
-		if (is_meta_char(cmd[i]))
+		if (special_mark(cmd[i]))
 			amount_of_metachars++;
 		i++;
 	}
@@ -42,7 +42,7 @@ static int	count_metachars(char *cmd)
 	int amount_of_metachars = 0;
     for (int i = 0; cmd[i]; i++)
     {
-        if (is_meta_char(cmd[i]))
+        if (special_mark(cmd[i]))
         {
             amount_of_metachars++;
         }

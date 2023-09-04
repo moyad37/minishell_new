@@ -72,6 +72,20 @@ static void	exec_export(char *new_var)
 	ft_free_matrix((void **)key_and_value);
 	update_env();
 }
+
+static int is_valid_identifier2(const char *var)
+{
+    if (!ft_isalpha(var[0]) && var[0] != '_')
+        return 0;
+
+    for (int i = 1; var[i] && var[i] != '='; i++)
+    {
+        if (!is_bash_char(var[i]))
+            return 0;
+    }
+
+    return 1;
+}
 /*
 Implementiert den Befehl "export" in einer Shell.
 Überprüft, ob der Befehl keine Argumente hat. In diesem Fall werden die exportierten Variablen gedruckt und der Status bleibt unverändert.
@@ -101,7 +115,7 @@ int ft_export(t_command cmd)
     }
     while (cmd.args[i])
     {
-        if (!is_valid_identifier(cmd.args[i]))
+        if (!is_valid_identifier2(cmd.args[i]))
         {
             print_error_export(STDERR_FILENO, cmd.args[i]);
             //ft_printf(STDERR_FILENO, "bash: export: `%s': not a valid identifier\n", cmd.args[i]);

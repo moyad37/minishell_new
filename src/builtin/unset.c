@@ -6,7 +6,7 @@ Durchläuft die Liste, um den entsprechenden Knoten zu finden.
 Wenn der erste Knoten der zu löschende Knoten ist, wird der Anfang der Liste auf den nächsten Knoten gesetzt und der erste Knoten wird freigegeben.
 Andernfalls wird der vorherige Knoten mit dem nächsten Knoten verbunden und der zu löschende Knoten wird freigegeben.
 */
-void delet_specific_node(t_node **envp_list, const char *key)
+void remove_target(t_node **envp_list, const char *key)
 {
 	t_node *curr = *envp_list;
 	t_node *prev = *envp_list;
@@ -38,15 +38,17 @@ Durchläuft die Zeichenkette ab dem zweiten Zeichen und überprüft, ob jedes Ze
 Gibt 1 zurück, wenn die Zeichenkette ein gültiger Bezeichner ist.
 */
 //static
-int is_valid_identifier(const char *var)
+static int verify_naming_convention(const char *var)
 {
+    int i = 1;
+
     if (!ft_isalpha(var[0]) && var[0] != '_')
         return 0;
 
-    for (int i = 1; var[i] && var[i] != '='; i++)
-    {
+    while (var[i] && var[i] != '=') {
         if (!is_bash_char(var[i]))
             return 0;
+        i++;
     }
 
     return 1;
@@ -59,9 +61,9 @@ Wenn es sich nicht um einen gültigen Bezeichner handelt, wird eine Fehlermeldun
 Überprüft, ob der Schlüssel in der Umgebungsvariablenliste vorhanden ist.
 Wenn der Schlüssel vorhanden ist, wird der entsprechende Umgebungsvariablenknoten gelöscht und die Umgebungsvariablen werden 
 */
-static int exec_unset(char *delet_var)
+static int remove_env_variable(char *delet_var)
 {
-	if (!is_valid_identifier(delet_var))
+	if (!verify_naming_convention(delet_var))
 	{
 		ft_putstr_fd("bash: unset: '",STDERR_FILENO);
 		ft_putstr_fd(delet_var, STDERR_FILENO);
@@ -72,7 +74,7 @@ static int exec_unset(char *delet_var)
 
 	if (key_exists(g_minishell.envp_list, delet_var))
 	{
-		delet_specific_node(&g_minishell.envp_list, delet_var);
+		remove_target(&g_minishell.envp_list, delet_var);
 		update_env();
 	}
 
@@ -82,8 +84,8 @@ static int exec_unset(char *delet_var)
 Implementiert den Befehl "unset" in einer Shell.
 Überprüft, ob der Befehl mehr als ein Argument hat.
 Durchläuft die Argumente des Befehls ab dem zweiten Argument.
-Ruft exec_unset für jedes Argument auf und überprüft den Rückgabewert.
-Wenn exec_unset einen Fehler zurückgibt, wird der Status auf 1 gesetzt.
+Ruft remove_env_variable für jedes Argument auf und überprüft den Rückgabewert.
+Wenn remove_env_variable einen Fehler zurückgibt, wird der Status auf 1 gesetzt.
 Wenn die Shell im Kindprozessmodus ist, wird die_child aufgerufen, um den Kindprozess zu beenden.
 Der Status wird zurückgegeben.
 */
@@ -96,7 +98,7 @@ int ft_unset(t_command cmd)
 	{
 		while (cmd.args[i])
 		{
-			if (exec_unset(cmd.args[i]))
+			if (remove_env_variable(cmd.args[i]))
 				status = 1;
 			i++;
 		}

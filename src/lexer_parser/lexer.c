@@ -94,7 +94,7 @@ void	replace_between(char *str, char *set1, char *set2)
 	quote = '\0';
 	while (str[i])
 	{
-		if (is_quote(str[i]) && quote == '\0')
+		if (zitat(str[i]) && quote == '\0')
 			quote = str[i];
 		else if (quote != '\0' && ft_strchr(set1, str[i]))
 		{
@@ -110,7 +110,7 @@ void	replace_between(char *str, char *set1, char *set2)
 	    char quote = '\0';
     for (int i = 0; str[i]; i++)
     {
-        if (is_quote(str[i]) && quote == '\0')
+        if (zitat(str[i]) && quote == '\0')
         {
             quote = str[i];
         }

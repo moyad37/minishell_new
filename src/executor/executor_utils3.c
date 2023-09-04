@@ -1,7 +1,7 @@
 #include "../../inc/minishell.h"
 
-
-void	remove_filename_quotes(void)
+//remove_filename_quotes
+void	deleteQu(void)
 {
 	int			i;
 	int			j;
@@ -18,7 +18,7 @@ void	remove_filename_quotes(void)
 			if (is_redirect(cmd->args[j]))
 			{
 				subtokens = get_subtokens(cmd->args[j + 1], 0);
-				clear_subtokens(subtokens);
+				lerreUnterTokens(subtokens);
 				free(cmd->args[j + 1]);
 				cmd->args[++j] = concat_subtokens(subtokens);
 				free(subtokens);
@@ -28,15 +28,15 @@ void	remove_filename_quotes(void)
 		i++;
 	}
 }
-
-static int	is_empty_quote(char *str)
+//is_empty_quote
+static int	checkQuNull(char *str)
 {
 	if(*str == str[1])
 		return 1;
 	return 0;
 }
-
-static void	erase_external_quotes(char *str)
+//erase_external_quotes
+static void	deleteFremdeZitat(char *str)
 {
 	int	last_pos;
 	int	str_len;
@@ -46,18 +46,18 @@ static void	erase_external_quotes(char *str)
 	last_pos = str_len - 2;
 	ft_memset(str + last_pos, 0, 1);
 }
-
-void	clear_subtokens(char **subtokens)
+//clear_subtokens
+void	lerreUnterTokens(char **subtokens)
 {
 	int	i;
 
 	i = 0;
 	while (subtokens[i])
 	{
-		if (is_quote(*subtokens[i]) && is_empty_quote(subtokens[i]))
+		if (zitat(*subtokens[i]) && checkQuNull(subtokens[i]))
 			ft_memset(subtokens[i], 0, 2);
-		else if (is_quote(*subtokens[i]))
-			erase_external_quotes(subtokens[i]);
+		else if (zitat(*subtokens[i]))
+			deleteFremdeZitat(subtokens[i]);
 		i++;
 	}
 }

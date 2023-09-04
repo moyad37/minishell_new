@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
-
-static void	loop_wait(int pid, int *status)
+//loop_wait
+static void	loopForNext(int pid, int *status)
 {
 	int	i;
 	int	size;
@@ -18,7 +18,8 @@ static void	loop_wait(int pid, int *status)
 	else if (WIFSIGNALED(*status))
 		g_minishell.status_code = 128 + WTERMSIG(*status);
 }
-static int	run_single_cmd(t_command cmd)
+//run_single_cmd
+static int	signalCommandOn(t_command cmd)
 {
 	int	pid;
 
@@ -46,16 +47,17 @@ static int	run_single_cmd(t_command cmd)
 	}
 	return (pid);
 }
-static void	init_executor(char **tokens)
+//init_executor
+static void	initExecutor(char **tokens)
 {
-	init_commands(tokens, 0);
+	initCommands(tokens, 0);
 	ft_free_matrix((void **)tokens);
-	remove_filename_quotes();
+	deleteQu();
 	init_redirects();
 	remove_redirects();
-	remove_quotes();
+	deleteQuote();
 	update_number_of_args();
-	init_bin_path();
+	initBinWay();
 }
 
 void	executor(char **tokens)
@@ -66,7 +68,7 @@ void	executor(char **tokens)
 
 	i = -1;
 	status = -1;
-	init_executor(tokens);
+	initExecutor(tokens);
 	if (g_minishell.heredoc.heredoc_exited == 1)
 	{
 		g_minishell.status_code = 130;
@@ -77,9 +79,9 @@ void	executor(char **tokens)
 		while (++i < g_minishell.number_of_cmds)
 			pid = handle_exec(i, &g_minishell.commands[i]);
 	else
-		pid = run_single_cmd(g_minishell.commands[0]);
+		pid = signalCommandOn(g_minishell.commands[0]);
 	if (pid != -1)
-		loop_wait(pid, &status);
+		loopForNext(pid, &status);
 	g_minishell.on_fork = 0;
 }
 

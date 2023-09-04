@@ -11,7 +11,7 @@ static void	erase_empty_quotes_and_ext_quotes(char **tokens)
 	while (tokens[i] != NULL)
 	{
 		subtokens = get_subtokens(tokens[i], 0);
-		clear_subtokens(subtokens);
+		lerreUnterTokens(subtokens);
 		free(tokens[i]);
 		tokens[i] = concat_subtokens(subtokens);
 		free(subtokens);
@@ -19,8 +19,8 @@ static void	erase_empty_quotes_and_ext_quotes(char **tokens)
 	}
 }
 
-
-void	remove_quotes(void)
+//remove_quotes
+void	deleteQuote(void)
 {
 	int	i;
 	int	args;
@@ -34,8 +34,8 @@ void	remove_quotes(void)
 	}
 }
 
-
-static void	fill_args(char **tokens, int idx)
+//fill_args
+static void	argsGiveStep(char **tokens, int idx)
 {
 	int	i;
 	int	args;
@@ -48,8 +48,8 @@ static void	fill_args(char **tokens, int idx)
 		i++;
 	}
 }
-
-static int	count_commands(char **tokens)
+//count_commands
+static int	zahlBefehleCount(char **tokens)
 {
 	int	i;
 	int	j;
@@ -65,8 +65,8 @@ static int	count_commands(char **tokens)
 	return (j + 1);
 }
 
-
-void	init_commands(char **tokens, int idx)
+//init_commands
+void	initCommands(char **tokens, int idx)
 {
 	int		i;
 	int		args;
@@ -75,7 +75,7 @@ void	init_commands(char **tokens, int idx)
 	i = 0;
 	if (idx == 0)
 	{
-		g_minishell.number_of_cmds = count_commands(tokens);
+		g_minishell.number_of_cmds = zahlBefehleCount(tokens);
 		number_of_cmds = g_minishell.number_of_cmds;
 		g_minishell.commands = ft_calloc(sizeof(t_command), number_of_cmds + 1);
 	}
@@ -85,9 +85,9 @@ void	init_commands(char **tokens, int idx)
 		i++;
 	if (tokens[i] && ft_strcmp("|", tokens[i]) == 0)
 		i++;
-	init_commands(tokens + i, idx + 1);
+	initCommands(tokens + i, idx + 1);
 	args = count_args(tokens);
 	g_minishell.commands[idx].number_of_args = args;
 	g_minishell.commands[idx].args = ft_calloc(sizeof(char *), args + 1);
-	fill_args(tokens, idx);
+	argsGiveStep(tokens, idx);
 }

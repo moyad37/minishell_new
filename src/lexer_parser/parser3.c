@@ -114,11 +114,11 @@ char	**get_subtokens(char *token, int idx)
 	if (*token == '\0')
 		return (ft_calloc(idx + 1, sizeof(char *)));
 	quoted = 0;
-	if (is_quote(token[i]))
+	if (zitat(token[i]))
 		quoted = token[i++];
-	while (token[i] && ((quoted && quoted != token[i]) || !is_quote(token[i])))
+	while (token[i] && ((quoted && quoted != token[i]) || !zitat(token[i])))
 		i++;
-	if (quoted && is_quote(token[i]))
+	if (quoted && zitat(token[i]))
 		i++;
 	subtokens = get_subtokens(token + i, idx + 1);
 	subtokens[idx] = ft_substr(token, 0, i);
@@ -129,11 +129,11 @@ char	**get_subtokens(char *token, int idx)
     char quoted = 0;
     if (*token == '\0')
         return ft_calloc(idx + 1, sizeof(char *));
-    if (is_quote(token[i]))
+    if (zitat(token[i]))
         quoted = token[i++];
-    while (token[i] && ((quoted && quoted != token[i]) || !is_quote(token[i])))
+    while (token[i] && ((quoted && quoted != token[i]) || !zitat(token[i])))
         i++;
-    if (quoted && is_quote(token[i]))
+    if (quoted && zitat(token[i]))
         i++;
     subtokens = get_subtokens(token + i, idx + 1);
     subtokens[idx] = ft_substr(token, 0, i);

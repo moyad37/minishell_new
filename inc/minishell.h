@@ -69,17 +69,21 @@ extern t_minishell	g_minishell;
 //builtin
 
 //builtin cd
-void	swap_pwds(char *new_dir);
-int		change_home(void);
-int		type_of_file(char *file);
+void	changeDir(char *new_dir);
+//void changeDir(char *new_dir);
+int		changeHome(void);
+//int changeHome(void);
+int		getFileType(char *file);
+//int getFileType(char *file);
 int		ft_cd(t_command cmd);
+//int cdCommand(t_command cmd);
 
 //builtin echo
 
 int		ft_echo(t_command cmd);
-int		valid_dash_n(const char* dash_n);
-void	interpret_special_characters(char* str);
-void	print_args(int size, char** args, int out_fd);
+//int		valid_dash_n(const char* dash_n);
+//void	interpret_special_characters(char* str);
+//void	print_args(int size, char** args, int out_fd);
 
 //builtin env
 int		ft_env(t_command cmd);
@@ -96,10 +100,10 @@ int		ft_export(t_command cmd);
 int		ft_pwd(t_command cmd);
 
 //builtin unset
-void delet_specific_node(t_node **envp_list, const char *key);
-//static int exec_unset(char *delet_var);
+void remove_target(t_node **envp_list, const char *key);
+//static int remove_env_variable(char *delet_var);
 int		ft_unset(t_command cmd);
-int is_valid_identifier(const char *var);
+//static int verify_naming_convention(const char *var);
 
 
 //init
@@ -133,30 +137,30 @@ void	remove_redirects(void);
 //static void	fill_fds(t_command *cmd);
 
 //executor executor_utils
-void	init_commands(char **tokens, int idx);
-//static void	fill_args(char **tokens, int idx);
-void	remove_filename_quotes(void);
-void	remove_quotes(void);
+void	initCommands(char **tokens, int idx);
+//static void	argsGiveStep(char **tokens, int idx);
+void	deleteQu(void);
+//void	remove_quotes(void);
+void	deleteQuote(void);
 
 //executor executor_utils2
-//static char	*get_bin_path(t_command *command);
-//static void	set_bin(t_command *cmd);
-//static char	**get_path_dirs(void);
-void	init_bin_path(void);
+//static char	*retrieveBinWay(t_command *command);
+//static void	defineBin(t_command *cmd);
+//static char	**giveWayDir(void);
+void	initBinWay(void);
 //static void	erase_empty_quotes_and_ext_quotes(char **tokens);
 
 //executor executor_utils3
-//static int	count_commands(char **tokens);
-void	clear_subtokens(char **subtokens);
-//static int	is_empty_quote(char *str);
-//static char	*get_bin_path(t_command *command);
-//static void	erase_external_quotes(char *str);
+//static int	zahlBefehleCount(char **tokens);
+void	lerreUnterTokens(char **subtokens);
+//static int	checkQuNull(char *str);
+//static void	deleteFremdeZitat(char *str);
 //static int	run_single_cmd(t_command cmd);
 
 //executor executor
 void	executor(char **tokens);
-//static void	init_executor(char **tokens);
-//void	loop_wait(int pid, int *status);
+//static void	initExecutor(char **tokens);
+//void	loopForNext(int pid, int *status);
 
 //utils atol_split
 long int ft_latoi(const char *nptr);
@@ -256,10 +260,13 @@ void handler(int sig);
 int check_arg(int ac, char **av, char **envp);
 
 //check_utils check_main
-int is_quote(char c);
-int is_meta_char(char c);
-int	has_error(t_command *cmd);
-int	is_dir(const char *path);
+//int is_quote(char c);
+int zitat(char c);
+int special_mark(char c);
+//int	has_error(t_command *cmd);
+int	checkErrorExistiert(t_command *cmd);
+//int	is_dir(const char *path);
+int	checkIsDirectory(const char *path);
 
 //check_utils check_main2
 int is_bash_char(char c);
@@ -273,3 +280,27 @@ int print_error(const char *str, int fd);
 //static void	err_on_input_redirect(char *filename);
 //static void	err_on_output_redirect(char *filename);
 void	handle_error(t_command *cmd, char *filename);
+
+
+
+
+
+
+
+# ifdef __linux__
+#  define NULLABLE "(nil)"
+# else
+#  define NULLABLE "0x0"
+# endif
+
+# define BUFFER_SIZE 1
+
+# define HEX_LWCASE "0123456789abcdef"
+# define HEX_UPCASE "0123456789ABCDEF"
+# define DEC_DIGITS "0123456789"
+
+
+
+
+
+int	ft_printf2(int fd, const char *str, ...);

@@ -1,7 +1,7 @@
 #include "../../inc/minishell.h"
 
-
-static char	**get_path_dirs(void)
+//get_path_dirs
+static char	**giveWayDir(void)
 {
 	int		i;
 	char	*path;
@@ -17,19 +17,19 @@ static char	**get_path_dirs(void)
 	}
 	return (path_dirs);
 }
-
-static char	*get_bin_path(t_command *command)
+//get_bin_path
+static char	*retrieveBinWay(t_command *command)
 {
 	int		i;
 	char	*bin;
 	char	**path_dirs;
 
 	i = 0;
-	path_dirs = get_path_dirs();
+	path_dirs = giveWayDir();
 	while (path_dirs[i] && command->args[0] && ft_strlen(command->args[0]) > 0)
 	{
 		bin = ft_strjoin(path_dirs[i], command->args[0]);
-		if (!is_dir(bin) && access(bin, F_OK | X_OK) == 0)
+		if (!checkIsDirectory(bin) && access(bin, F_OK | X_OK) == 0)
 		{
 			ft_free_matrix((void **)path_dirs);
 			return (bin);
@@ -46,26 +46,26 @@ static char	*get_bin_path(t_command *command)
 	ft_free_matrix((void **)path_dirs);
 	return (NULL);
 }
-
-static void	set_bin(t_command *cmd)
+//set_bin
+static void	defineBin(t_command *cmd)
 {
 	cmd->error = 0;
 	if (cmd->args[0] && access(cmd->args[0], F_OK | X_OK) == 0 \
-			&& !is_dir(cmd->args[0]))
+			&& !checkIsDirectory(cmd->args[0]))
 		cmd->bin_path = ft_strdup(cmd->args[0]);
 	else
-		cmd->bin_path = get_bin_path(cmd);
+		cmd->bin_path = retrieveBinWay(cmd);
 	if (cmd->bin_path && cmd->args[0] == NULL)
 		cmd->error = 1;
-	else if (is_dir(cmd->args[0]) && access(cmd->args[0], F_OK | X_OK) == 0)
+	else if (checkIsDirectory(cmd->args[0]) && access(cmd->args[0], F_OK | X_OK) == 0)
 		cmd->error = EISDIR;
 	else if (ft_strchr(cmd->args[0], 47) && cmd->bin_path == NULL)
 		cmd->error = ENOENT;
 	else if (cmd->error == 0 && cmd->bin_path == NULL)
 		cmd->error = ENOCMD;
 }
-
-void	init_bin_path(void)
+//init_bin_path
+void	initBinWay(void)
 {
 	int	i;
 	int	args;
@@ -74,7 +74,7 @@ void	init_bin_path(void)
 	args = g_minishell.number_of_cmds;
 	while (i < args)
 	{
-		set_bin(&g_minishell.commands[i]);
+		defineBin(&g_minishell.commands[i]);
 		i++;
 	}
 }
