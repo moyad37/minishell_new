@@ -52,6 +52,6 @@ void	stert_builtin(t_command cmd, int (*builtin)(t_command cmd))
 
 void	update_env(void)
 {
-	ft_free_matrix((void **)g_minishell.envp);
+	FreeMatrix((void **)g_minishell.envp);
 	g_minishell.envp = create_envp_array();
 }

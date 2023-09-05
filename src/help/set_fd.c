@@ -8,12 +8,12 @@ static void	konfiguriere_ausgabeumleitung(t_command *cmd, char *redirect, char *
 	if (ft_strcmp(">", redirect) == 0)
 	{
 		flags = O_CREAT | O_WRONLY | O_TRUNC;
-		swap_stream_fd("output", cmd, open(filename, flags, 0644));
+		update_stream_fd("output", cmd, open(filename, flags, 0644));
 	}
 	else
 	{
 		flags = O_CREAT | O_WRONLY | O_APPEND;
-		swap_stream_fd("output", cmd, open(filename, flags, 0644));
+		update_stream_fd("output", cmd, open(filename, flags, 0644));
 	}
 }
 
@@ -22,7 +22,7 @@ static void	konfiguriere_eingabeumleitung(t_command *cmd, char *redirect, char *
 	char	*delim;
 
 	if (ft_strcmp("<", redirect) == 0)
-		swap_stream_fd("input", cmd, open(filename, O_RDONLY));
+		update_stream_fd("input", cmd, open(filename, O_RDONLY));
 	else
 	{
 		delim = filename;

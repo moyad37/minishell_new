@@ -217,10 +217,10 @@ char	**extrahiere_Subtokens_aus_Token(char *token, int idx);
 char	**Start_validiere_und_tokenize_Eingabe(char *cmd);
 
 //matrix utils
-void	ft_free_matrix(void **matrix);
-void	ft_free_matrix_size_n(void **matrix, int size);
+void	FreeMatrix(void **matrix);
+void	FreeMatrix_size_n(void **matrix, int size);
 void	ft_free_list(t_node **head);
-int	ft_count_matrix(void **matrix);
+int	matrixCounter(void **matrix);
 void	ft_free_spatial_matrix(void ***matrix);
 
 //utils give envp
@@ -231,26 +231,26 @@ t_node *create_envp_list(char **envp);
 char **create_envp_array();
 
 //utils key_utils
-char *get_key_value(t_node *envp_list, char *key);
-void change_value_from_key(t_node **envp_list, char *key, char *new_data);
-int key_exists(t_node *envp_list, char *key);
+char *hol_envp(t_node *envp_list, char *key);
+void andere_envp(t_node **envp_list, char *key, char *new_data);
+int key_istda(t_node *envp_list, char *key);
 
 //utils swap_fd
-//static void	swap_fd_input(t_command *command, int new_fd);
-//static void	swap_fd_output(t_command *command, int new_fd);
-void	swap_stream_fd(char *stream, t_command *command, int new_fd);
+//static void	update_input_fd(t_command *command, int new_fd);
+//static void	update_output_fd(t_command *command, int new_fd);
+void	update_stream_fd(char *stream, t_command *command, int new_fd);
 
 //utils utils
 int	count_args(char **tokens);
-void	update_number_of_args(void);
-void	make_dups(t_command cmd);
-void	ft_print_matrix_fd(char **matrix, int fd);
+void	update_args_count(void);
+void	redirect_standard_streams_dups(t_command cmd);
+void	print_matrix_to_fd(char **matrix, int fd);
 
 //utils heredoc
-//static char	*validate_line(void);
-//static void	handler_heredoc(int signal);
+//static char	*lese_und_validiere_Eingabe(void);
+//static void	sig_handle_heredoc(int signal);
 //static int	ft_strcmpl(char *s1, char *s2);
-//static void	get_heredoc_fd(int fd, char *arg);
+//static void	read_and_process_heredoc(int fd, char *arg);
 int	heredoc(t_command *cmd, char *arg);
 
 //signals signal_handler

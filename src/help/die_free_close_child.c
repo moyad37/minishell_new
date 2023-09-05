@@ -7,7 +7,7 @@ void	ChildProEnd(int heredoc, int exit_code)
 	else
 		cleanupChild();
 	ft_free_commands();
-	ft_free_matrix((void **)g_minishell.envp);
+	FreeMatrix((void **)g_minishell.envp);
 	ft_free_list(&g_minishell.envp_list);
 	rl_clear_history();
 	exit(exit_code);
@@ -23,7 +23,7 @@ void	ft_free_commands(void)
 	cleanup_command_fds();
 	while (i < args)
 	{
-		ft_free_matrix((void **)g_minishell.commands[i].args);
+		FreeMatrix((void **)g_minishell.commands[i].args);
 		ft_free((void *)g_minishell.commands[i].bin_path);
 		i++;
 	}
@@ -78,7 +78,7 @@ void	die(void)
 {
 	rl_clear_history();
 	ft_free_list(&g_minishell.envp_list);
-	ft_free_matrix((void **)g_minishell.envp);
+	FreeMatrix((void **)g_minishell.envp);
 	cleanup_command_fds();
 	unlink(TMPFILE);
 	write(1, "exit\n", 5);

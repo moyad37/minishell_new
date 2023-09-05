@@ -44,7 +44,7 @@ static void	remove_redirect(char ***command_args)
 	tokens_amount = count_non_redirect_tokens(*command_args);
 	new_tokens = ft_calloc(sizeof(char *), tokens_amount + 1);
 	filter_and_copy_non_redirects(new_tokens, *command_args);
-	ft_free_matrix((void **)*command_args);
+	FreeMatrix((void **)*command_args);
 	*command_args = new_tokens;
 }
 

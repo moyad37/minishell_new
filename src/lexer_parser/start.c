@@ -17,7 +17,7 @@ char	**Start_validiere_und_tokenize_Eingabe(char *cmd)
 		ft_free(cmd);
 		if (parser(&tokens) == 1 || *tokens == NULL)
 		{
-			ft_free_matrix((void **)tokens);
+			FreeMatrix((void **)tokens);
 			return (NULL);
 		}
 	}
@@ -42,7 +42,7 @@ char	**Start_validiere_und_tokenize_Eingabe(char *cmd)
 
     if (parser(&tokens) == 1 || *tokens == NULL)
     {
-        ft_free_matrix((void **)tokens);
+        FreeMatrix((void **)tokens);
         return NULL;
     }
 

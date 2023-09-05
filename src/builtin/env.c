@@ -8,7 +8,7 @@ verwalte_Befehlsausgabe(cmd, &out): Behandelt die Ausgabe des Befehls basierend 
 
 if (cmd.args[0]): Überprüft, ob das erste Argument des Befehls vorhanden ist.
 
-ft_print_matrix_fd(g_minishell.envp, out): Gibt die Umgebungsvariablenmatrix (g_minishell.envp) auf den angegebenen Ausgabekanal (out) aus.
+print_matrix_to_fd(g_minishell.envp, out): Gibt die Umgebungsvariablenmatrix (g_minishell.envp) auf den angegebenen Ausgabekanal (out) aus.
 
 if (g_minishell.on_fork): Überprüft, ob die Shell im Kindprozessmodus ist.
 
@@ -23,7 +23,7 @@ int	ft_env(t_command cmd)
 	out = 1;
 	verwalte_Befehlsausgabe(cmd, &out);
 	if (cmd.args[0])
-		ft_print_matrix_fd(g_minishell.envp, out);
+		print_matrix_to_fd(g_minishell.envp, out);
 	if (g_minishell.on_fork)
 		ChildProEnd(0, 0);
 	return (0);

@@ -72,7 +72,7 @@ static int remove_env_variable(char *delet_var)
 		return 1;
 	}
 
-	if (key_exists(g_minishell.envp_list, delet_var))
+	if (key_istda(g_minishell.envp_list, delet_var))
 	{
 		remove_target(&g_minishell.envp_list, delet_var);
 		update_env();

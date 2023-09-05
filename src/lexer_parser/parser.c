@@ -72,7 +72,7 @@ int parser(char ***tokens)
     int idx_err = finde_Syntaxfehler_Index(*tokens);
     if (idx_err != -2)
         return zeige_Syntaxfehlermeldung(idx_err, *tokens);
-    int size = ft_count_matrix((void **)*tokens);
+    int size = matrixCounter((void **)*tokens);
     while ((*tokens)[i])
     {
         erweitere_und_ersetze_Umgebungsvariablen((*tokens) + i);

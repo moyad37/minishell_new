@@ -63,7 +63,7 @@ void	erweitere_Umgebungsvariablen(char **token)
 		if (is_valid_var(&(*token)[i]))
 		{
 			key = get_variable_key(&(*token)[i + 1]);
-			value = get_key_value(g_minishell.envp_list, key);
+			value = hol_envp(g_minishell.envp_list, key);
 			if ((*token)[i + 1] == '?')
 				append(&new_token, value);
 			else
@@ -86,7 +86,7 @@ void	erweitere_Umgebungsvariablen(char **token)
         if (is_valid_var(&(*token)[i]))
         {
             key = get_variable_key(&(*token)[i + 1]);
-            value = get_key_value(g_minishell.envp_list, key);
+            value = hol_envp(g_minishell.envp_list, key);
             if ((*token)[i + 1] == '?')
                 append(&new_token, value);
             else

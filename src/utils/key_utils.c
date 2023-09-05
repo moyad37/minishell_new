@@ -1,11 +1,11 @@
 #include "../../inc/minishell.h"
 
-char *get_key_value(t_node *envp_list, char *key)
+char *hol_envp(t_node *envp_list, char *key)
 {
     if (key[0] == '?')
         return ft_itoa(g_minishell.status_code);
 
-    if (!key_exists(envp_list, key))
+    if (!key_istda(envp_list, key))
         return "";
 
     while (ft_strcmp(envp_list->key, key) != 0)
@@ -14,7 +14,7 @@ char *get_key_value(t_node *envp_list, char *key)
     return envp_list->value;
 }
 
-void change_value_from_key(t_node **envp_list, char *key, char *new_data)
+void andere_envp(t_node **envp_list, char *key, char *new_data)
 {
     t_node *tmp = *envp_list;
 
@@ -32,7 +32,7 @@ void change_value_from_key(t_node **envp_list, char *key, char *new_data)
     append(&tmp->env_line, ft_strdup(tmp->value));
 }
 
-int key_exists(t_node *envp_list, char *key)
+int key_istda(t_node *envp_list, char *key)
 {
     while (envp_list != NULL)
     {

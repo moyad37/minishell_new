@@ -8,7 +8,7 @@ static char	**giveWayDir(void)
 	char	**path_dirs;
 
 	i = 0;
-	path = get_key_value(g_minishell.envp_list, "PATH");
+	path = hol_envp(g_minishell.envp_list, "PATH");
 	path_dirs = ft_split(path, ':');
 	while (path_dirs[i])
 	{
@@ -31,7 +31,7 @@ static char	*retrieveBinWay(t_command *command)
 		bin = ft_strjoin(path_dirs[i], command->args[0]);
 		if (!checkIsDirectory(bin) && access(bin, F_OK | X_OK) == 0)
 		{
-			ft_free_matrix((void **)path_dirs);
+			FreeMatrix((void **)path_dirs);
 			return (bin);
 		}
 		else if (access(bin, F_OK) == 0 && access(bin, X_OK) == -1)
@@ -43,7 +43,7 @@ static char	*retrieveBinWay(t_command *command)
 		ft_free(bin);
 		i++;
 	}
-	ft_free_matrix((void **)path_dirs);
+	FreeMatrix((void **)path_dirs);
 	return (NULL);
 }
 //set_bin

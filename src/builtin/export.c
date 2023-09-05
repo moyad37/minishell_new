@@ -51,9 +51,9 @@ static void	exec_export(char *new_var)
 	char	*value;
 	t_node	*new_node;
 
-	if (!ft_strchr(new_var, '=') && key_exists(g_minishell.envp_list, new_var))
+	if (!ft_strchr(new_var, '=') && key_istda(g_minishell.envp_list, new_var))
 		return ;
-	if (!ft_strchr(new_var, '=') && !key_exists(g_minishell.envp_list, new_var))
+	if (!ft_strchr(new_var, '=') && !key_istda(g_minishell.envp_list, new_var))
 	{
 		new_node = ft_lstnew(new_var, NULL, NULL);
 		ft_lstadd_back(&g_minishell.envp_list, new_node);
@@ -62,14 +62,14 @@ static void	exec_export(char *new_var)
 	key_and_value = erstelle_Schlüssel_Wert_Matrix(new_var);
 	key = key_and_value[0];
 	value = key_and_value[1];
-	if (!key_exists(g_minishell.envp_list, key))
+	if (!key_istda(g_minishell.envp_list, key))
 	{
 		new_node = ft_lstnew(key, value, new_var);
 		ft_lstadd_back(&g_minishell.envp_list, new_node);
 	}
 	else
-		change_value_from_key(&g_minishell.envp_list, key, value);
-	ft_free_matrix((void **)key_and_value);
+		andere_envp(&g_minishell.envp_list, key, value);
+	FreeMatrix((void **)key_and_value);
 	update_env();
 }
 

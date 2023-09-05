@@ -76,7 +76,7 @@ static char	*get_bin_path(t_command *command)
 		bin = ft_strjoin(path_dirs[i], command->args[0]);
 		if (!is_dir(bin) && access(bin, F_OK | X_OK) == 0)
 		{
-			ft_free_matrix((void **)path_dirs);
+			FreeMatrix((void **)path_dirs);
 			return (bin);
 		}
 		else if (access(bin, F_OK) == 0 && access(bin, X_OK) == -1)
@@ -88,7 +88,7 @@ static char	*get_bin_path(t_command *command)
 		ft_free(bin);
 		i++;
 	}
-	ft_free_matrix((void **)path_dirs);
+	FreeMatrix((void **)path_dirs);
 	return (NULL);
 }
 */

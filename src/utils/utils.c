@@ -28,7 +28,7 @@ int	count_args(char **tokens)
 }
 
 
-void	update_number_of_args(void)
+void	update_args_count(void)
 {
 	int			i;
 	int			size;
@@ -44,13 +44,13 @@ void	update_number_of_args(void)
 	}
 }
 
-void	make_dups(t_command cmd)
+void	redirect_standard_streams_dups(t_command cmd)
 {
 	dup2(cmd.input_fd, 0);
 	dup2(cmd.output_fd, 1);
 }
 
-void	ft_print_matrix_fd(char **matrix, int fd)
+void	print_matrix_to_fd(char **matrix, int fd)
 {
 	int	i;
 

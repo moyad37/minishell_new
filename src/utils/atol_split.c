@@ -24,19 +24,19 @@ long int ft_latoi(const char *nptr)
 }
 
 
-static int	ft_is_space(char c)
+static int	space(char c)
 {
 	if (c == ' ' || (c >= 9 && c <= 13))
 		return (1);
 	return (0);
 }
 
-static int	len_until_set(char const *s)
+static int	count(char const *s)
 {
 	int	count;
 
 	count = 0;
-	while (!ft_is_space(*s) && *s)
+	while (!space(*s) && *s)
 	{
 		s++;
 		count++;
@@ -44,18 +44,18 @@ static int	len_until_set(char const *s)
 	return (count);
 }
 
-static int	number_of_words(char const *s)
+static int	counterWords(char const *s)
 {
 	int		count;
 
 	count = 0;
 	while (*s)
 	{
-		if (!ft_is_space(*s))
+		if (!space(*s))
 			count++;
-		while (!ft_is_space(*s) && *s)
+		while (!space(*s) && *s)
 			s++;
-		while (ft_is_space(*s) && *s)
+		while (space(*s) && *s)
 			s++;
 	}
 	return (count);
@@ -71,19 +71,19 @@ char	**ft_split2(char const *s)
 	i = 0;
 	if (!s)
 		return (NULL);
-	words = number_of_words(s);
+	words = counterWords(s);
 	splitted_string = ft_calloc(words + 1, sizeof(char *));
 	while (*s && words != 0)
 	{
-		if (!ft_is_space(*s))
+		if (!space(*s))
 		{
-			len_current_word = len_until_set(s);
+			len_current_word = count(s);
 			*(splitted_string + i) = ft_substr(s, 0, len_current_word);
 			i++;
 		}
-		while (!ft_is_space(*s) && *s)
+		while (!space(*s) && *s)
 			s++;
-		while (ft_is_space(*s) && *s)
+		while (space(*s) && *s)
 			s++;
 	}
 	return (splitted_string);

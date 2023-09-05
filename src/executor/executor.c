@@ -39,7 +39,7 @@ static int	signalCommandOn(t_command cmd)
 			ChildProEnd(0, cmd.error);
 		if (cmd.bin_path && cmd.args[0])
 		{
-			make_dups(cmd);
+			redirect_standard_streams_dups(cmd);
 			cleanupChild();
 			execve(cmd.bin_path, cmd.args, g_minishell.envp);
 		}
@@ -51,12 +51,12 @@ static int	signalCommandOn(t_command cmd)
 static void	initExecutor(char **tokens)
 {
 	initCommands(tokens, 0);
-	ft_free_matrix((void **)tokens);
+	FreeMatrix((void **)tokens);
 	deleteQu();
 	configure_cmd_fds();
 	deleteRedirects();
 	deleteQuote();
-	update_number_of_args();
+	update_args_count();
 	initBinWay();
 }
 
