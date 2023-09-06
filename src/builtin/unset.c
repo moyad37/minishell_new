@@ -8,9 +8,11 @@ Andernfalls wird der vorherige Knoten mit dem nächsten Knoten verbunden und der
 */
 void remove_target(t_node **envp_list, const char *key)
 {
-	t_node *curr = *envp_list;
-	t_node *prev = *envp_list;
+	t_node *curr;
+	t_node *prev;
 
+	curr = *envp_list;
+	prev = *envp_list;
 	if (ft_strcmp(curr->key, key) == 0)
 	{
 		*envp_list = (*envp_list)->next;

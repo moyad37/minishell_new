@@ -79,6 +79,7 @@ int	ft_exit(t_command cmd)
 	ChildProEnd(0, exit_code);
 	return (0);
 	*/
+	long int exit_code;
 
 	if (cmd.args[1] == NULL)
 	{
@@ -87,8 +88,7 @@ int	ft_exit(t_command cmd)
 	}
 	else
 	{
-		long int exit_code = ft_latoi(cmd.args[1]);
-
+		exit_code = ft_latoi(cmd.args[1]);
 		if (exit_code == 0 && ft_strlen(cmd.args[1]) > 1)
 		{
 			print_error_exit(STDERR_FILENO, cmd.args[1]);
@@ -100,7 +100,6 @@ int	ft_exit(t_command cmd)
 			write(STDERR_FILENO, "bash: exit: too many arguments\n", 31);
 			exit_code = 1;
 		}
-
 		ft_putstr_fd("exit\n", STDIN_FILENO);
 		ChildProEnd(0, exit_code);
 	}
