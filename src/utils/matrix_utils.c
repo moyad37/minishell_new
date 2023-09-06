@@ -15,7 +15,7 @@
 // 	free(matrix);
 // }
 
-void	ft_free_matrix_size_n(void **matrix, int size)
+void	FreeMatrix_size_n(void **matrix, int size)
 {
 	int	i;
 

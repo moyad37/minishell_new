@@ -15,7 +15,7 @@ char **bereinige_String_Array(int size, char **tokens)
         }
         i++;
     }
-    ft_free_matrix_size_n((void **)tokens, size);
+    FreeMatrix_size_n((void **)tokens, size);
     return new_tokens;
 }
 
