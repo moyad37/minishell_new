@@ -15,42 +15,41 @@ Befreit den Speicher von oldpwd und pwd.
 
 void	changeDir(char *new_dir)
 {
-	/*
+
+	// char *oldpwd = NULL;
+	// char *pwd = NULL;
+
+	// char *oldpwd_env = getenv("OLDPWD");
+	// if (oldpwd_env)
+	// {
+	// 	oldpwd = strdup(oldpwd_env);
+	// 	setenv("OLDPWD", getcwd(NULL, 0), 1);
+	// }
+
+	// chdir(new_dir);
+
+	// char *pwd_env = getenv("PWD");
+	// if (pwd_env)
+	// {
+	// 	pwd = strdup(pwd_env);
+	// 	setenv("PWD", getcwd(NULL, 0), 1);
+	// }
+
+	// free(oldpwd);
+	// free(pwd);
 	char	*pwd;
 	t_node	**envp;
 
 	envp = &g_minishell.envp_list;
 	pwd = getcwd(NULL, 0);
-	if (key_exists(*envp, "OLDPWD"))
-		change_value_from_key(envp, "OLDPWD", pwd);
+	if (key_istda(*envp, "OLDPWD"))
+		andere_envp(envp, "OLDPWD", pwd);
 	ft_free(pwd);
 	chdir(new_dir);
 	pwd = getcwd(NULL, 0);
-	if (key_exists(*envp, "PWD"))
-		change_value_from_key(envp, "PWD", pwd);
+	if (key_istda(*envp, "PWD"))
+		andere_envp(envp, "PWD", pwd);
 	ft_free(pwd);
-	*/
-	char *oldpwd = NULL;
-	char *pwd = NULL;
-
-	char *oldpwd_env = getenv("OLDPWD");
-	if (oldpwd_env)
-	{
-		oldpwd = strdup(oldpwd_env);
-		setenv("OLDPWD", getcwd(NULL, 0), 1);
-	}
-
-	chdir(new_dir);
-
-	char *pwd_env = getenv("PWD");
-	if (pwd_env)
-	{
-		pwd = strdup(pwd_env);
-		setenv("PWD", getcwd(NULL, 0), 1);
-	}
-
-	free(oldpwd);
-	free(pwd);
 }
 /*
 Diese Funktion ändert das Arbeitsverzeichnis basierend auf dem Wert der Umgebungsvariablen "HOME".
@@ -60,18 +59,31 @@ Wenn der Wert von "HOME" leer ist,
 */
 int	changeHome(void)
 {
-	char *home;
-    home = getenv("HOME");
-	if (home)
-	{
-		changeDir(home);
-		return (0);
-	}
+	//OHNE FEHLER
+	// char *home;
+    // home = getenv("HOME");
+	// if (home)
+	// {
+	// 	changeDir(home);
+	// 	return (0);
+	// }
+	// else
+	// {
+	// 	//write(2, "bash: cd: HOME not set\n", 24);
+	// 	ft_printf2(STDERR_FILENO, "bash: cd: HOME not set\n");
+	// 	return (1);
+	// }
+		char	*value;
+
+	value = hol_envp(g_minishell.envp_list, "HOME");
+	if (ft_strlen(value))
+		changeDir(value);
 	else
 	{
-		write(2, "bash: cd: HOME not set\n", 24);
+		ft_printf2(STDERR_FILENO, "bash: cd: HOME not set\n");
 		return (1);
 	}
+	return (0);
 }
 /*
 Diese Funktion gibt den Dateityp des angegebenen Pfads zurück.
@@ -82,6 +94,7 @@ Andernfalls wird NO_SUCH_FILE zurückgegeben.
 */
 int	getFileType(char *file)
 {
+	//SO IST BESSER
 	struct stat fileStatus;
 	if (file && stat(file, &fileStatus) == 0)
 	{
@@ -95,21 +108,34 @@ int	getFileType(char *file)
 		}
 	}
 	return (0); // NO_SUCH_FILE
+	// struct stat	file_status;
+
+	// if (!file)
+	// 	return (NO_SUCH_FILE);
+	// file_status.st_mode = 0;
+	// stat(file, &file_status);
+	// if (S_ISREG(file_status.st_mode))
+	// 	return (REG_FILE);
+	// else if (S_ISDIR(file_status.st_mode))
+	// 	return (DIR_FILE);
+	// return (NO_SUCH_FILE);
 }
 
-void	printCdError(char *file, int filetype)
+void	printCdError(t_command cmd, int filetype)
 {
 	if (filetype == 1)
 	{
-		write(STDERR_FILENO, "bash: cd:", 9);
-		write(STDERR_FILENO, file, strlen(file));
-		write(STDERR_FILENO, ": Not a directory\n", 18);
+		// write(STDERR_FILENO, "bash: cd:", 9);
+		// write(STDERR_FILENO, file, strlen(file));
+		// write(STDERR_FILENO, ": Not a directory\n", 18);
+		ft_printf2(STDERR_FILENO, "bash: cd: %s: Not a directory\n", cmd.args[1]);
 	}
 	else
 	{
-		write(STDERR_FILENO, "bash: cd:", 9);
-		write(STDERR_FILENO, file, strlen(file));
-		write(STDERR_FILENO, ": No such file or directory\n", 27);
+		// write(STDERR_FILENO, "bash: cd:", 9);
+		// write(STDERR_FILENO, file, strlen(file));
+		// write(STDERR_FILENO, ": No such file or directory\n", 27);
+		ft_printf2(STDERR_FILENO, "bash: cd: %s: No such file or directory\n", cmd.args[1]);
 	}
 }
 /*
@@ -161,12 +187,12 @@ int	ft_cd(t_command cmd)
 	if (cmd.number_of_args == 1)
 		status = changeHome();
 	else if (cmd.number_of_args > 2)
-		write(STDERR_FILENO, "bash: cd: too many arguments\n", 30);
+		ft_printf2(STDERR_FILENO, "bash: cd: too many arguments\n");
 	else
 	{
 		filetype = getFileType(cmd.args[1]);
 		if (filetype == 1 || filetype == 0)
-			printCdError(cmd.args[1], filetype);
+			printCdError(cmd, filetype);
 		else
 		{
 			status = 0;

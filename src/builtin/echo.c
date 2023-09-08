@@ -10,25 +10,38 @@
 	wird 0 zurückgegeben.
 Gibt 1 zurück, wenn der String den richtigen Aufbau hat.
 */
-int	isNFlag(const char *flag)
+int	isNFlag(char *flag)
 {
-	size_t length;
-	size_t i;
+	//OHNE FEHLER
+	// size_t length;
+	// size_t i;
 
-	i = 1;
-	if (flag[0] != '-')
-		return (0);
+	// i = 1;
+	// if (flag[0] != '-')
+	// 	return (0);
 
-	length = ft_strlen(flag);
+	// length = ft_strlen(flag);
 
-	while (i < length)
-	{
-		if (flag[i] != 'n')
-			return (0);
+	// while (i < length)
+	// {
+	// 	if (flag[i] != 'n')
+	// 		return (0);
+	// 	i++;
+	// }
+
+	// return (1);
+		int	i;
+
+	i = 0;
+	if (flag[i] == '-')
 		i++;
-	}
-
-	return (1);
+	else
+		return (0);
+	while (flag[i] == 'n')
+		i++;
+	if (flag[i] == '\0')
+		return (1);
+	return (0);
 }
 /*
 Interpretiert Sonderzeichen in einem gegebenen String (str) und ersetzt sie durch die entsprechenden Steuerzeichen.
@@ -41,39 +54,40 @@ Wenn nach dem Backslash 't' folgt,
 Andernfalls wird der Backslash und das nachfolgende Zeichen unverändert kopiert.
 Das Ergebnis wird in derselben Zeichenkette (str) gespeichert.
 */
-void	replaceSpecialChars(char *str)
-{
-	size_t len = ft_strlen(str);
-	size_t i = 0;
-	size_t j = 0;
 
-	while (i < len)
-	{
-		if (str[i] == '\\')
-		{
-			i++;
-			if (str[i] == 'n')
-				str[j] = '\n';
-			else if (str[i] == 't')
-				str[j] = '\t';
-			else
-			{
-				// Kopiere das Backslash und das Zeichen wörtlich
-				str[j] = '\\';
-				j++;
-				str[j] = str[i];
-			}
-		}
-		else
-			str[j] = str[i];
-		i++;
-		j++;
-	}
-	str[j] = '\0';
-}
+// void	replaceSpecialChars(char *str)
+// {
+// 	size_t len = ft_strlen(str);
+// 	size_t i = 0;
+// 	size_t j = 0;
+
+// 	while (i < len)
+// 	{
+// 		if (str[i] == '\\')
+// 		{
+// 			i++;
+// 			if (str[i] == 'n')
+// 				str[j] = '\n';
+// 			else if (str[i] == 't')
+// 				str[j] = '\t';
+// 			else
+// 			{
+// 				// Kopiere das Backslash und das Zeichen wörtlich
+// 				str[j] = '\\';
+// 				j++;
+// 				str[j] = str[i];
+// 			}
+// 		}
+// 		else
+// 			str[j] = str[i];
+// 		i++;
+// 		j++;
+// 	}
+// 	str[j] = '\0';
+// }
 
 /*
-Druckt die Argumente eines Befehls auf den Ausgabestrom (out_fd).
+Druckt die Argumente eines Befehls auf den Ausgabestrom (output_fd).
 Beginnt bei Index 1, es sei denn,
 	das erste Argument hat den richtigen Aufbau für den Optionsschalter -n.
 Interpretiert Sonderzeichen in den Argumenten mit Hilfe von interpret_special_characters.
@@ -86,16 +100,15 @@ void	printModifiedArgs(int num_args, char **args, int output_fd)
     i = 1;
 	if (isNFlag(args[1]))
 		i++;
-
-	for (; i < num_args; i++)
+	while (i < num_args - 1)
 	{
-		replaceSpecialChars(args[i]);
 		ft_putstr_fd(args[i], output_fd);
-
-		if (i != num_args - 1)
-			ft_putstr_fd(" ", output_fd);
+		ft_putstr_fd(" ", output_fd);
+		i++;
 	}
-}
+	if (args[i])
+		ft_putstr_fd(args[i], output_fd);
+	}
 /*
 Implementiert den Befehl "echo" in einer Shell.
 Behandelt die Ausgabe des Befehls basierend auf dem Umleitungsstatus (verwalte_Befehlsausgabe).

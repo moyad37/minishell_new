@@ -7,7 +7,7 @@ int zeige_Syntaxfehlermeldung(int idx_err, char **tokens)
         err_token = ft_strdup("newline");
     else
         err_token = ft_strdup(tokens[idx_err + 1]);
-    printf("bash: syntax error near unexpected token `%s'\n", err_token);
+    ft_printf("bash: syntax error near unexpected token `%s'\n", err_token);
     g_minishell.status_code = 2;
     free(err_token);
     return 1;

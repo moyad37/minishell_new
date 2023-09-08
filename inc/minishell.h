@@ -109,6 +109,8 @@ int		ft_unset(t_command cmd);
 //init
 void    init_minishell(char **envp);
 
+////help print_aktuell_err
+void    print_aktuell_err(t_command cmd);
 //help die_free_close_child
 void	ChildProEnd(int heredoc, int exit_code);
 void	ft_free_commands(void);

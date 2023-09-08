@@ -2,7 +2,6 @@
 #include "../../inc/minishell.h"
 
 
-int	ft_putstr_printf(int fd, char *str);
 int	ft_put_address(int fd, unsigned long long nbr);
 int	puthex_printf(int fd, unsigned long long nbr, int use_uppercase);
 int	put_base_printf(int fd, long long nbr, char *base);
@@ -256,13 +255,13 @@ static void	handleInputRedirectError(char *filename)
 	else
 		error = EACCES;
 	
-	ft_putstr_fd("bash: ", 2);
-	ft_putstr_fd(filename, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(strerror(error), 2);
-	ft_putstr_fd("\n", 2);
+	// ft_putstr_fd("bash: ", 2);
+	// ft_putstr_fd(filename, 2);
+	// ft_putstr_fd(": ", 2);
+	// ft_putstr_fd(strerror(error), 2);
+	// ft_putstr_fd("\n", 2);
 	
-	//ft_printf2(STDERR_FILENO, "bash: %s: %s\n", filename, strerror(error));
+	ft_printf2(STDERR_FILENO, "bash: %s: %s\n", filename, strerror(error));
 }
 //err_on_output_redirect
 static void	handleOutputRedirectError(char *filename)
@@ -274,13 +273,13 @@ static void	handleOutputRedirectError(char *filename)
 	else
 		error = EACCES;
 	
-	ft_putstr_fd("bash: ", 2);
-	ft_putstr_fd(filename, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(strerror(error), 2);
-	ft_putstr_fd("\n", 2);	
+	// ft_putstr_fd("bash: ", 2);
+	// ft_putstr_fd(filename, 2);
+	// ft_putstr_fd(": ", 2);
+	// ft_putstr_fd(strerror(error), 2);
+	// ft_putstr_fd("\n", 2);	
 	
-	//ft_printf2(STDERR_FILENO, "bash: %s: %s\n", filename, strerror(error));
+	ft_printf2(STDERR_FILENO, "bash: %s: %s\n", filename, strerror(error));
 }
 
 void	handle_error(t_command *cmd, char *filename)

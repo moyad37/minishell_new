@@ -1,28 +1,29 @@
 #include "../../inc/minishell.h"
 
-long int ft_latoi(const char *nptr)
-{
-    int i = 0;
-    long int res = 0;
-    int sign = 1;
-    while (nptr[i] == ' ' || (nptr[i] >= '\t' && nptr[i] <= '\r'))
-        i++;
-    if (nptr[i] == '-' || nptr[i] == '+')
-    {
-        if (nptr[i] == '-')
-            sign = -1;
-        i++;
-    }
-    while (nptr[i] >= '0' && nptr[i] <= '9')
-    {
-        if (((res * sign * 10) + (nptr[i] - '0') * sign) / 10 != res * sign)
-            return 0;
-        res = res * 10 + nptr[i] - '0';
-        i++;
-    }
-    return res * sign;
-}
 
+long int	ft_latoi(const char *nptr)
+{
+	int i = 0;
+	long int res = 0;
+	int sign = 1;
+	
+	while (nptr[i] == ' ' || (nptr[i] >= '\t' && nptr[i] <= '\r'))
+		i++;
+	if (nptr[i] == '-' || nptr[i] == '+')
+	{
+		if (nptr[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (nptr[i] >= '0' && nptr[i] <= '9')
+	{
+		if (((res * sign * 10) + (nptr[i] - '0') * sign) / 10 != res * sign)
+			return (0);
+		res = res * 10 + nptr[i] - '0';
+		i++;
+	}
+	return (res * sign);
+}
 
 static int	space(char c)
 {
@@ -33,7 +34,7 @@ static int	space(char c)
 
 static int	count(char const *s)
 {
-	int	count;
+	int count;
 
 	count = 0;
 	while (!space(*s) && *s)
@@ -46,7 +47,7 @@ static int	count(char const *s)
 
 static int	counterWords(char const *s)
 {
-	int		count;
+	int count;
 
 	count = 0;
 	while (*s)
@@ -63,10 +64,10 @@ static int	counterWords(char const *s)
 
 char	**ft_split2(char const *s)
 {
-	int		i;
-	int		words;
-	int		len_current_word;
-	char	**splitted_string;
+	int i;
+	int words;
+	int len_current_word;
+	char **splitted_string;
 
 	i = 0;
 	if (!s)

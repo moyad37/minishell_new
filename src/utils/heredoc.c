@@ -49,11 +49,12 @@ static void	read_and_process_heredoc(int fd, char *arg)
 				ft_free(g_minishell.heredoc.line);
 			else
 			{
-				/*ft_printf(STDERR_FILENO, "bash: warning: here-document "\
+				ft_printf2(STDERR_FILENO, "bash: warning: here-document "\
 						"delimited by end of file (wanted `%s`)\n", arg);
-				*/ft_putstr_fd("bash: warning: here-document delimited by end of file wanted: ", 2);
-				ft_putstr_fd(arg, 2);
-				ft_putstr_fd("\n", 2);
+				
+				// ft_putstr_fd("bash: warning: here-document delimited by end of file wanted: ", 2);
+				// ft_putstr_fd(arg, 2);
+				// ft_putstr_fd("\n", 2);
 			}
 			break ;
 		}

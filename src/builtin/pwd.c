@@ -29,11 +29,11 @@ int	ft_pwd(t_command cmd)
 	verwalte_Befehlsausgabe(cmd, &out);
 	cwd = getcwd(NULL, 0);
 	if (cmd.args[0])
-	{
-		ft_putstr_fd(cwd, out);
-		ft_putstr_fd("\n", out);
-	}
-	//ft_printf(out, "%s\n", cwd);
+	ft_printf2(out, "%s\n", cwd);
+	// {
+	// 	ft_putstr_fd(cwd, out);
+	// 	ft_putstr_fd("\n", out);
+	// }
 	ft_free(cwd);
 	if (g_minishell.on_fork)
 		ChildProEnd(0, 0);

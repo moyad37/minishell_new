@@ -67,10 +67,10 @@ static int remove_env_variable(char *delet_var)
 {
 	if (!verify_naming_convention(delet_var))
 	{
-		ft_putstr_fd("bash: unset: '",STDERR_FILENO);
-		ft_putstr_fd(delet_var, STDERR_FILENO);
-		ft_putstr_fd("': not a valid identifier\n",STDERR_FILENO);
-		//ft_printf(STDERR_FILENO, "bash: unset: `%s': not a valid identifier\n", delet_var);
+		// ft_putstr_fd("bash: unset: '",STDERR_FILENO);
+		// ft_putstr_fd(delet_var, STDERR_FILENO);
+		// ft_putstr_fd("': not a valid identifier\n",STDERR_FILENO);
+		ft_printf2(2, "bash: unset: `%s': not a valid identifier\n", delet_var);
 		return 1;
 	}
 

@@ -18,23 +18,24 @@ static void	print_export(t_command cmd)
 	while (tmp)
 	{
 		if (tmp->key && tmp->value)
-		{
-			ft_putstr_fd("declare -x ", out);
-			ft_putstr_fd(tmp->key, out);
-			ft_putstr_fd("\"", out);
-			ft_putstr_fd(tmp->value, out);
-			ft_putstr_fd("\" \n", out);
-		}
-		//ft_printf(out, "declare -x %s=\"%s\"\n", tmp->key, tmp->value);
+		// {
+		// 	ft_putstr_fd("declare -x ", out);
+		// 	ft_putstr_fd(tmp->key, out);
+		// 	ft_putstr_fd("\"", out);
+		// 	ft_putstr_fd(tmp->value, out);
+		// 	ft_putstr_fd("\" \n", out);
+		// }
+		ft_printf2(out, "declare -x %s=\"%s\"\n", tmp->key, tmp->value);
 		else
-		{
-			ft_putstr_fd("declare -x ", out);
-			ft_putstr_fd(tmp->key, out);
-			ft_putstr_fd("\n", out);
-		}
-		//ft_printf(out, "declare -x %s\n", tmp->key);
+		// {
+		// 	ft_putstr_fd("declare -x ", out);
+		// 	ft_putstr_fd(tmp->key, out);
+		// 	ft_putstr_fd("\n", out);
+		// }
+		ft_printf2(out, "declare -x %s\n", tmp->key);
 		tmp = tmp->next;
 	}
+
 }
 /*
 Führt den Export einer Umgebungsvariable aus.
@@ -104,12 +105,12 @@ Wenn die Shell im Kindprozessmodus ist, wird ChildProEnd aufgerufen,
 	um den Kindprozess zu beenden.
 Der Status wird zurückgegeben.
 */
-void	print_error_export(int fd, char *str)
-{
-	ft_putstr_fd("bash: export: '", fd);
-	ft_putstr_fd(str, fd);
-	ft_putstr_fd("': not a valid identifier\n", fd);
-}
+// void	print_error_export(int fd, char *str)
+// {
+// 	ft_putstr_fd("bash: export: '", fd);
+// 	ft_putstr_fd(str, fd);
+// 	ft_putstr_fd("': not a valid identifier\n", fd);
+// }
 
 int	ft_export(t_command cmd)
 {
@@ -125,10 +126,10 @@ int	ft_export(t_command cmd)
 	{
 		if (!is_valid_identifier2(cmd.args[i]))
 		{
-			print_error_export(STDERR_FILENO, cmd.args[i]);
-			//ft_printf(STDERR_FILENO,
-			//		"bash: export: `%s': not a valid identifier\n",
-			//		cmd.args[i]);
+			//print_error_export(STDERR_FILENO, cmd.args[i]);
+			ft_printf2(STDERR_FILENO,
+					"bash: export: `%s': not a valid identifier\n",
+					cmd.args[i]);
 			status = 1;
 		}
 		else

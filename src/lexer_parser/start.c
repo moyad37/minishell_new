@@ -24,27 +24,23 @@ char	**Start_validiere_und_tokenize_Eingabe(char *cmd)
 	return (tokens);
 	*/
 
- if (cmd == NULL)
-    {
-        die();
-        return NULL;
-    }
+ char	**tokens;
 
-    if (cmd[0] == '\0')
-    {
-        ft_free(cmd);
-        return NULL;
-    }
-
-    add_history(cmd);
-    char **tokens = lexer(cmd);
-    ft_free(cmd);
-
-    if (parser(&tokens) == 1 || *tokens == NULL)
-    {
-        FreeMatrix((void **)tokens);
-        return NULL;
-    }
-
-    return tokens;
+	tokens = NULL;
+	if (cmd == NULL)
+		die();
+	if (cmd[0] == '\0')
+		ft_free(cmd);
+	else
+	{
+		add_history(cmd);
+		tokens = lexer(cmd);
+		ft_free(cmd);
+		if (parser(&tokens) == 1 || *tokens == NULL)
+		{
+			FreeMatrix((void **)tokens);
+			return (NULL);
+		}
+	}
+	return (tokens);
 }

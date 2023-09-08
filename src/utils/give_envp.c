@@ -22,24 +22,48 @@ Extrahiert den Schlüssel und Wert aus einer Umgebungsvariablen-Zeichenkette.
 Allokiert Speicher für eine Zeichenmatrix, in der der Schlüssel und Wert gespeichert werden.
 Kopiert den Schlüssel und Wert in die allokierten Speicher und gibt sie zurück.
 */
+
+long int	ft_labs(long int i)
+{
+	if (i < 0)
+		return (-i);
+	return (i);
+}
+
+
 char	**erstelle_Schlüssel_Wert_Matrix(char *env_variable)
 {
-    char **key_and_value = NULL;
-    char *equal_occurrence = ft_strchr(env_variable, '=');
+	//OHNE FEHLER
+    // char **key_and_value = NULL;
+    // char *equal_occurrence = ft_strchr(env_variable, '=');
 
-    if (equal_occurrence != NULL) {
-        size_t key_length = equal_occurrence - env_variable;
-        size_t value_length = ft_strlen(equal_occurrence + 1);
+    // if (equal_occurrence != NULL) {
+    //     size_t key_length = equal_occurrence - env_variable;
+    //     size_t value_length = ft_strlen(equal_occurrence + 1);
 
-        key_and_value = (char **)ft_calloc(3, sizeof(char *));
-        key_and_value[0] = (char *)ft_calloc(key_length + 1, sizeof(char));
-        key_and_value[1] = (char *)ft_calloc(value_length + 1, sizeof(char));
+    //     key_and_value = (char **)ft_calloc(3, sizeof(char *));
+    //     key_and_value[0] = (char *)ft_calloc(key_length + 1, sizeof(char));
+    //     key_and_value[1] = (char *)ft_calloc(value_length + 1, sizeof(char));
 
-        ft_strncpy(key_and_value[0], env_variable, key_length);
-        ft_strncpy(key_and_value[1], equal_occurrence + 1, value_length);
-    }
+    //     ft_strncpy(key_and_value[0], env_variable, key_length);
+    //     ft_strncpy(key_and_value[1], equal_occurrence + 1, value_length);
+    // }
 
-    return key_and_value;
+    // return key_and_value;
+	long int	adresses_diff;
+	char		**key_and_value;
+	char		*equal_occurence;
+
+	equal_occurence = ft_strchr(env_variable, '=');
+	adresses_diff = ft_labs(env_variable - equal_occurence);
+	key_and_value = ft_calloc(sizeof(char *), 3);
+	key_and_value[0] = ft_calloc(sizeof(char), adresses_diff + 1);
+	ft_strlcpy(key_and_value[0], env_variable, adresses_diff + 1);
+	if (equal_occurence)
+		key_and_value[1] = ft_strdup(++equal_occurence);
+	else
+		key_and_value[1] = NULL;
+	return (key_and_value);
 }
 /*
 Erstellt eine Liste von Umgebungsvariablenknoten aus einer Liste von Umgebungsvariablen-Zeichenketten.

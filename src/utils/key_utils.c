@@ -16,8 +16,9 @@ char *hol_envp(t_node *envp_list, char *key)
 
 void andere_envp(t_node **envp_list, char *key, char *new_data)
 {
-    t_node *tmp = *envp_list;
+    t_node	*tmp;
 
+	tmp = *envp_list;
     while (ft_strcmp(tmp->key, key) != 0)
         tmp = tmp->next;
 

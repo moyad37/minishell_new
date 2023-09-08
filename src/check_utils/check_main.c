@@ -28,7 +28,7 @@ int	checkErrorExistiert(t_command *cmd)
 
 int	checkIsDirectory(const char *path)
 {
-	/*
+
 	struct stat	file_stat;
 
 	if (!path)
@@ -36,18 +36,18 @@ int	checkIsDirectory(const char *path)
 	file_stat.st_mode = 0;
 	stat(path, &file_stat);
 	return (S_ISDIR(file_stat.st_mode));
-	*/
-	if (path == NULL) {
-        // Wenn der Pfad NULL ist, wird angenommen, dass es sich nicht um ein Verzeichnis handelt.
-        return false;
-    }
 
-    struct stat file_stat;
-    if (stat(path, &file_stat) != 0) {
-        // Fehler bei der stat-Funktion, wir gehen davon aus, dass es sich nicht um ein Verzeichnis handelt.
-        return false;
-    }
+	// if (path == NULL) {
+    //     // Wenn der Pfad NULL ist, wird angenommen, dass es sich nicht um ein Verzeichnis handelt.
+    //     return false;
+    // }
 
-    // Prüfen, ob der Dateimodus im file_stat-Objekt auf ein Verzeichnis hinweist.
-    return S_ISDIR(file_stat.st_mode);
+    // struct stat file_stat;
+    // if (stat(path, &file_stat) != 0) {
+    //     // Fehler bei der stat-Funktion, wir gehen davon aus, dass es sich nicht um ein Verzeichnis handelt.
+    //     return false;
+    // }
+
+    // // Prüfen, ob der Dateimodus im file_stat-Objekt auf ein Verzeichnis hinweist.
+    // return S_ISDIR(file_stat.st_mode);
 }
