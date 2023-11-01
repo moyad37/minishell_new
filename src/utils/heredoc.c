@@ -1,7 +1,20 @@
-#include "../../inc/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
+/*   Updated: 2023/10/28 19:46:05 by mmanssou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 
-static char	*lese_und_validiere_Eingabe(void)
+#include "../../includes/minishell.h"
+
+
+static char	*validate_line(void)
 {
 	char	*line;
 
@@ -9,16 +22,16 @@ static char	*lese_und_validiere_Eingabe(void)
 	if (!line)
 		return (NULL);
 	append(&line, ft_strdup("\n"));
-	erweitere_Umgebungsvariablen(&line);
+	replace_variables(&line, 0);
 	return (line);
 }
 
-static void	sig_handle_heredoc(int signal)
+static void	handler_heredoc(int signal)
 {
 	if (signal == SIGINT)
 	{
 		write(STDOUT_FILENO, "\n", 1);
-		ChildProEnd(1, 130);
+		end_pro_child(1, 130);
 	}
 }
 
@@ -34,14 +47,14 @@ static int	ft_strcmpl(char *s1, char *s2)
 	return (s1[i] - s2[i]);
 }
 
-static void	read_and_process_heredoc(int fd, char *arg)
+static void	get_heredoc_fd(int fd, char *arg)
 {
 	int	size;
 
-	signal(SIGINT, sig_handle_heredoc);
+	signal(SIGINT, handler_heredoc);
 	while (1)
 	{
-		g_minishell.heredoc.line = lese_und_validiere_Eingabe();
+		g_minishell.heredoc.line = validate_line();
 		if (!g_minishell.heredoc.line \
 			|| !ft_strcmpl(g_minishell.heredoc.line, arg))
 		{
@@ -49,12 +62,8 @@ static void	read_and_process_heredoc(int fd, char *arg)
 				ft_free(g_minishell.heredoc.line);
 			else
 			{
-				ft_printf2(STDERR_FILENO, "bash: warning: here-document "\
+				p_fd(STDERR_FILENO, "bash: warning: here-document "\
 						"delimited by end of file (wanted `%s`)\n", arg);
-				
-				// ft_putstr_fd("bash: warning: here-document delimited by end of file wanted: ", 2);
-				// ft_putstr_fd(arg, 2);
-				// ft_putstr_fd("\n", 2);
 			}
 			break ;
 		}
@@ -63,7 +72,7 @@ static void	read_and_process_heredoc(int fd, char *arg)
 		ft_free(g_minishell.heredoc.line);
 	}
 	close(fd);
-	ChildProEnd(1, 0);
+	end_pro_child(1, 0);
 }
 
 int	heredoc(t_command *cmd, char *arg)
@@ -71,16 +80,16 @@ int	heredoc(t_command *cmd, char *arg)
 	int		pid;
 	int		status;
 
-	g_minishell.on_fork = 2;
+	g_minishell.in_child_process = 2;
 	g_minishell.heredoc.fd = open(TMPFILE, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	pid = fork();
 	if (pid == 0)
-		read_and_process_heredoc(g_minishell.heredoc.fd, arg);
+		get_heredoc_fd(g_minishell.heredoc.fd, arg);
 	waitpid(pid, &status, 0);
-	g_minishell.on_fork = 0;
+	g_minishell.in_child_process = 0;
 	close(g_minishell.heredoc.fd);
 	if (status != 0)
 		return (1);
-	update_stream_fd("input", cmd, open(TMPFILE, O_RDWR));
+	swap_stream_fd("input", cmd, open(TMPFILE, O_RDWR));
 	return (0);
 }

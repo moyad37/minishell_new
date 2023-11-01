@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanssou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/04 09:02:42 by mmanssou          #+#    #+#             */
-/*   Updated: 2022/10/04 09:02:42 by mmanssou         ###   ########.fr       */
+/*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
+/*   Updated: 2023/09/15 13:49:37 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
-#include <stdio.h>
-#include <string.h>
 
 void	*ft_memchr(const void *str, int c, size_t n)
 {
@@ -26,14 +25,3 @@ void	*ft_memchr(const void *str, int c, size_t n)
 	}
 	return (NULL);
 }
-/*
-int	main(void)
-{
-	//char	*ret;
-	// const char str[] = "http://www.tutorialspoint.com";
-	// const char ch = '.';
-	//ret = ft_memchr(((void *)0), '\0', 12);
-	printf("%s", ft_memchr(((void *)0), '\0', 0x12));
-	return (0);
-}
-*/

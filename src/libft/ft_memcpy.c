@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanssou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/04 09:02:42 by mmanssou          #+#    #+#             */
-/*   Updated: 2022/10/04 09:02:42 by mmanssou         ###   ########.fr       */
+/*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
+/*   Updated: 2023/10/30 13:25:25 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
-#include <stdio.h>
-#include <string.h>
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
@@ -27,19 +26,3 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	}
 	return (dst);
 }
-/*
-int	main(void)
-{
-	char	dest[50];
-
-	//const char src[50] = "Servus";
-	strcpy(dest, "Hallooo");
-	printf("Before memcpy dest = %s\n", dest);
-	//ft_memcpy(dest , src, sizeof(src));
-	ft_memcpy(((void *)0), "segfaulter tu dois", 17);
-	// char *met;
-	// met = ft_memcpy(((void*)0), "segfaulter tu dois", 17);
-	printf("After memcpy dest = %s\n", dest);
-	return (0);
-}
-*/

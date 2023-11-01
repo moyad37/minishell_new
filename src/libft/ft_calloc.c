@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanssou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/04 09:02:41 by mmanssou          #+#    #+#             */
-/*   Updated: 2022/10/07 18:12:33 by mmanssou         ###   ########.fr       */
+/*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
+/*   Updated: 2023/09/15 13:38:10 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 void	*ft_calloc(size_t nitems, size_t size)
 {
@@ -30,26 +29,3 @@ void	*ft_calloc(size_t nitems, size_t size)
 	ft_bzero(p, size * nitems);
 	return (p);
 }
-/*
-int main () {
-   int i, n;
-   int *a;
-
-   printf("Number of elements to be entered:");
-   scanf("%d",&n);
-
-   a = (int*)calloc(n, sizeof(int));
-   printf("Enter %d numbers:\n",n);
-   for( i=0 ; i < n ; i++ ) {
-      scanf("%d",&a[i]);
-   }
-
-   printf("The numbers entered are: ");
-   for( i=0 ; i < n ; i++ ) {
-      printf("%d ",a[i]);
-   }
-   free( a );
-   
-   return(0);
-}
-*/

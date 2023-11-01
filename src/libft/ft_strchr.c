@@ -3,35 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanssou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/04 09:02:42 by mmanssou          #+#    #+#             */
-/*   Updated: 2022/10/04 09:02:42 by mmanssou         ###   ########.fr       */
+/*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
+/*   Updated: 2023/10/30 13:32:22 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
-#include <stdio.h>
-#include <string.h>
 
-char	*ft_strchr(const char *str, int c)
+char	*ft_strchr(const char *s, int c)
 {
-	while (*str != (char)c)
-		if (!*str++)
-			return (NULL);
-	return ((char *)str);
-}
+	int			i;
+	const char	*f;
 
-/*
-int	main(void)
-{
-	const char	*str;
-	int			ch;
-	char		*ret;
-
-	str = "teste";
-	ch = 'e';
-	ret = ft_strchr(str, ch);
-	printf("String after |%c| is - |%s|\n", ch, ret);
-	return (0);
+	i = 0;
+	f = 0;
+	if (!s)
+		return (NULL);
+	while (*(s + i))
+	{
+		if (*(s + i) == (unsigned char) c)
+		{
+			f = (s + i);
+			return ((char *) f);
+		}
+		i++;
+	}
+	if (c == 0)
+		f = (s + ft_strlen(s));
+	return ((char *) f);
 }
-*/

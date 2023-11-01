@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanssou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/04 09:02:43 by mmanssou          #+#    #+#             */
-/*   Updated: 2022/10/14 11:35:37 by mmanssou         ###   ########.fr       */
+/*   Created: 2023/09/13 15:24:29 by mmanssou          #+#    #+#             */
+/*   Updated: 2023/10/30 13:39:04 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 int		trim_start(char const *s1, char const *set);

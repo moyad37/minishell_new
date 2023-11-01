@@ -3,126 +3,76 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanssou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mmanssou  <mmanssou@student.42.fr   >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/04 09:02:42 by mmanssou          #+#    #+#             */
-/*   Updated: 2022/10/04 09:02:42 by mmanssou         ###   ########.fr       */
+/*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
+/*   Updated: 2023/09/13 15:23:59 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
-static int	count_c(char const *s, char c);
-static char	**put_array(char **my_array, int counter, char const *s, char c);
-static char	*get_str(char const *s, char c);
-
-char	**ft_split(const char *s, char c)
+static int	ft_is_space(char c)
 {
-	char	**my_array;
-	int		counter;
-
-	if (!s)
-		return (NULL);
-	counter = count_c(s, c);
-	my_array = malloc(sizeof(char *) * (counter + 1));
-	if (!my_array)
-		return (NULL);
-	my_array = put_array(my_array, counter, s, c);
-	return (my_array);
-}
-
-int	count_c(char const *s, char c)
-{
-	int	i;
-	int	z;
-
-	i = 0;
-	z = 0;
-	while (s[z])
-	{
-		if (s[z] == c && s[z + 1] != c && s[z + 1] != '\0')
-			i++;
-		if (s[z] != c && i == 0)
-			i++;
-		z++;
-	}
-	return (i);
-}
-
-static char	**put_array(char **my_array, int counter, char const *s, char c)
-{
-	int		i;
-	size_t	z;
-	char	*tmp;
-
-	i = -1;
-	while (++i < counter)
-	{
-		tmp = get_str(s, c);
-		my_array[i] = (char *)malloc(sizeof(char) * (ft_strlen(tmp) + 1));
-		if (!my_array[i])
-			return (NULL);
-		z = -1;
-		while (++z < ft_strlen(tmp))
-			my_array[i][z] = tmp[z];
-		my_array[i][z] = '\0';
-		if (!(i == counter - 1))
-		{
-			while (*s == c)
-				s++;
-			s += ft_strlen(tmp) + 1;
-		}
-		free(tmp);
-	}
-	my_array[i] = NULL;
-	return (my_array);
-}
-
-static char	*get_str(char const *s, char c)
-{
-	char	*tmp;
-	char	*str;
-	int		len;
-	int		i;
-
-	while (*s == c)
-		s++;
-	tmp = ft_strchr(s, c);
-	if (!tmp)
-		len = ft_strlen(s);
-	else
-		len = tmp - s;
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	i = 0;
-	while (i < len)
-	{
-		str[i] = *s++;
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-/*
-int	main(void)
-{
-	char	*months;
-	char	**tokens;
-		int i;
-
-	months = ",,,,   JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC";
-	printf("months=[%s]\n\n", months);
-	tokens = ft_split(months, ',');
-	if (tokens)
-	{
-		for (i = 0; *(tokens + i); i++)
-		{
-			printf("month=[%s]\n", *(tokens + i));
-			free(*(tokens + i));
-		}
-		printf("\n");
-		free(tokens);
-	}
+	if (c == ' ' || (c >= 9 && c <= 13))
+		return (1);
 	return (0);
 }
-*/
 
+static int	len_until_set(char const *s)
+{
+	int	count;
+
+	count = 0;
+	while (!ft_is_space(*s) && *s)
+	{
+		s++;
+		count++;
+	}
+	return (count);
+}
+
+static int	number_of_words(char const *s)
+{
+	int		count;
+
+	count = 0;
+	while (*s)
+	{
+		if (!ft_is_space(*s))
+			count++;
+		while (!ft_is_space(*s) && *s)
+			s++;
+		while (ft_is_space(*s) && *s)
+			s++;
+	}
+	return (count);
+}
+
+char	**ft_split(char const *s)
+{
+	int		i;
+	int		words;
+	int		len_current_word;
+	char	**splitted_string;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	words = number_of_words(s);
+	splitted_string = ft_calloc(words + 1, sizeof(char *));
+	while (*s && words != 0)
+	{
+		if (!ft_is_space(*s))
+		{
+			len_current_word = len_until_set(s);
+			*(splitted_string + i) = ft_substr(s, 0, len_current_word);
+			i++;
+		}
+		while (!ft_is_space(*s) && *s)
+			s++;
+		while (ft_is_space(*s) && *s)
+			s++;
+	}
+	return (splitted_string);
+}
