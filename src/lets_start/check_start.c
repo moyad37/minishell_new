@@ -6,36 +6,36 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/31 18:36:04 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:05:46 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	format_foppelt_pipe_leerzeichen(char *str, int pos)
+int	format_foppelt_pipe_leerzeichen(char *text, int position)
 {
-	int	i;
+	int count_changes;
 
-	i = 0;
-	if (pos != 0 && *(str - 1) != ' ')
+	count_changes = 0;
+	if (position != 0 && *(text - 1) != ' ')
 	{
-		ft_memmove(str + 1, str, ft_strlen(str));
-		str[0] = ' ';
-		i++;
-		if (str[3] != ' ')
+		ft_memmove(text + 1, text, ft_strlen(text));
+		text[0] = ' ';
+		count_changes++;
+		if (text[3] != ' ')
 		{
-			ft_memmove(str + 4, str + 3, ft_strlen(str));
-			str[3] = ' ';
-			i++;
+			ft_memmove(text + 4, text + 3, ft_strlen(text));
+			text[3] = ' ';
+			count_changes++;
 		}
 	}
-	else if (str[2] != ' ')
+	else if (text[2] != ' ')
 	{
-		ft_memmove(str + 3, str + 2, ft_strlen(str));
-		str[2] = ' ';
-		i++;
+		ft_memmove(text + 3, text + 2, ft_strlen(text));
+		text[2] = ' ';
+		count_changes++;
 	}
-	return (i);
+	return (count_changes);
 }
 
 char	**check_commands(char *cmd)

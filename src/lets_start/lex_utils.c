@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/24 13:54:08 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/09 14:17:03 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,45 +15,45 @@
 lesezeichen_in_pos fügt Leerzeichen in einen String str an einer bestimmten
 Position pos ein. Hier ist eine Aufschlüsselung dessen, was die Funktion tut
 */
-int	lesezeichen_in_pos(char *str, int pos)
+int	lesezeichen_in_pos(char *text, int pos)
 {
 	int	i;
 
 	i = 0;
-	if (pos != 0 && *(str - 1) != ' ')
+	if (pos != 0 && *(text - 1) != ' ')
 	{
-		ft_memmove(str + 1, str, ft_strlen(str));
-		str[0] = ' ';
+		ft_memmove(text + 1, text, ft_strlen(text));
+		text[0] = ' ';
 		i++;
-		if (str[2] != ' ')
+		if (text[2] != ' ')
 		{
-			ft_memmove(str + 3, str + 2, ft_strlen(str));
-			str[2] = ' ';
+			ft_memmove(text + 3, text + 2, ft_strlen(text));
+			text[2] = ' ';
 			i++;
 		}
 	}
-	else if (str[1] != ' ')
+	else if (text[1] != ' ')
 	{
-		ft_memmove(str + 2, str + 1, ft_strlen(str));
-		str[1] = ' ';
+		ft_memmove(text + 2, text + 1, ft_strlen(text));
+		text[1] = ' ';
 		i++;
 	}
 	return (i);
 }
 
-static int	check_doppelte_pipe(char *str)
+static int	check_doppelte_pipe(char *text)
 {
-	if (*str != '|' && (check_pipe(*str) && *str == *(str + 1)))
+	if (*text != '|' && (check_pipe(*text) && *text == *(text + 1)))
 		return (1);
 	return (0);
 }
 
-static void	format_pipe_leerzeichen(char *cmd, int *i)
+static void	format_pipe_leerzeichen(char *command, int *i)
 {
-	if (check_doppelte_pipe(&cmd[*i]))
-		*i += format_foppelt_pipe_leerzeichen(&cmd[*i], *i) + 2;
-	else if (check_pipe(cmd[*i]))
-		*i += lesezeichen_in_pos(&cmd[*i], *i) + 1;
+	if (check_doppelte_pipe(&command[*i]))
+		*i += format_foppelt_pipe_leerzeichen(&command[*i], *i) + 2;
+	else if (check_pipe(command[*i]))
+		*i += lesezeichen_in_pos(&command[*i], *i) + 1;
 }
 /*
 Die Funktion format_cmd nimmt einen Eingabe-String cmd
@@ -62,36 +62,36 @@ Dabei werden bestimmte Zeichen im String modifiziert,
 um die Lesbarkeit zu verbessern. Das Ergebnis ist ein neuer
 String, der den modifizierten, lesbareren Befehl repräsentiert.
 */
-char	*format_cmd(char *cmd, int i)
+char	*format_cmd(char *input, int index)
 {
-	char	quoted;
-	char	*new_cmd;
+	char	zitat_char;
+	char	*formatted_input;
 
-	quoted = '\0';
-	new_cmd = init_for_cmd(cmd);
-	if(!new_cmd)
+	zitat_char = '\0';
+	formatted_input = init_for_cmd(input);
+	if(!formatted_input)
 		return (NULL);
-	while (new_cmd[i])
+	while (formatted_input[index])
 	{
-		if (check_zitat(new_cmd[i]) && quoted == '\0')
+		if (check_zitat(formatted_input[index]) && zitat_char == '\0')
 		{
-			//printf("es ist zitat = %s\n", new_cmd);
-			quoted = new_cmd[i];
-			i++;
+			//printf("es ist zitat = %s\n", formatted_input);
+			zitat_char = formatted_input[index];
+			index++;
 		}
-		else if (quoted == '\0' && check_pipe(new_cmd[i]))
+		else if (zitat_char == '\0' && check_pipe(formatted_input[index]))
 		{
-			//printf("es ist meta_char = %s\n", new_cmd);		
-			format_pipe_leerzeichen(new_cmd, &i);
+			//printf("es ist meta_char = %s\n", formatted_input);		
+			format_pipe_leerzeichen(formatted_input, &index);
 		}
-		else if (quoted == new_cmd[i])
+		else if (zitat_char == formatted_input[index])
 		{
-			quoted = '\0';
-			i++;
+			zitat_char = '\0';
+			index++;
 		}
 		else
-			i++;
+			index++;
 	}
-	//printf("new_cmd = %s\n", new_cmd);
-	return (new_cmd);
+	//printf("formatted_input = %s\n", formatted_input);
+	return (formatted_input);
 }

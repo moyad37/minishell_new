@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/28 19:42:36 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:09:35 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,12 @@ static int	get_count_invalid_tokens(int size, char **tokens)
 	int	i;
 	int	count;
 
-	i = 0;
+	i = -1;
 	count = 0;
-	while (i < size)
+	while (++i < size)
 	{
 		if (tokens[i] == NULL)
 			count++;
-		i++;
 	}
 	return (count);
 }
@@ -75,7 +74,7 @@ int	parser(char ***tokens, int i)
 {
 	int		idx_err;
 	int		size;
-
+	
 	idx_err = check_syntax_errors(*tokens, 0);
 	if (idx_err != -2)
 		return (handle_syntax_error_p(idx_err, *tokens));

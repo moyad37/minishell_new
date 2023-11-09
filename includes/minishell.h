@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/01 18:02:37 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/09 14:18:15 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ void	check_output_with_pipe(t_command cmd, int *fd);
 // Lexer
 char	**lexer(char *cmd, int i);
 int		lesezeichen_in_pos(char *str, int pos);
-int		format_foppelt_pipe_leerzeichen(char *str, int pos);
+int		format_foppelt_pipe_leerzeichen(char *text, int position);
 char	*format_cmd(char *cmd, int i);
-void	ersatz_char(char *str, char *set1, char *set2);
+void	ersatz_char(char *str, char *set1, char *set2, int i);
 char	*init_for_cmd(char *cmd);
 
 // Parser
