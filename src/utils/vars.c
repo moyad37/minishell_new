@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/25 12:17:17 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/10 14:03:48 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,45 +20,50 @@ das kein gültiges Zeichen für eine Bash-Variable ist.
 */
 static char	*isolate_key(char *var)
 {
-	char	*end_var;
-	char	*key;
+	char	*index;
+	//char	*key;
 
-	end_var = var;
+	index = var;
 	if (var[0] == '?')
 		return (ft_strdup("?"));
-	while (check_valid_var_character(*end_var))
-		end_var++;
-	key = ft_substr(var, 0, end_var - var);
-	return (key);
+	while (check_valid_var_character(*index))
+		index++;
+	//key = ft_substr(var, 0, end_var - var);
+	return (ft_substr(var, 0, index - var));
 }
 /*
 Diese Funktion verarbeitet ein Token, indem sie darin enthaltene Variablen erweitert.
 Sie durchläuft die Zeichen im Eingabetoken, identifiziert Variablen (die mit einem $-Zeichen beginnen),
 extrahiert den Variablennamen und ersetzt ihn durch seinen entsprechenden Wert aus einer Liste von Umgebungsvariablen.
+0 key
+1 value
+2 new_token
 */
 void	replace_variables(char **token, int i)
 {
-	char	*key;
-	char	*value;
-	char	*new_token;
+	// char	*key;
+	// char	*value;
+	// char	*new_token;
 
-	new_token = ft_strdup("");
+	char	*new_cmd_arr[3];
+
+	new_cmd_arr[2] = ft_strdup("");
 	while ((*token)[i])
 	{
 		if (check_valid_variable_format(&(*token)[i]))
 		{
-			key = isolate_key(&(*token)[i + 1]);
-			value = get_key_value(g_minishell.envp_list, key);
+			new_cmd_arr[0] = isolate_key(&(*token)[i + 1]);
+			new_cmd_arr[1] = get_key_value(g_minishell.envp_list, new_cmd_arr[0]);
 			if ((*token)[i + 1] == '?')
-				append(&new_token, value);
+				append(&new_cmd_arr[2], new_cmd_arr[1]);
 			else
-				append(&new_token, ft_strdup(value));
-			i += ft_strlen(key) + 1;
-			free(key);
+				append(&new_cmd_arr[2], ft_strdup(new_cmd_arr[1]));
+			i += ft_strlen(new_cmd_arr[0]) + 1;
+			free(new_cmd_arr[0]);
 		}
 		else
-			append(&new_token, ft_strndup(&(*token)[i++], 1));
+			append(&new_cmd_arr[2], ft_strndup(&(*token)[i++], 1));
 	}
 	free(*token);
-	*token = new_token;
+	*token = new_cmd_arr[2];
 }

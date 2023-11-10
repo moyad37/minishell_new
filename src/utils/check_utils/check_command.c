@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/27 17:35:16 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/10 13:16:51 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	check_red_input(char *redirect)
 	return (0);
 }
 
-int	is_redirect(char *str)
+int	check_redirect(char *str)
 {
 	if (ft_strcmp(">", str) == 0 || ft_strcmp(">>", str) == 0 \
 		|| ft_strcmp("<", str) == 0 || ft_strcmp("<<", str) == 0)

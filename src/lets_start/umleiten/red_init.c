@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/28 19:43:52 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/10 13:17:27 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	configure_streams(t_command *cmd)
 			handle_error(cmd, cmd->args[i + 1]);
 			return ;
 		}
-		if (is_redirect(cmd->args[i]))
+		if (check_redirect(cmd->args[i]))
 			i++;
 		i++;
 	}

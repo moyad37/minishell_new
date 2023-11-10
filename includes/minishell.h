@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/09 14:18:15 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/10 13:52:55 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ char	*init_for_cmd(char *cmd);
 int		parser(char ***tokens, int i);
 int		check_syntax_errors(char **tokens, int i);
 void	token_handler(char **token, int i);
-char	**split_string_in_tokens(char *token, int idx);
+char	**split_string_in_tokens(char *token, int idx, int i);
 char	*join_subtokens(char **subtokens, int x);
 void	replace_variables(char **token, int i);
 
@@ -139,7 +139,7 @@ int		check_zitat(char c);
 int		check_pipe(char c);
 int		is_bash_word(char *str);
 int		check_valid_var_character(char c);
-int		is_redirect(char *str);
+int		check_redirect(char *str);
 int		check_red_input(char *redirect);
 int		check_red_output(char *redirect);
 int		check_directory(const char *path);

@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/01 18:18:04 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/10 14:11:57 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int	main(int ac, char **av, char **envp)
 		{
 			executor(command_list, -1, -1);
 			//check_error();
-			end_alles();
+			//end_alles();
 		}
 	} 
 	return (0);

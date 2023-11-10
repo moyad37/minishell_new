@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/09 15:09:35 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/10 14:11:04 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,24 @@ und eine Fehlermeldung auszugeben. Sie nimmt den Index des fehlerhaften Tokens u
 Die Funktion überprüft, ob das Token nach dem fehlerhaften Token NULL ist. Wenn ja, wird "newline" als
 Fehlermeldung verwendet, sonst wird das nächste Token als Fehlermeldung verwendet.
 */
-static int	handle_syntax_error_p(int idx_err, char **tokens)
+static int	handle_syntax_error_p(int error_syntax_code, char **tokens)
 {
-	char	*err_token;
+	char	*error_msg;
 
-	if (tokens[idx_err + 1] == NULL)
-		err_token = ft_strdup("newline");
+	if (tokens[error_syntax_code + 1] == NULL)
+		error_msg = ft_strdup("newline");
 	else
-		err_token = ft_strdup(tokens[idx_err + 1]);
-	p_fd(2, "bash: syntax error near unexpected token `%s'\n", err_token);
-	g_minishell.status_code = 2;
-	free(err_token);
-	return (1);
+		error_msg = ft_strdup(tokens[error_syntax_code + 1]);
+	p_fd(2, "bash: syntax error near unexpected token `%s'\n", error_msg);
+	//g_minishell.status_code = 2;
+	//free(error_msg);
+	return (g_minishell.status_code = 2, free(error_msg), 1);
 }
 
-static int	get_count_invalid_tokens(int size, char **tokens)
+static int	get_count_invalid_tokens(int size, char **tokens, int i)
 {
-	int	i;
 	int	count;
 
-	i = -1;
 	count = 0;
 	while (++i < size)
 	{
@@ -46,45 +44,48 @@ static int	get_count_invalid_tokens(int size, char **tokens)
 	return (count);
 }
 
-static char	**filter_null_values(int size, char **tokens)
+static char	**filter_null_values(int size, char **tokens, int x, int y)
 {
-	int		i;
-	int		j;
-	int		null_pos;
+	// int		i;
+	// int		j;
+	int		invalid_tok_count;
 	char	**new_tokens;
 
-	i = 0;
-	j = 0;
-	null_pos = get_count_invalid_tokens(size, tokens);
-	new_tokens = ft_calloc(sizeof(char *), size - null_pos + 1);
-	while (i < size)
-	{
-		if (tokens[i])
-		{
-			new_tokens[j] = ft_strdup(tokens[i]);
-			j++;
-		}
-		i++;
-	}
-	ft_free_matrix_size_n((void **)tokens, size);
-	return (new_tokens);
+	// i = 0;
+	// j = 0;
+	invalid_tok_count = get_count_invalid_tokens(size, tokens, -1);
+	new_tokens = ft_calloc(sizeof(char *), size - invalid_tok_count + 1);
+	// while (x < size)
+	// {
+	// 	if (tokens[x])
+	// 	{
+	// 		new_tokens[y] = ft_strdup(tokens[x]);
+	// 		y++;
+	// 	}
+	// 	x++;
+	// }
+		while (x++ < size)
+		if (tokens[x])
+			new_tokens[y++] = ft_strdup(tokens[x]);
+	//ft_free_matrix_size_n((void **)tokens, size);
+	return (ft_free_matrix_size_n((void **)tokens, size), new_tokens);
 }
 
 int	parser(char ***tokens, int i)
 {
-	int		idx_err;
-	int		size;
+	int		error_syntax_code;
+	int		matrex_counter;
 	
-	idx_err = check_syntax_errors(*tokens, 0);
-	if (idx_err != -2)
-		return (handle_syntax_error_p(idx_err, *tokens));
-	size = ft_count_matrix((void **)*tokens);
+	error_syntax_code = check_syntax_errors(*tokens, 0);
+	if (error_syntax_code != -2)
+		return (handle_syntax_error_p(error_syntax_code, *tokens));
+	matrex_counter = ft_count_matrix((void **)*tokens);
 	while ((*tokens)[i])
 	{
 		token_handler((*tokens) + i, (0));
 		i++;
 	}
-	if (get_count_invalid_tokens(size, *tokens) != 0)
-		*tokens = filter_null_values(size, *tokens);
+	if (get_count_invalid_tokens(matrex_counter, *tokens, -1) != 0)
+		*tokens = filter_null_values(matrex_counter, *tokens, 0,0 );
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/28 19:44:01 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/10 13:53:15 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	losche_zitat_nach_handle(char **tokens)
 	i = 0;
 	while (tokens[i] != NULL)
 	{
-		subtokens = split_string_in_tokens(tokens[i], 0);
+		subtokens = split_string_in_tokens(tokens[i], 0, 0);
 		hanlde_zitat(subtokens);
 		free(tokens[i]);
 		tokens[i] = join_subtokens(subtokens, 0);
@@ -56,9 +56,9 @@ void	handle_files(int i)
 		cmd = &g_minishell.commands[i];
 		while (cmd->args[j])
 		{
-			if (is_redirect(cmd->args[j]))
+			if (check_redirect(cmd->args[j]))
 			{
-				subtokens = split_string_in_tokens(cmd->args[j + 1], 0);
+				subtokens = split_string_in_tokens(cmd->args[j + 1], 0, 0);
 				hanlde_zitat(subtokens);
 				free(cmd->args[j + 1]);
 				cmd->args[++j] = join_subtokens(subtokens, 0);

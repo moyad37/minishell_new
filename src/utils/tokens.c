@@ -6,44 +6,42 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/25 12:13:00 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/10 13:54:48 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../includes/minishell.h"
 
-char	**split_string_in_tokens(char *token, int idx)
+char	**split_string_in_tokens(char *token, int idx, int i)
 {
-	int		i;
-	char	**subtokens;
-	char	quoted;
+	char	**cmd_teile;
+	char	zitat;
 
-	i = 0;
 	if (*token == '\0')
 		return (ft_calloc(idx + 1, sizeof(char *)));
-	quoted = 0;
+	zitat = 0;
 	if (check_zitat(token[i]))
-		quoted = token[i++];
-	while (token[i] && ((quoted && quoted != token[i]) || !check_zitat(token[i])))
+		zitat = token[i++];
+	while (token[i] && ((zitat && zitat != token[i]) || !check_zitat(token[i])))
 		i++;
-	if (quoted && check_zitat(token[i]))
+	if (zitat && check_zitat(token[i]))
 		i++;
-	subtokens = split_string_in_tokens(token + i, idx + 1);
-	subtokens[idx] = ft_substr(token, 0, i);
-	return (subtokens);
+	cmd_teile = split_string_in_tokens(token + i, idx + 1, 0);
+	cmd_teile[idx] = ft_substr(token, 0, i);
+	return (cmd_teile);
 }
 /*
 Diese Funktion fügt die Subtokens wieder zu einem einzigen String zusammen.
 */
-char	*join_subtokens(char **subtokens, int x)
+char	*join_subtokens(char **cmd_teile, int x)
 {
 	char	*expanded_token;
 	
 	expanded_token = ft_strdup("");
-	while (subtokens[x])
+	while (cmd_teile[x])
 	{
-		append(&expanded_token, subtokens[x]);
+		append(&expanded_token, cmd_teile[x]);
 		x++;
 	}
 	return (expanded_token);
@@ -55,25 +53,25 @@ Dann durchläuft sie die Untertoken und überprüft, ob das erste Zeichen kein e
 ist und ob das Untertoken den Zeichen '$' enthält. Wenn dies der Fall ist, ruft sie die Funktion replace_variables auf,
 um die Variablen in diesem Untertoken zu erweitern. Am Ende wird das ursprüngliche Token freigegeben und das
 erweiterte Token wird an seine Stelle gesetzt. Wenn das erweiterte Token leer ist, wird es auf NULL gesetzt.
-Schließlich wird der Speicher für das Array subtokens freigegeben.
+Schließlich wird der Speicher für das Array cmd_teile freigegeben.
 */
 void	token_handler(char **token, int i)
 {
-	char	**subtokens;
+	char	**cmd_teile;
 
-	subtokens = split_string_in_tokens(*token, 0);
-	while (subtokens[i])
+	cmd_teile = split_string_in_tokens(*token, 0, 0);
+	while (cmd_teile[i])
 	{
-		if (subtokens[i][0] != SINGLE_QUOTE && ft_strchr(subtokens[i], '$'))
-			replace_variables(subtokens + i, (0));
+		if (cmd_teile[i][0] != SINGLE_QUOTE && ft_strchr(cmd_teile[i], '$'))
+			replace_variables(cmd_teile + i, (0));
 		i++;
 	}
 	free(*token);
-	*token = join_subtokens(subtokens, 0);
+	*token = join_subtokens(cmd_teile, 0);
 	if (!ft_strlen(*token))
 	{
 		free(*token);
 		*token = NULL;
 	}
-	free(subtokens);
+	free(cmd_teile);
 }

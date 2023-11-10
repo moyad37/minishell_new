@@ -6,16 +6,16 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/28 19:42:47 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/10 13:42:00 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static int	check_redirect_syntax_error (char *next_token)
+static int	check_redirect_syntax_error (char *next_cmd)
 {
-	if (next_token == NULL || is_redirect(next_token) \
-			|| ft_strcmp(next_token, "|") == 0)
+	if (next_cmd == NULL || check_redirect(next_cmd) \
+			|| ft_strcmp(next_cmd, "|") == 0)
 	{
 		g_minishell.status_code = 2;
 		return (1);
@@ -23,14 +23,19 @@ static int	check_redirect_syntax_error (char *next_token)
 	return (0);
 }
 
-static int	check_pipe_syntax_error(char **tokens, int pos)
+static int	check_pipe_syntax_error(int pos, char **command)
 {
 	if (pos == 0)
 		return (-2);
-	if (tokens[pos + 1] == NULL || ft_strcmp(tokens[pos + 1], "|") == 0)
+	if (command[pos + 1] == NULL)
 	{
-		g_minishell.status_code = 2;
-		return (1);
+		//g_minishell.status_code = 2;
+		return (g_minishell.status_code = 2, 1);
+	}
+	if (ft_strcmp(command[pos + 1], "|") == 0)
+	{
+		//g_minishell.status_code = 2;
+		return(g_minishell.status_code = 2, 1);
 	}
 	return (0);
 }
@@ -74,18 +79,18 @@ Wenn kein Syntaxfehler gefunden wird, wird -2 zurückgegeben.
 */
 int	check_syntax_errors(char **tokens, int i)
 {
-	int	before_pipe;
-
+	int	pipe_check_key;
+	
 	while (tokens[i] != NULL)
 	{
-		if (*tokens[i] == '|' && check_pipe_syntax_error(tokens, i))
+		if (*tokens[i] == '|' && check_pipe_syntax_error(i, tokens))
 		{
-			before_pipe = check_pipe_syntax_error(tokens, i);
-			if (before_pipe == -2)
+			pipe_check_key = check_pipe_syntax_error(i, tokens);
+			if (pipe_check_key == -2)
 				return (-1);
 			return (i);
 		}
-		else if (is_redirect(tokens[i])
+		else if (check_redirect(tokens[i])
 			&& check_redirect_syntax_error (tokens[i + 1]))
 			return (i);
 		else if (check_hat_geoffnete_zitat(tokens[i]))

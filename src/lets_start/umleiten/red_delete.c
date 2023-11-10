@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/28 19:43:51 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/10 13:17:23 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	zähle_nicht_umleitungs_tokens(char **tokens)
 	mem_to_alloc = 0;
 	while (tokens[i])
 	{
-		if (is_redirect(tokens[i]))
+		if (check_redirect(tokens[i]))
 			i++;
 		else
 			mem_to_alloc++;
@@ -39,7 +39,7 @@ static void	copy_red(char **new, char **copy)
 	j = 0;
 	while (copy[i])
 	{
-		if (is_redirect(copy[i]))
+		if (check_redirect(copy[i]))
 			i++;
 		else
 			new[j++] = ft_strdup(copy[i]);

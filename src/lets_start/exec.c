@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/01 18:18:12 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/10 14:12:02 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,5 @@ void	executor(char **tokens, int i, int status)
 		wait_for_child_processes(pid, &status);
 	g_minishell.in_child_process = 0;
 	check_error();
-	//end_alles();
+	end_alles();
 }
