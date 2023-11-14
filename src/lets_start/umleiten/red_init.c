@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/13 20:03:16 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/14 14:04:11 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ static void	setze_eingabe(t_command *cmd, char *redirect, char *filename)
 		g_minishell.heredoc.heredoc_exited = heredoc(cmd, delim);
 	}
 }
-
+/*
+1.Nimmt einen Befehlszeiger (cmd) und einen Dateinamen (filename) als Parameter.
+2.Ruft die entsprechende Fehlerfunktion basierend auf dem Befehlszustand auf (Eingabe oder Ausgabe).
+*/
 static void	configure_streams(t_command *cmd, int i)
 {
 	cmd->eingabe = 0;
@@ -73,7 +76,9 @@ static void	configure_streams(t_command *cmd, int i)
 		i++;
 	}
 }
-
+/*
+Initialisiert die Umleitungen für alle Befehle im globalen g_minishell.commands-Array, beginnend mit dem angegebenen Index.
+*/
 void	init_redirects(int i)
 {
 	int	command_anzahl;
@@ -85,7 +90,9 @@ void	init_redirects(int i)
 		i++;
 	}
 }
-
+/*
+Initialisiert die Umleitungen für alle Befehle und bereinigt anschließend die Umleitungen und Zitate.
+*/
 int	get_redirect(int i)
 {
 	init_redirects(0);

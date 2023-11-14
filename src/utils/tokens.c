@@ -6,13 +6,17 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/14 13:12:42 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/14 13:25:22 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../includes/minishell.h"
-
+/*
+1.Nimmt einen Zeichenkettenpointer (token), einen Index (idx) und einen Startindex (i) als Parameter
+2.Zerlegt die Zeichenkette in Tokens, wobei Anführungszeichen die Tokens begrenzen können
+3.Gibt ein Array von Zeichenketten zurück, die die Tokens darstellen
+*/
 char	**split_string_in_tokens(char *token, int idx, int i)
 {
 	char	**cmd_teile;

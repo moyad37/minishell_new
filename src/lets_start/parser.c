@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/13 20:46:07 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/14 13:34:04 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,12 @@ static char	**filter_null_values(int size, char **tokens, int x, int y)
 	//free_in_n((void **)tokens, size);
 	return (free_in_n((void **)tokens, size), new_tokens);
 }
-
+/*
+1.Nimmt ein Array von Zeichenkettenpointern (tokens) und einen Index (i) als Parameter.
+2.Überprüft auf Syntaxfehler und behandelt diese.
+3.Verarbeitet jeden Token durch den token_handler.
+4.Filtert ungültige Tokens und gibt 0 zurück, wenn der Parser erfolgreich ist
+*/
 int	parser(char ***tokens, int i)
 {
 	int		error_syntax_code;

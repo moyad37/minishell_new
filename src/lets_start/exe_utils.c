@@ -6,12 +6,17 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/13 20:47:23 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/14 14:20:18 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
+/*
+1.Nimmt einen Index (i) als Parameter.
+2.Ruft den Umgebungsvariablenwert für "PATH" ab.
+3.Trennt den PATH-String in Verzeichnisse auf, die durch ':' getrennt sind, und fügt am Ende jedes Verzeichnisses einen Schrägstrich ('/') hinzu.
+4.Gibt ein Array von Zeichenketten zurück, das die Verzeichnisse im PATH repräsentiert.
+*/
 static char	**hol_pfad_verzeichnisse(int i)
 {
 	char	*path;
@@ -26,7 +31,12 @@ static char	**hol_pfad_verzeichnisse(int i)
 	}
 	return (pfad_directories);
 }
-
+/*
+1.Nimmt einen Befehlszeiger (command) und einen Startindex (i) als Parameter.
+2.Ruft die Verzeichnisse im PATH ab und iteriert durch jedes Verzeichnis, um den vollständigen Pfad zum auszuführenden Befehl zu erstellen.
+3.Überprüft, ob die Datei im Verzeichnis existiert und ausführbar ist.
+4.Gibt den vollständigen Pfad zurück, wenn erfolgreich, andernfalls NULL.
+*/
 static char	*find_pfad(t_command *command, int i)
 {
 	char	*executable_path;
@@ -53,7 +63,15 @@ static char	*find_pfad(t_command *command, int i)
 	free_var((void **)pfad_directories);
 	return (NULL);
 }
-
+/*
+1.Nimmt einen Befehlszeiger (cmd) als Parameter.
+2.Setzt den Fehlercode im Befehlsobjekt auf 0.
+3.Überprüft, ob der Befehl im aktuellen Verzeichnis ausführbar ist.
+4.Wenn nicht, ruft find_pfad auf, um den vollständigen Pfad zu suchen.
+5.Setzt den Fehlercode im Befehlsobjekt basierend auf verschiedenen Bedingungen
+wie fehlender Befehlsname, Verzeichnis oder fehlender Ausführungsrechte.
+6.Setzt cmd->executable_path auf den gefundenen vollständigen Pfad oder NULL, wenn der Befehl nicht gefunden wurde.
+*/
 static void	bin_pfad(t_command *cmd)
 {
 	cmd->error = 0;
@@ -74,6 +92,8 @@ static void	bin_pfad(t_command *cmd)
 /*
 Diese Funktion initialisiert den Binärpfad für die Befehle in der Minishell-Umgebung.
 Sie ruft bin_pfad für jeden Befehl auf, um den Binärpfad festzulegen.
+
+Initialisiert den Binärpfad für die Befehle in der Minishell-Umgebung, indem sie bin_pfad für jeden Befehl aufruft.
 */
 void	get_pfad(int i)
 {
