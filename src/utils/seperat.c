@@ -6,13 +6,13 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 13:56:05 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/09/15 13:56:37 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:23:24 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	WordsCount(const char *s, char c)
+static int	words_count(const char *s, char c)
 {
 	size_t	words;
 
@@ -29,7 +29,7 @@ static int	WordsCount(const char *s, char c)
 	return (words);
 }
 
-char	**seperatByC(const char *str, char c)
+char	**seperat_by_c(const char *str, char c)
 {
 	int		i;
 	char	**lst;
@@ -38,7 +38,7 @@ char	**seperatByC(const char *str, char c)
 	i = 0;
 	if (!str)
 		return (0);
-	lst = (char **)ft_calloc(sizeof(char *), WordsCount(str, c) + 1);
+	lst = (char **)ft_calloc(sizeof(char *), words_count(str, c) + 1);
 	if (!lst)
 		return (0);
 	while (*str)

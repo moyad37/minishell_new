@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/10 13:52:55 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:33:22 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,10 +119,10 @@ char	*join_subtokens(char **subtokens, int x);
 void	replace_variables(char **token, int i);
 
 // Executor
-void	executor(char **tokens, int i, int status);
-void	init_redirects(void);
+void	run_command(char **command_tokens, int index, int exit_status);
+//void	init_redirects(int i);
 void	split_save_cmd_struct(char **tokens, int idx);
-void	losche_umleitung(void);
+void	losche_umleitung(int i);
 void	losche_zitat(void);
 void	get_pfad(int i);
 void	update_args_count(int i);
@@ -149,7 +149,7 @@ void	swap_stream_fd(char *stream, t_command *command, int new_fd);
 void	close_fds(void);
 void	child_fd_close(void);
 void	handl_sig(int signal);
-void	end_alles(void);
+void	cleanup_all_resources(int i);
 void	ft_free(void *ptr);
 void	end_pro_child(int heredoc, int status_code);
 int		test_filename(char *filename, char *redirect);
@@ -169,7 +169,7 @@ char	**check_commands(char *cmd);
 //utils/ft_destroy
 void	ft_destroy(void);
 //utils
-char	**seperatByC(const char *str, char c);
+char	**seperat_by_c(const char *str, char c);
 
 //utils/zitat/rm_ziztat
 void	handle_files(int i);

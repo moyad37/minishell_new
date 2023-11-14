@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/10 13:27:17 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/14 12:27:51 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	format_foppelt_pipe_leerzeichen(char *text, int position)
 {
-	int count_changes;
+	int	count_changes;
 
 	count_changes = 0;
 	if (position != 0 && *(text - 1) != ' ')
@@ -51,13 +51,13 @@ char	**check_commands(char *cmd)
 	{
 		add_history(cmd);
 		tokens = lexer(cmd, -1);
-		if(*tokens == NULL)
+		if (*tokens == NULL)
 			return (NULL);
 		ft_free(cmd);
 		if (parser(&tokens, 0) == 1 || *tokens == NULL)
 		{
 			//printf("parser_error\n");
-			ft_free_matrix((void **)tokens);
+			free_var((void **)tokens);
 			return (NULL);
 		}
 	}

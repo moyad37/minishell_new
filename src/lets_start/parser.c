@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/10 14:11:04 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:46:07 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ static char	**filter_null_values(int size, char **tokens, int x, int y)
 		while (x++ < size)
 		if (tokens[x])
 			new_tokens[y++] = ft_strdup(tokens[x]);
-	//ft_free_matrix_size_n((void **)tokens, size);
-	return (ft_free_matrix_size_n((void **)tokens, size), new_tokens);
+	//free_in_n((void **)tokens, size);
+	return (free_in_n((void **)tokens, size), new_tokens);
 }
 
 int	parser(char ***tokens, int i)
@@ -79,7 +79,7 @@ int	parser(char ***tokens, int i)
 	error_syntax_code = check_syntax_errors(*tokens, 0);
 	if (error_syntax_code != -2)
 		return (handle_syntax_error_p(error_syntax_code, *tokens));
-	matrex_counter = ft_count_matrix((void **)*tokens);
+	matrex_counter = counter((void **)*tokens);
 	while ((*tokens)[i])
 	{
 		token_handler((*tokens) + i, (0));

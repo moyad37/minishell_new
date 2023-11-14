@@ -6,19 +6,17 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/28 19:43:44 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/13 19:33:33 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../includes/minishell.h"
 
-static void	fill_args(char **tokens, int idx)
+static void	fill_args(char **tokens, int idx, int i)
 {
-	int	i;
 	int	args;
 
-	i = 0;
 	args = g_minishell.commands[idx].arg_counter;
 	while (i < args)
 	{
@@ -44,7 +42,7 @@ initialisiert die entsprechenden Datenstrukturen und ruft fill_args auf, um die 
 void	split_save_cmd_struct(char **tokens, int idx)
 {
 	int		i;
-	int		args;
+	int		argument_count;
 	int		command_anzahl;
 
 	i = 0;
@@ -61,9 +59,9 @@ void	split_save_cmd_struct(char **tokens, int idx)
 	if (tokens[i] && ft_strcmp("|", tokens[i]) == 0)
 		i++;
 	split_save_cmd_struct(tokens + i, idx + 1);
-	args = count_args(tokens);
-	g_minishell.commands[idx].arg_counter = args;
-	g_minishell.commands[idx].args = ft_calloc(sizeof(char *), args + 1);
-	fill_args(tokens, idx);
+	argument_count = count_args(tokens);
+	g_minishell.commands[idx].arg_counter = argument_count;
+	g_minishell.commands[idx].args = ft_calloc(sizeof(char *), argument_count + 1);
+	fill_args(tokens, idx, 0);
 }
 

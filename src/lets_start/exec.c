@@ -6,21 +6,21 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/10 14:12:02 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:47:25 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	setup_execution_context(char **tokens)
+static void	setup_execution_context(char **command_tokens)
 {
 	//alle commands lesen und zählen und dann in die struct t_command speichern
-	split_save_cmd_struct(tokens, 0);
-	ft_free_matrix((void **)tokens);
+	split_save_cmd_struct(command_tokens, 0);
+	free_var((void **)command_tokens);
 	//get in der command und sucht nach file name und setzt es zu null
 	handle_files(0);
 	
-	//ab hier kann ich zu andere funktion rein hüpfen und die letzten zwei kann ich in funktion executor schreiben
+	//ab hier kann ich zu andere funktion rein hüpfen und die letzten zwei kann ich in funktion run_command schreiben
 	if(get_redirect(0) != 3)
 		ft_destroy();
 	//init_redirects();
@@ -36,16 +36,16 @@ Falls nicht, erstellt sie einen Kindprozess, in dem der Befehl ausgeführt wird.
 */
 static int	execute_command(t_command cmd)
 {
-	int	pid;
+	int	process_id;
 
 	if (get_befehl(cmd.args[0]) != -1)
 	{
 		//execute_builtin_command(cmd, g_minishell.builtins[get_befehl(cmd.args[0])]);
 		return (execute_builtin_command(cmd, g_minishell.builtins[get_befehl(cmd.args[0])]), -1);
 	}
-	pid = fork();
+	process_id = fork();
 	g_minishell.in_child_process = 1;
-	if (pid == 0)
+	if (process_id == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		if (cmd.eingabe == -1 || cmd.ausgabe == -1)
@@ -62,18 +62,16 @@ static int	execute_command(t_command cmd)
 		}
 		end_pro_child(0, cmd.error);
 	}
-	return (pid);
+	return (process_id);
 }
 
-static void	wait_for_child_processes(int pid, int *status)
+static void	wait_for_child_processes(int pid, int *status, int i)
 {
-	int	i;
-	int	size;
+	int	command_anzahl;
 
-	i = -1;
-	size = g_minishell.command_anzahl;
+	command_anzahl = g_minishell.command_anzahl;
 	waitpid(pid, status, 0);
-	while (++i < size - 1)
+	while (++i < command_anzahl - 1)
 		wait(NULL);
 	if (WIFEXITED(*status))
 		g_minishell.status_code = WEXITSTATUS(*status);
@@ -81,13 +79,11 @@ static void	wait_for_child_processes(int pid, int *status)
 		g_minishell.status_code = 128 + WTERMSIG(*status);
 }
 
-static void	check_error(void)
+static void	check_error(int i)
 {
-	int			i;
 	int			size;
 	t_command	cmd;
 
-	i = 0;
 	size = g_minishell.command_anzahl;
 	while (i < size && get_befehl(g_minishell.commands[i].args[0]) == -1)
 	{
@@ -97,27 +93,29 @@ static void	check_error(void)
 	}
 }
 
-void	executor(char **tokens, int i, int status)
+void	run_command(char **command_tokens, int index, int exit_status)
 {
-	int	pid;
-
-	setup_execution_context(tokens);
+	int	process_id;
+	
+	setup_execution_context(command_tokens);
 	update_args_count(0);
 	get_pfad(0);
 	if (g_minishell.heredoc.heredoc_exited == 1)
 	{
 		g_minishell.status_code = 130;
 		g_minishell.heredoc.heredoc_exited = 0;
-		return ;
+		return;
 	}
-	if (g_minishell.command_anzahl > 1)
-		while (++i < g_minishell.command_anzahl)
-			pid = handel_get_bid_exe(i, &g_minishell.commands[i]);
+	if (g_minishell.command_anzahl  > 1)
+	{
+		while (++index < g_minishell.command_anzahl )
+			process_id = handel_get_bid_exe(index, &g_minishell.commands[index]);
+	}
 	else
-		pid = execute_command(g_minishell.commands[0]);
-	if (pid != -1)
-		wait_for_child_processes(pid, &status);
+		process_id = execute_command(g_minishell.commands[0]);
+	if (process_id != -1)
+		wait_for_child_processes(process_id, &exit_status, -1);
 	g_minishell.in_child_process = 0;
-	check_error();
-	end_alles();
+	check_error(0);
+	cleanup_all_resources(0);
 }

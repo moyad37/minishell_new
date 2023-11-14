@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/28 19:43:58 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:47:34 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,15 @@ void	close_fds(void)
 	}
 }
 
-void	end_alles(void)
+void	cleanup_all_resources(int i)
 {
-	int	i;
-	int	args;
+	int	command_anzahl;
 
-	i = 0;
-	args = g_minishell.command_anzahl;
+	command_anzahl = g_minishell.command_anzahl;
 	close_fds();
-	while (i < args)
+	while (i < command_anzahl)
 	{
-		ft_free_matrix((void **)g_minishell.commands[i].args);
+		free_var((void **)g_minishell.commands[i].args);
 		ft_free((void *)g_minishell.commands[i].executable_path);
 		i++;
 	}

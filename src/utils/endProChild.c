@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/28 19:43:55 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:47:34 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	end_pro_child(int heredoc, int status_code)
 		close(g_minishell.heredoc.fd);
 	else
 		child_fd_close();
-	end_alles();
-	ft_free_matrix((void **)g_minishell.envp);
+	cleanup_all_resources(0);
+	free_var((void **)g_minishell.envp);
 	ft_free_list(&g_minishell.envp_list);
 	rl_clear_history();
 	exit(status_code);

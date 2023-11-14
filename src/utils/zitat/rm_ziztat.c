@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/10 13:53:15 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/13 19:55:21 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,25 +46,25 @@ void	losche_zitat(void)
 
 void	handle_files(int i)
 {
-	int			j;
+	int			count;
 	t_command	*cmd;
 	char		**subtokens;
 
 	while (i < g_minishell.command_anzahl)
 	{
-		j = 0;
+		count = 0;
 		cmd = &g_minishell.commands[i];
-		while (cmd->args[j])
+		while (cmd->args[count])
 		{
-			if (check_redirect(cmd->args[j]))
+			if (check_redirect(cmd->args[count]))
 			{
-				subtokens = split_string_in_tokens(cmd->args[j + 1], 0, 0);
+				subtokens = split_string_in_tokens(cmd->args[count + 1], 0, 0);
 				hanlde_zitat(subtokens);
-				free(cmd->args[j + 1]);
-				cmd->args[++j] = join_subtokens(subtokens, 0);
+				free(cmd->args[count + 1]);
+				cmd->args[++count] = join_subtokens(subtokens, 0);
 				free(subtokens);
 			}
-			j++;
+			count++;
 		}
 		i++;
 	}

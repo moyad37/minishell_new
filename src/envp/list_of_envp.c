@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/18 21:41:01 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:47:18 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_node	*ev_list_get(char **envp)
 		key_and_value = split_envp(envp[i]);
 		//printf("######### %d ########", i);
 		new_node = ft_lstnew(key_and_value[0], key_and_value[1], envp[i]);
-		ft_free_matrix((void **)key_and_value);
+		free_var((void **)key_and_value);
 		ft_lstadd_back(&envp_list, new_node);
 		i++;
 	}

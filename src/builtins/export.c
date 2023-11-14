@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/28 19:45:49 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:47:15 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	add_key_to_envp(char *new_var)
 	}
 	else
 		change_value_from_key(&g_minishell.envp_list, key, value);
-	ft_free_matrix((void **)key_and_value);
+	free_var((void **)key_and_value);
 	update_env();
 }
 

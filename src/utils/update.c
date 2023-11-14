@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/28 19:43:59 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:47:34 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	update_env(void)
 {
-	ft_free_matrix((void **)g_minishell.envp);
+	free_var((void **)g_minishell.envp);
 	g_minishell.envp = creat_valid_envp();
 }
 /*
@@ -25,11 +25,11 @@ in der args-Liste aktualisiert. Dies ist hilfreich, um die Anzahl der Argumente 
 */
 void	update_args_count(int i)
 {
-	int			size;
+	int			command_anzahl;
 	t_command	*cmd;
 
-	size = g_minishell.command_anzahl;
-	while (i < size)
+	command_anzahl = g_minishell.command_anzahl;
+	while (i < command_anzahl)
 	{
 		cmd = &g_minishell.commands[i];
 		cmd->arg_counter = count_args(cmd->args);

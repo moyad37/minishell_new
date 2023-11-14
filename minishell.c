@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/10 14:11:57 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/14 12:33:53 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ int	main(int ac, char **av, char **envp)
 	cmd = NULL;
 	if (!check_arg(ac, av, envp))
 	{
-		p_fd(2, "arg error, make sure you have like so : './minishell' \n");
-		return (0);
+		//p_fd(2, "arg error, make sure you have like so : './minishell' \n");
+		return (p_fd(2, "arg error, make sure you have like so : './minishell' \n"), 0);
 	}
 	wait_sig();
 	// signal(SIGINT, handl_sig);
@@ -130,9 +130,9 @@ int	main(int ac, char **av, char **envp)
 		// }	
 		if (command_list)
 		{
-			executor(command_list, -1, -1);
+			run_command(command_list, -1, -1);
 			//check_error();
-			//end_alles();
+			//cleanup_all_resources();
 		}
 	} 
 	return (0);

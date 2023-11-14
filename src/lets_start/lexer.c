@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/09 15:06:20 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/14 12:22:46 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ char	**lexer(char *cmd, int i)
 	// character_set[4] = 5;
 	// character_set[5] = 6;
 	format_text = format_cmd(cmd, 0);
+	//printf("format_text = %s\n", format_text);
 	if(format_text == NULL)
 		return (NULL);
 	ersatz_char(format_text, SET1, character_set, 0);
@@ -68,11 +69,11 @@ char	**lexer(char *cmd, int i)
 	fix_tokens(result_tokens, character_set);
 	free(format_text);
 	
-	// int i = 0;
+	// int h = 0;
 	// while (result_tokens[i])
 	// {
-	// 	printf("result_tokens[%d] = %s\n", i, result_tokens[i]);
-	// 	i++;
+	// 	printf("result_tokens[%d] = %s\n", h, result_tokens[h]);
+	// 	h++;
 	// }
 	return (result_tokens);
 }

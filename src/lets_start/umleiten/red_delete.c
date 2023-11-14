@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/10 13:17:23 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:47:34 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 static int	zähle_nicht_umleitungs_tokens(char **tokens)
 {
 	int	i;
-	int	mem_to_alloc;
+	int	j;
 
 	i = 0;
-	mem_to_alloc = 0;
+	j = 0;
 	while (tokens[i])
 	{
 		if (check_redirect(tokens[i]))
 			i++;
 		else
-			mem_to_alloc++;
+			j++;
 		i++;
 	}
-	return (mem_to_alloc);
+	return (j);
 }
 
 static void	copy_red(char **new, char **copy)
@@ -53,24 +53,22 @@ gibt das alte Array frei und weist das neue Array den Argumenten des Befehls zu.
 */
 static void	losche_red(char ***command_args)
 {
-	int		tokens_amount;
-	char	**new_tokens;
+	int		nicht_umleitungs_tokens;
+	char	**neue_token;
 
-	tokens_amount = zähle_nicht_umleitungs_tokens(*command_args);
-	new_tokens = ft_calloc(sizeof(char *), tokens_amount + 1);
-	copy_red(new_tokens, *command_args);
-	ft_free_matrix((void **)*command_args);
-	*command_args = new_tokens;
+	nicht_umleitungs_tokens = zähle_nicht_umleitungs_tokens(*command_args);
+	neue_token = ft_calloc(sizeof(char *), nicht_umleitungs_tokens + 1);
+	copy_red(neue_token, *command_args);
+	free_var((void **)*command_args);
+	*command_args = neue_token;
 }
 
-void	losche_umleitung(void)
+void	losche_umleitung(int i)
 {
-	int	i;
-	int	args;
+	int	command_anzahl;
 
-	i = 0;
-	args = g_minishell.command_anzahl;
-	while (i < args)
+	command_anzahl = g_minishell.command_anzahl;
+	while (i < command_anzahl)
 	{
 		losche_red(&g_minishell.commands[i].args);
 		i++;

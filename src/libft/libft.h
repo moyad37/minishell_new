@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/30 13:40:12 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/14 11:34:45 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ typedef struct s_node
 	char			*env_line;
 	struct s_node	*next;
 }				t_node;
-void		ft_free_list(t_node **head);
 
+void		ft_free_list(t_node **head);
 int			ft_isalpha(int c);
 int			ft_isdigit(int c);
 int			ft_isalnum(int c);
@@ -61,7 +61,7 @@ int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_memcmp(const void *s1, const void *s2, size_t n);
 int			ft_atoi(const char *nptr);
 int			ft_lstsize(t_node *lst);
-int			ft_count_matrix(void **matrix);
+int			counter(void **var);
 int			ft_power(int base, int exponent);
 char		*ft_strchr(const char *s, int c);
 char		*ft_strdup(const char *s);
@@ -92,9 +92,8 @@ void		ft_lstdelone(t_node *lst, void (*del)(void *));
 void		ft_lstclear(t_node **lst, void (*del)(void *));
 void		ft_lstiter(t_node *lst, void (*f)(void *));
 void		ft_putchar(char c);
-void		ft_free_matrix(void **matrix);
-void		ft_free_spatial_matrix(void ***matrix);
-void		ft_free_matrix_size_n(void **matrix, int size);
+void		free_var(void **var);
+void		free_in_n(void **var, int size);
 size_t		ft_strlen(const char *s);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 size_t		ft_strlcat(char *dst, const char *src, size_t size);

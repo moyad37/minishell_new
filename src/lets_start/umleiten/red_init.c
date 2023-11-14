@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/10 13:17:27 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:03:16 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,8 @@ static void	setze_eingabe(t_command *cmd, char *redirect, char *filename)
 	}
 }
 
-static void	configure_streams(t_command *cmd)
+static void	configure_streams(t_command *cmd, int i)
 {
-	int	i;
-
-	i = 0;
 	cmd->eingabe = 0;
 	cmd->ausgabe = 1;
 	while (cmd->args[i])
@@ -68,8 +65,8 @@ static void	configure_streams(t_command *cmd)
 			setze_ausgabe(cmd, cmd->args[i], cmd->args[i + 1]);
 		if (check_command_errors(cmd))
 		{
-			handle_error(cmd, cmd->args[i + 1]);
-			return ;
+			//handle_error(cmd, cmd->args[i + 1]);
+			return (handle_error(cmd, cmd->args[i + 1]));
 		}
 		if (check_redirect(cmd->args[i]))
 			i++;
@@ -77,25 +74,23 @@ static void	configure_streams(t_command *cmd)
 	}
 }
 
-void	init_redirects(void)
+void	init_redirects(int i)
 {
-	int	i;
-	int	args;
+	int	command_anzahl;
 
-	i = 0;
-	args = g_minishell.command_anzahl;
-	while (i < args && !g_minishell.heredoc.heredoc_exited)
+	command_anzahl = g_minishell.command_anzahl;
+	while (i < command_anzahl && !g_minishell.heredoc.heredoc_exited)
 	{
-		configure_streams(&g_minishell.commands[i]);
+		configure_streams(&g_minishell.commands[i], 0);
 		i++;
 	}
 }
 
 int	get_redirect(int i)
 {
-	init_redirects();
+	init_redirects(0);
 	i++;
-	losche_umleitung();
+	losche_umleitung(0);
 	i++;
 	losche_zitat();
 	i++;
