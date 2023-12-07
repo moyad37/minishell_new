@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/01 17:59:19 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/07 19:49:47 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	init(char **envp)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	g_minishell.status_code = 0;
@@ -38,6 +38,5 @@ int	init(char **envp)
 	g_minishell.builtins[5] = ft_env;
 	i++;
 	g_minishell.builtins[6] = ft_exit;
-	i++;
-	return (i);
+	return (++i);
 }

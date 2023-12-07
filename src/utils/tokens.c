@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/14 13:25:22 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/06 21:49:39 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ um die Variablen in diesem Untertoken zu erweitern. Am Ende wird das ursprüngli
 erweiterte Token wird an seine Stelle gesetzt. Wenn das erweiterte Token leer ist, wird es auf NULL gesetzt.
 Schließlich wird der Speicher für das Array cmd_teile freigegeben.
 */
+
+// // signal_zitat = 39
 void	token_handler(char **token, int i)
 {
 	char	**cmd_teile;
@@ -66,7 +68,7 @@ void	token_handler(char **token, int i)
 	cmd_teile = split_string_in_tokens(*token, 0, 0);
 	while (cmd_teile[i])
 	{
-		if (cmd_teile[i][0] != SINGLE_QUOTE && ft_strchr(cmd_teile[i], '$'))
+		if (cmd_teile[i][0] != 39 && ft_strchr(cmd_teile[i], '$'))
 			replace_variables(cmd_teile + i, (0));
 		i++;
 	}

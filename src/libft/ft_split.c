@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmanssou  <mmanssou@student.42.fr   >      +#+  +:+       +#+        */
+/*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/09/13 15:23:59 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/07 19:39:31 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,12 @@ static int	number_of_words(char const *s)
 	return (count);
 }
 
-char	**ft_split(char const *s)
+char	**ft_split(char const *s, int i)
 {
-	int		i;
 	int		words;
 	int		len_current_word;
 	char	**splitted_string;
 
-	i = 0;
 	if (!s)
 		return (NULL);
 	words = number_of_words(s);

@@ -6,29 +6,26 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/13 20:33:22 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/06 21:59:13 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define SINGLE_QUOTE 39
-# define DOUBLE_QUOTE 34
-# define DEL_ASCII 127
-# define SET1 " \t\v\n\f\r"
-# define TMPFILE ".tmpheredoc"
-# define READ_END 0
-# define WR_END 1
+//# define SET1 " \t\v\n\f\r"
+//# define TMPFILE ".tmpheredoc"
+//# define READ_END 0
+//# define WR_END 1
 # define NO_SUCH_FILE -1
 # define DIR_FILE 0
 # define REG_FILE 1
 
 
-# define ENOENT 2
-# define EACCES 13
-# define ENAMETOOLONG 36
-# define EISDIR 126
-# define ENOCMD 127
+//# define ENOENT 2
+//# define EACCES 13
+//# define ENAMETOOLONG 36
+//# define EISDIR 126
+//# define ENOCMD 127
 
 # include <term.h>
 # include <stdio.h>

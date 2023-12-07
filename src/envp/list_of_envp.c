@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/13 20:47:18 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/07 19:45:56 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ t_node	*ev_list_get(char **envp)
 	while (envp[i] != NULL)
 	{
 		key_and_value = split_envp(envp[i]);
-		//printf("######### %d ########", i);
 		new_node = ft_lstnew(key_and_value[0], key_and_value[1], envp[i]);
 		free_var((void **)key_and_value);
 		ft_lstadd_back(&envp_list, new_node);

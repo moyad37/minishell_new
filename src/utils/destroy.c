@@ -18,7 +18,7 @@ void	ft_destroy(void)
 	ft_free_list(&g_minishell.envp_list);
 	free_var((void **)g_minishell.envp);
 	close_fds();
-	unlink(TMPFILE);
+	unlink(".tmpheredoc");
 	write(1, "exit\n", 5);
 	exit(0);
 }

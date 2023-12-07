@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/28 19:42:25 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/06 20:53:37 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ int	ft_exit(t_command cmd)
 
 	status_code = 0;
 	if (cmd.args[1] == NULL)
+	{
 		end_pro_child(0, status_code);
+	}
 	if (check_nur_num(cmd.args[1]))
 	{
 		p_fd(STDERR_FILENO, \

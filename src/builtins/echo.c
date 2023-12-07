@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/28 20:19:51 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/07 19:45:31 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,20 @@ static void	print_after_check(int size, char **args, int out_fd)
 		ft_putstr_fd(args[i], out_fd);
 }
 
-void printCommand(t_command cmd)
-{
-    printf("pipe: [%d, %d]\n", cmd.pipe[0], cmd.pipe[1]);
-    printf("arg_counter: %d\n", cmd.arg_counter);
-    printf("input_fd: %d\n", cmd.eingabe);
-    printf("output_fd: %d\n", cmd.ausgabe);
-    printf("error: %d\n", cmd.error);
-    printf("executable_path: %s\n", cmd.executable_path);
-    printf("args:\n");
-    for (int i = 0; i < cmd.arg_counter; i++)
-	{
-        printf("  args[%d]: %s\n", i, cmd.args[i]);
-    }
-}
+// void printCommand(t_command cmd)
+// {
+//     printf("pipe: [%d, %d]\n", cmd.pipe[0], cmd.pipe[1]);
+//     printf("arg_counter: %d\n", cmd.arg_counter);
+//     printf("input_fd: %d\n", cmd.eingabe);
+//     printf("output_fd: %d\n", cmd.ausgabe);
+//     printf("error: %d\n", cmd.error);
+//     printf("executable_path: %s\n", cmd.executable_path);
+//     printf("args:\n");
+//     for (int i = 0; i < cmd.arg_counter; i++)
+// 	{
+//         printf("  args[%d]: %s\n", i, cmd.args[i]);
+//     }
+// }
 
 
 /*
@@ -72,7 +72,6 @@ int	ft_echo(t_command cmd)
 	int	out;
 
 	out = 1;
-	//printCommand(cmd);
 	check_output_with_pipe(cmd, &out);
 	comparison = 1;
 	if (g_minishell.in_child_process && (cmd.eingabe == -1 || cmd.ausgabe == -1))

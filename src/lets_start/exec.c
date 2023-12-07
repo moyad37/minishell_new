@@ -6,28 +6,23 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/13 20:47:25 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/07 19:46:45 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+
+//split_save_cmd_struct: alle commands lesen und zählen und dann in die struct t_command speichern
+//handle_files: get in der command und sucht nach file name und setzt es zu null
 static void	setup_execution_context(char **command_tokens)
 {
-	//alle commands lesen und zählen und dann in die struct t_command speichern
 	split_save_cmd_struct(command_tokens, 0);
 	free_var((void **)command_tokens);
-	//get in der command und sucht nach file name und setzt es zu null
 	handle_files(0);
 	
-	//ab hier kann ich zu andere funktion rein hüpfen und die letzten zwei kann ich in funktion run_command schreiben
 	if(get_redirect(0) != 3)
 		ft_destroy();
-	//init_redirects();
-	// remove_redirects();
-	// losche_zitat();
-	// update_args_count(0);
-	// get_pfad(0);
 }
 /*
 Diese Funktion führt einen einzelnen Shell-Befehl aus. Sie prüft,
@@ -40,7 +35,6 @@ static int	execute_command(t_command cmd)
 
 	if (get_befehl(cmd.args[0]) != -1)
 	{
-		//execute_builtin_command(cmd, g_minishell.builtins[get_befehl(cmd.args[0])]);
 		return (execute_builtin_command(cmd, g_minishell.builtins[get_befehl(cmd.args[0])]), -1);
 	}
 	process_id = fork();
@@ -54,7 +48,6 @@ static int	execute_command(t_command cmd)
 			end_pro_child(0, cmd.error);
 		if (cmd.executable_path && cmd.args[0])
 		{
-			//make_dups(cmd);
 			dup2(cmd.eingabe, 0);
 			dup2(cmd.ausgabe, 1);
 			child_fd_close();

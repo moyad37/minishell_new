@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/31 17:45:44 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/07 19:46:32 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,5 @@ char	**creat_valid_envp(void)
 		}
 		tmp = tmp->next;
 	}
-
-	// int x = 0;
-	// while(envp[x++])
-	// 	printf("envp %d = %s\n\n----------\n\n", x, envp[x]);
 	return (envp);
 }

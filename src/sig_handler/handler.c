@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/28 19:46:01 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/07 19:46:15 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,17 @@ void	handl_sig(int signal)
 {
 	if (signal == SIGINT && !g_minishell.in_child_process)
 	{
+		g_minishell.status_code = 130;
 		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	else if (signal == SIGINT && g_minishell.in_child_process == 1)
-		write(STDOUT_FILENO, "\n", 1);
+	{
+		if(g_minishell.shell_lvl < 2)
+			write(STDOUT_FILENO, "\n", 1);
+	}
 }
 
 void	wait_sig(void)

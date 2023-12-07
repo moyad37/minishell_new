@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/14 12:18:12 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/06 21:08:27 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,25 +73,22 @@ char	*format_cmd(char *input, int index)
 		return (NULL);
 	while (formatted_input[index])
 	{
-		if (check_zitat(formatted_input[index]) && zitat_char == '\0')
+		if (check_zitat(formatted_input[index]) && zitat_char == 0)
 		{
-			//printf("es ist zitat = %s\n", formatted_input);
 			zitat_char = formatted_input[index];
 			index++;
 		}
-		else if (zitat_char == '\0' && check_pipe(formatted_input[index]))
-		{
-			//printf("es ist meta_char = %s\n", formatted_input);		
+		else if (zitat_char == 0 && check_pipe(formatted_input[index]))
+		{	
 			format_pipe_leerzeichen(formatted_input, &index);
 		}
 		else if (zitat_char == formatted_input[index])
 		{
-			zitat_char = '\0';
+			zitat_char = 0;
 			index++;
 		}
 		else
 			index++;
 	}
-	//printf("formatted_input = %s\n", formatted_input);
 	return (formatted_input);
 }

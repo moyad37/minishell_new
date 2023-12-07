@@ -6,12 +6,11 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/09/15 13:53:46 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/07 19:38:08 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
 
 int	hin_bis_cut_gnl(char *str)
 {

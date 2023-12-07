@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/28 19:46:05 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/06 22:29:36 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,22 +74,31 @@ static void	get_heredoc_fd(int fd, char *arg)
 	close(fd);
 	end_pro_child(1, 0);
 }
-
+/*
+Diese Funktion erstellt einen Kindprozess (fork) und ruft dann
+get_heredoc_fd auf, um das "here document" zu sammeln.
+Der Status des Kindprozesses wird überwacht, und wenn dieser nicht
+erfolgreich ist (Status ungleich 0), gibt die Funktion 1 zurück.
+Andernfalls wird die Funktion swap_stream_fd aufgerufen, um die
+Eingabe für das cmd-Kommando von der temporären Datei zu lesen.
+*/
 int	heredoc(t_command *cmd, char *arg)
 {
 	int		pid;
 	int		status;
 
 	g_minishell.in_child_process = 2;
-	g_minishell.heredoc.fd = open(TMPFILE, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	g_minishell.heredoc.fd = open(".tmpheredoc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	pid = fork();
 	if (pid == 0)
+	{
 		get_heredoc_fd(g_minishell.heredoc.fd, arg);
+	}
 	waitpid(pid, &status, 0);
 	g_minishell.in_child_process = 0;
 	close(g_minishell.heredoc.fd);
 	if (status != 0)
 		return (1);
-	swap_stream_fd("input", cmd, open(TMPFILE, O_RDWR));
+	swap_stream_fd("input", cmd, open(".tmpheredoc", O_RDWR));
 	return (0);
 }

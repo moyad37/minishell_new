@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/14 12:22:46 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/06 21:58:58 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,12 @@ static void	fix_tokens(char **tokens, char character_set[6])
 	i = 0;
 	while (tokens[i] != NULL)
 	{
-		ersatz_char(tokens[i], character_set, SET1, 0);
+		ersatz_char(tokens[i], character_set, " \t\v\n\f\r", 0);
 		i++;
 	}
 }
 
-// static void	init_set(char set[6])
-// {
-// 	set[0] = 1;
-// 	set[1] = 2;
-// 	set[2] = 3;
-// 	set[3] = 4;
-// 	set[4] = 5;
-// 	set[5] = 6;
-// }
 /*
-
 Die Funktion `lexer` nimmt einen Eingabe-String entgegen und teilt
 ihn in einzelne Tokens auf. Dabei werden bestimmte Zeichenfolgen 
 im String durch vordefinierte Werte ersetzt. Das Ergebnis ist ein 
@@ -46,21 +36,13 @@ char	**lexer(char *cmd, int i)
 	char	**result_tokens;
 	char	character_set[6];
 
-	//init_set(character_set);
 	while(++i < 6)
 		character_set[i] = i + 1;
-	// character_set[0] = 1;
-	// character_set[1] = 2;
-	// character_set[2] = 3;
-	// character_set[3] = 4;
-	// character_set[4] = 5;
-	// character_set[5] = 6;
 	format_text = format_cmd(cmd, 0);
-	//printf("format_text = %s\n", format_text);
 	if(format_text == NULL)
 		return (NULL);
-	ersatz_char(format_text, SET1, character_set, 0);
-	result_tokens = ft_split(format_text);
+	ersatz_char(format_text, " \t\v\n\f\r", character_set, 0);
+	result_tokens = ft_split(format_text, 0);
 	if(!result_tokens)
 	{
 		free(format_text);
@@ -68,12 +50,5 @@ char	**lexer(char *cmd, int i)
 	}
 	fix_tokens(result_tokens, character_set);
 	free(format_text);
-	
-	// int h = 0;
-	// while (result_tokens[i])
-	// {
-	// 	printf("result_tokens[%d] = %s\n", h, result_tokens[h]);
-	// 	h++;
-	// }
 	return (result_tokens);
 }

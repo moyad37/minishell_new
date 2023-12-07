@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/18 21:40:56 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/06 20:46:40 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,6 @@ char	**split_envp(char *env_variable)
 		key_and_value[1] = ft_strdup(++equal_occurence);
 	else
 		key_and_value[1] = NULL;
-	
-
-	
-	//printf("key_and_value[0] = %s\n\n key_and_value[1] = %s\n\n ",key_and_value[0], key_and_value[1]);
 	return (key_and_value);
 }
 

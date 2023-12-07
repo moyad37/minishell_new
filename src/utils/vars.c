@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/10 14:03:48 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/06 21:25:11 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,12 @@ das kein gültiges Zeichen für eine Bash-Variable ist.
 static char	*isolate_key(char *var)
 {
 	char	*index;
-	//char	*key;
-
+	
 	index = var;
 	if (var[0] == '?')
 		return (ft_strdup("?"));
 	while (check_valid_var_character(*index))
 		index++;
-	//key = ft_substr(var, 0, end_var - var);
 	return (ft_substr(var, 0, index - var));
 }
 /*
@@ -41,10 +39,6 @@ extrahiert den Variablennamen und ersetzt ihn durch seinen entsprechenden Wert a
 */
 void	replace_variables(char **token, int i)
 {
-	// char	*key;
-	// char	*value;
-	// char	*new_token;
-
 	char	*new_cmd_arr[3];
 
 	new_cmd_arr[2] = ft_strdup("");

@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/13 20:47:34 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/06 22:06:18 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static void	copy_red(char **new, char **copy)
 		i++;
 	}
 }
+
 /*
 Diese Funktion entfernt Umleitungs-Tokens aus der Argumentenliste eines Befehls.
 Sie berechnet die Anzahl der zu behaltenden Tokens, erstellt ein neues Array ohne Umleitungen,

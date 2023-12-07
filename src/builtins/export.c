@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/13 20:47:15 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/07 19:45:48 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,18 @@ static int	check_valid_export(char *var)
 
 static void	valid_export_print(t_command cmd)
 {
-	// char	*key;
-	// char	*value;
+
 	t_node	*tmp;
 	int		out;
 
 	out = 1;
-	//printf("here noch\n");
 	check_output_with_pipe(cmd, &out);
 	tmp = g_minishell.envp_list;
 	while (tmp)
 	{
-		// key = tmp->key;
-		// value = tmp->value;
 		if (tmp->key && tmp->value)
-			//p_fd(out, "declare -x %s=\"%s\"\n", key, value);
 			p_fd(out, "%s=\"%s\"\n", tmp->key, tmp->value);
 		else
-			//p_fd(out, "declare -x %s\n", key);
 			p_fd(out, "%s\n", tmp->key);
 		tmp = tmp->next;
 	}
@@ -62,10 +56,7 @@ static void	add_key_to_envp(char *new_var)
 	t_node	*new_node;
 
 	if (!ft_strchr(new_var, '=') && key_ist_da(g_minishell.envp_list, new_var))
-	{
-		//printf("key existiert schon\n");
 		return ;
-	}
 	if (!ft_strchr(new_var, '=') && !key_ist_da(g_minishell.envp_list, new_var))
 	{
 		new_node = ft_lstnew(new_var, NULL, NULL);

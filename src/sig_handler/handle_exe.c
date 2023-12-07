@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/13 20:27:12 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/07 19:46:12 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	handel_in_out_put(t_command *previous_command, t_command *curr, t_co
 	else
 	{
 		if (curr->eingabe == STDIN_FILENO)
-			dup2(previous_command->pipe[READ_END], STDIN_FILENO);
+			dup2(previous_command->pipe[0], STDIN_FILENO);
 		else
 			dup2(curr->eingabe, STDIN_FILENO);
 	}
@@ -32,7 +32,7 @@ static void	handel_in_out_put(t_command *previous_command, t_command *curr, t_co
 	else
 	{
 		if (curr->ausgabe == STDOUT_FILENO)
-			dup2(curr->pipe[WR_END], STDOUT_FILENO);
+			dup2(curr->pipe[1], STDOUT_FILENO);
 		else
 			dup2(curr->ausgabe, STDOUT_FILENO);
 	}
@@ -41,7 +41,7 @@ static void	handel_in_out_put(t_command *previous_command, t_command *curr, t_co
 Diese Funktion startet die Ausführung eines Befehls oder einer Befehlskette.
 Sie erstellt ggf. eine pipe zwischen den Befehlen, um die Kommunikation zwischen ihnen zu
 ermöglichen. Dann wird ein Kindprozess (fork) erstellt, in dem der Befehl ausgeführt wird.
-Die Funktion überprüft auch, ob der Befehl ein eingebauter Befehl ist und führt diesen in einem separaten Verarbeitungszweig aus.
+Die Funktion überprüft auch, ob derz Befehl ein eingebauter Befehl ist und führt diesen in einem separaten Verarbeitungszweig aus.
 */
 static int	mach_command(t_command *previous_command, t_command *curr, t_command *next)
 {
@@ -85,21 +85,21 @@ int	handel_get_bid_exe(int idx, t_command *curr)
 	{
 		next_command = g_minishell.commands[idx + 1];
 		process_id = mach_command(NULL, curr, &next_command);
-		close(g_minishell.commands[idx].pipe[WR_END]);
+		close(g_minishell.commands[idx].pipe[1]);
 	}
 	else if (idx == g_minishell.command_anzahl - 1)
 	{
 		previous_command = g_minishell.commands[idx - 1];
 		process_id = mach_command(&previous_command, curr, NULL);
-		close(g_minishell.commands[idx - 1].pipe[READ_END]);
+		close(g_minishell.commands[idx - 1].pipe[0]);
 	}
 	else
 	{
 		next_command = g_minishell.commands[idx + 1];
 		previous_command = g_minishell.commands[idx - 1];
 		process_id = mach_command(&previous_command, curr, &next_command);
-		close(previous_command.pipe[READ_END]);
-		close(curr->pipe[WR_END]);
+		close(previous_command.pipe[0]);
+		close(curr->pipe[1]);
 	}
 	return (process_id);
 }

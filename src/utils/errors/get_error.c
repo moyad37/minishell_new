@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/10 13:42:00 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/06 21:17:07 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,10 @@ static int	check_pipe_syntax_error(int pos, char **command)
 		return (-2);
 	if (command[pos + 1] == NULL)
 	{
-		//g_minishell.status_code = 2;
 		return (g_minishell.status_code = 2, 1);
 	}
 	if (ft_strcmp(command[pos + 1], "|") == 0)
 	{
-		//g_minishell.status_code = 2;
 		return(g_minishell.status_code = 2, 1);
 	}
 	return (0);
@@ -94,7 +92,7 @@ int	check_syntax_errors(char **tokens, int i)
 			&& check_redirect_syntax_error (tokens[i + 1]))
 			return (i);
 		else if (check_hat_geoffnete_zitat(tokens[i]))
-			return (i);
+			return (-3);
 		i++;
 	}
 	return (-2);

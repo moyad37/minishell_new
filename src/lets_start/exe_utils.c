@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/14 14:20:18 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/06 21:58:05 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char	*find_pfad(t_command *command, int i)
 		}
 		else if (access(executable_path, F_OK) == 0 && access(executable_path, X_OK) == -1)
 		{
-			command->error = EACCES;
+			command->error = 13;
 			ft_free(executable_path);
 			break ;
 		}
@@ -83,11 +83,11 @@ static void	bin_pfad(t_command *cmd)
 	if (cmd->executable_path && cmd->args[0] == NULL)
 		cmd->error = 1;
 	else if (check_directory(cmd->args[0]) && access(cmd->args[0], F_OK | X_OK) == 0)
-		cmd->error = EISDIR;
+		cmd->error = 126;
 	else if (ft_strchr(cmd->args[0], 47) && cmd->executable_path == NULL)
-		cmd->error = ENOENT;
+		cmd->error = 2;
 	else if (cmd->error == 0 && cmd->executable_path == NULL)
-		cmd->error = ENOCMD;
+		cmd->error = 127;
 }
 /*
 Diese Funktion initialisiert den Binärpfad für die Befehle in der Minishell-Umgebung.

@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/27 20:03:41 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/06 21:53:11 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,11 @@ int	check_directory(const char *path)
 	return (S_ISDIR(file_stat.st_mode));
 }
 
+// singal zitat = 39
+// double zitat = 34
 int	check_zitat(char c)
 {
-	if (c == SINGLE_QUOTE || c == DOUBLE_QUOTE)
+	if (c == 39 || c == 34)
 		return (1);
 	return (0);
 }

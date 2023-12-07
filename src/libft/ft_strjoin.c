@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/10/30 13:34:28 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/07 19:37:48 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@
 // 	*(finalstr + ft_strlen(s1) + ft_strlen(s2)) = '\0';
 // 	return (finalstr);
 // }
-
 
 char	*first_part(char *p, char const *s1)
 {

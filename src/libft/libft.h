@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/14 11:34:45 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/07 19:38:40 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char		*ft_itoa(int n);
 char		*ft_strtrim(char const *s1, char const *set);
-char		**ft_split(char const *s);
+char		**ft_split(char const *s, int i);
 void		*ft_memset(void *b, int c, size_t len);
 void		*ft_memmove(void *dest, const void *src, size_t n);
 void		*ft_memcpy(void *dst, const void *src, size_t n);
@@ -103,13 +103,11 @@ t_node		*ft_lstmap(t_node *lst, void *(*f)(void *), void (*del)(void *));
 int			ft_strcmp(const char *s1, const char *s2);
 long int	ft_labs(long int i);
 long int	ft_latoi(const char *nptr);
-
-
-int	hin_bis_cut_gnl(char *str);
-char	*send_line_gnl(char *temp);
-size_t	ft_strlen_gnl(char *str);
-char	*ft_strchr_gnl(const char *s, int c);
-char	*ft_strjoin_gnl(char *s1, char *s2);
-char	*malloc_and_check(size_t count, size_t size);
+int			hin_bis_cut_gnl(char *str);
+char		*send_line_gnl(char *temp);
+size_t		ft_strlen_gnl(char *str);
+char		*ft_strchr_gnl(const char *s, int c);
+char		*ft_strjoin_gnl(char *s1, char *s2);
+char		*malloc_and_check(size_t count, size_t size);
 
 #endif
