@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/12/06 21:58:58 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:05:45 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,17 @@ char	**lexer(char *cmd, int i)
 	char	**result_tokens;
 	char	character_set[6];
 
-	while(++i < 6)
+	while (++i < 6)
 		character_set[i] = i + 1;
 	format_text = format_cmd(cmd, 0);
-	if(format_text == NULL)
+	if (format_text == NULL)
 		return (NULL);
 	ersatz_char(format_text, " \t\v\n\f\r", character_set, 0);
 	result_tokens = ft_split(format_text, 0);
-	if(!result_tokens)
+	if (!result_tokens)
 	{
 		free(format_text);
-		return(NULL);
+		return (NULL);
 	}
 	fix_tokens(result_tokens, character_set);
 	free(format_text);

@@ -6,18 +6,19 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/12/06 22:04:31 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:19:08 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../../includes/minishell.h"
 
-
 /*
-Diese Funktion wird verwendet, um die Ausgabedatei (Standardausgabe) eines Befehls auf eine bestimmte
-Datei umzuleiten. Sie überprüft den redirect-Parameter, um zu bestimmen, ob es sich um eine Neuerstellung
-(">") oder eine Anhängung (">>") handelt, und öffnet die Datei entsprechend. Dann wird der Ausgabestrom des
+Diese Funktion wird verwendet,
+	um die Ausgabedatei (Standardausgabe) eines Befehls auf eine bestimmte
+Datei umzuleiten. Sie überprüft den redirect-Parameter, um zu bestimmen,
+	ob es sich um eine Neuerstellung
+(">") oder eine Anhängung (">>") handelt,
+	und öffnet die Datei entsprechend. Dann wird der Ausgabestrom des
 Befehls auf diese Datei umgeleitet.
 */
 static void	setze_ausgabe(t_command *cmd, char *redirect, char *filename)
@@ -35,10 +36,14 @@ static void	setze_ausgabe(t_command *cmd, char *redirect, char *filename)
 		swap_stream_fd("output", cmd, open(filename, flags, 0644));
 	}
 }
+
 /*
-Diese Funktion wird verwendet, um die Eingabedatei (Standard-Eingabe) eines Befehls auf eine
-bestimmte Datei umzuleiten. Sie überprüft den redirect-Parameter, um zu bestimmen, ob es sich
-um eine Eingabeumleitung ("<") oder Heredoc (eine Methode zur Eingabe von Daten in eine Datei) handelt.
+Diese Funktion wird verwendet,
+	um die Eingabedatei (Standard-Eingabe) eines Befehls auf eine
+bestimmte Datei umzuleiten. Sie überprüft den redirect-Parameter,
+	um zu bestimmen, ob es sich
+um eine Eingabeumleitung ("<") oder Heredoc (eine Methode zur
+Eingabe von Daten in eine Datei) handelt.
 */
 static void	setze_eingabe(t_command *cmd, char *redirect, char *filename)
 {
@@ -53,9 +58,12 @@ static void	setze_eingabe(t_command *cmd, char *redirect, char *filename)
 	}
 }
 /*
-1.Nimmt einen Befehlszeiger (cmd) und einen Dateinamen (filename) als Parameter.
-2.Ruft die entsprechende Fehlerfunktion basierend auf dem Befehlszustand auf (Eingabe oder Ausgabe).
+1.Nimmt einen Befehlszeiger (cmd) und einen Dateinamen (filename)
+als Parameter.
+2.Ruft die entsprechende Fehlerfunktion basierend auf dem
+Befehlszustand auf (Eingabe oder Ausgabe).
 */
+
 static void	configure_streams(t_command *cmd, int i)
 {
 	cmd->eingabe = 0;
@@ -76,8 +84,11 @@ static void	configure_streams(t_command *cmd, int i)
 	}
 }
 /*
-Initialisiert die Umleitungen für alle Befehle im globalen g_minishell.commands-Array, beginnend mit dem angegebenen Index.
+Initialisiert die Umleitungen für alle Befehle im globalen
+g_minishell.commands-Array,
+	beginnend mit dem angegebenen Index.
 */
+
 void	init_redirects(int i)
 {
 	int	command_anzahl;
@@ -90,8 +101,10 @@ void	init_redirects(int i)
 	}
 }
 /*
-Initialisiert die Umleitungen für alle Befehle und bereinigt anschließend die Umleitungen und Zitate.
+Initialisiert die Umleitungen für alle Befehle und bereinigt
+anschließend die Umleitungen und Zitate.
 */
+
 int	get_redirect(int i)
 {
 	init_redirects(0);
@@ -100,7 +113,7 @@ int	get_redirect(int i)
 	i++;
 	losche_zitat();
 	i++;
-	if(i != 3)
+	if (i != 3)
 		return (0);
 	return (i);
 }

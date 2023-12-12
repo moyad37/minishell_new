@@ -6,13 +6,13 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/12/06 21:17:07 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:33:43 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static int	check_redirect_syntax_error (char *next_cmd)
+static int	check_redirect_syntax_error(char *next_cmd)
 {
 	if (next_cmd == NULL || check_redirect(next_cmd) \
 			|| ft_strcmp(next_cmd, "|") == 0)
@@ -33,7 +33,7 @@ static int	check_pipe_syntax_error(int pos, char **command)
 	}
 	if (ft_strcmp(command[pos + 1], "|") == 0)
 	{
-		return(g_minishell.status_code = 2, 1);
+		return (g_minishell.status_code = 2, 1);
 	}
 	return (0);
 }
@@ -45,7 +45,6 @@ int	check_command_errors(t_command *cmd)
 		return (1);
 	return (0);
 }
-
 
 static int	check_hat_geoffnete_zitat(char *token)
 {
@@ -64,21 +63,26 @@ static int	check_hat_geoffnete_zitat(char *token)
 	}
 	return (quote);
 }
-
 /*
 Die Funktion check_syntax_errors durchläuft die Tokens und überprüft
 auf verschiedene Syntaxfehler. Wenn das Token dem Zeichen "|" entspricht
-und ein Syntaxfehler auftritt, wird der Rückgabewert von check_pipe_syntax_error überprüft.
-Wenn der Wert -2 ist, wird -1 zurückgegeben, um anzuzeigen, dass ein Syntaxfehler am
-Anfang der Tokens aufgetreten ist. Andernfalls wird der aktuelle Index i zurückgegeben.
-Wenn das Token eine Umleitung ist und ein Syntaxfehler auftritt, wird der aktuelle Index i zurückgegeben.
-Wenn das Token ein nicht geschlossenes Anführungszeichen hat, wird der aktuelle Index i zurückgegeben.
+und ein Syntaxfehler auftritt, wird der Rückgabewert von
+check_pipe_syntax_error überprüft.
+Wenn der Wert -2 ist, wird -1 zurückgegeben, um anzuzeigen,
+dass ein Syntaxfehler am
+Anfang der Tokens aufgetreten ist. Andernfalls wird der
+aktuelle Index i zurückgegeben.
+Wenn das Token eine Umleitung ist und ein Syntaxfehler
+auftritt, wird der aktuelle Index i zurückgegeben.
+Wenn das Token ein nicht geschlossenes Anführungszeichen hat,
+wird der aktuelle Index i zurückgegeben.
 Wenn kein Syntaxfehler gefunden wird, wird -2 zurückgegeben.
 */
+
 int	check_syntax_errors(char **tokens, int i)
 {
 	int	pipe_check_key;
-	
+
 	while (tokens[i] != NULL)
 	{
 		if (*tokens[i] == '|' && check_pipe_syntax_error(i, tokens))

@@ -6,16 +6,19 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/12/07 19:46:15 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:00:14 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 /*
-Der Code definiert eine Funktion handler, die auf das Abbruchsignal SIGINT reagiert, 
-indem sie eine neue Zeile hinzufügt und die Eingabezeile löscht, um die Benutzerinteraktion 
-in einer Shell zu erleichtern. In einem Kindprozess wird nur eine neue Zeile hinzugefügt.
+Der Code definiert eine Funktion handler,
+	die auf das Abbruchsignal SIGINT reagiert, 
+indem sie eine neue Zeile hinzufügt und die Eingabezeile löscht,
+	um die Benutzerinteraktion 
+in einer Shell zu erleichtern. In einem Kindprozess wird nur eine
+neue Zeile hinzugefügt.
 */
 void	handl_sig(int signal)
 {
@@ -29,7 +32,7 @@ void	handl_sig(int signal)
 	}
 	else if (signal == SIGINT && g_minishell.in_child_process == 1)
 	{
-		if(g_minishell.shell_lvl < 2)
+		if (g_minishell.shell_lvl < 2)
 			write(STDOUT_FILENO, "\n", 1);
 	}
 }

@@ -6,15 +6,17 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/12/06 21:49:39 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:22:40 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../includes/minishell.h"
+
 /*
-1.Nimmt einen Zeichenkettenpointer (token), einen Index (idx) und einen Startindex (i) als Parameter
-2.Zerlegt die Zeichenkette in Tokens, wobei Anführungszeichen die Tokens begrenzen können
+1.Nimmt einen Zeichenkettenpointer (token),
+	einen Index (idx) und einen Startindex (i) als Parameter
+2.Zerlegt die Zeichenkette in Tokens,
+	wobei Anführungszeichen die Tokens begrenzen können
 3.Gibt ein Array von Zeichenketten zurück, die die Tokens darstellen
 */
 char	**split_string_in_tokens(char *token, int idx, int i)
@@ -38,10 +40,11 @@ char	**split_string_in_tokens(char *token, int idx, int i)
 /*
 Diese Funktion fügt die Subtokens wieder zu einem einzigen String zusammen.
 */
+
 char	*join_subtokens(char **cmd_teile, int x)
 {
 	char	*expanded_token;
-	
+
 	expanded_token = ft_strdup("");
 	while (cmd_teile[x])
 	{
@@ -51,12 +54,19 @@ char	*join_subtokens(char **cmd_teile, int x)
 	return (expanded_token);
 }
 /*
-Die Funktion token_handler nimmt einen Zeiger auf ein Token token als Parameter entgegen.
-Sie ruft die Funktion split_string_in_tokens auf, um das Token in Untertoken aufzuteilen.
-Dann durchläuft sie die Untertoken und überprüft, ob das erste Zeichen kein einfaches Anführungszeichen
-ist und ob das Untertoken den Zeichen '$' enthält. Wenn dies der Fall ist, ruft sie die Funktion replace_variables auf,
-um die Variablen in diesem Untertoken zu erweitern. Am Ende wird das ursprüngliche Token freigegeben und das
-erweiterte Token wird an seine Stelle gesetzt. Wenn das erweiterte Token leer ist, wird es auf NULL gesetzt.
+Die Funktion token_handler nimmt einen Zeiger auf ein Token token als
+Parameter entgegen.
+Sie ruft die Funktion split_string_in_tokens auf,
+	um das Token in Untertoken aufzuteilen.
+Dann durchläuft sie die Untertoken und überprüft,
+	ob das erste Zeichen kein einfaches Anführungszeichen
+ist und ob das Untertoken den Zeichen '$' enthält. Wenn dies der Fall ist,
+	ruft sie die Funktion replace_variables auf,
+um die Variablen in diesem Untertoken zu erweitern. Am Ende wird das
+ursprüngliche Token freigegeben und das
+erweiterte Token wird an seine Stelle gesetzt.
+Wenn das erweiterte Token leer ist,
+	wird es auf NULL gesetzt.
 Schließlich wird der Speicher für das Array cmd_teile freigegeben.
 */
 

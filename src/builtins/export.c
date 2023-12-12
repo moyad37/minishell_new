@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/12/07 19:45:48 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/12 17:57:02 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static int	check_valid_export(char *var)
 
 static void	valid_export_print(t_command cmd)
 {
-
 	t_node	*tmp;
 	int		out;
 

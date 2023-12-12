@@ -6,17 +6,22 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/12/07 19:46:12 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:01:24 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 /*
-Diese Funktion behandelt die Duplizierung (Umleitung) der Eingabe- und Ausgabestreams
-für den aktuellen Befehl. Sie verwendet dup2, um die Standard-Streams (STDIN und STDOUT)
-entsprechend zu setzen, abhängig von den Umleitungen und der Reihenfolge der Befehle.
+Diese Funktion behandelt die Duplizierung (Umleitung) der Eingabe-
+und Ausgabestreams
+für den aktuellen Befehl. Sie verwendet dup2,
+	um die Standard-Streams (STDIN und STDOUT)
+entsprechend zu setzen,
+	abhängig von den Umleitungen und der Reihenfolge der Befehle.
 */
-static void	handel_in_out_put(t_command *previous_command, t_command *curr, t_command *next)
+static void	handel_in_out_put(t_command *previous_command, t_command *curr,
+		t_command *next)
 {
 	if (!previous_command)
 		dup2(curr->eingabe, STDIN_FILENO);
@@ -39,11 +44,17 @@ static void	handel_in_out_put(t_command *previous_command, t_command *curr, t_co
 }
 /*
 Diese Funktion startet die Ausführung eines Befehls oder einer Befehlskette.
-Sie erstellt ggf. eine pipe zwischen den Befehlen, um die Kommunikation zwischen ihnen zu
-ermöglichen. Dann wird ein Kindprozess (fork) erstellt, in dem der Befehl ausgeführt wird.
-Die Funktion überprüft auch, ob derz Befehl ein eingebauter Befehl ist und führt diesen in einem separaten Verarbeitungszweig aus.
+Sie erstellt ggf. eine pipe zwischen den Befehlen,
+	um die Kommunikation zwischen ihnen zu
+ermöglichen. Dann wird ein Kindprozess (fork) erstellt,
+	in dem der Befehl ausgeführt wird.
+Die Funktion überprüft auch,
+	ob derz Befehl ein eingebauter Befehl ist und führt diesen in
+	einem separaten Verarbeitungszweig aus.
 */
-static int	mach_command(t_command *previous_command, t_command *curr, t_command *next)
+
+static int	mach_command(t_command *previous_command, t_command *curr,
+		t_command *next)
 {
 	int	process_id;
 	int	builtin_pos;
@@ -71,10 +82,14 @@ static int	mach_command(t_command *previous_command, t_command *curr, t_command 
 	return (process_id);
 }
 /*
-Diese Funktion koordiniert die Ausführung eines Befehls in einer Befehlskette. Sie überwacht,
-ob der Befehl der erste oder letzte in der Kette ist, und sorgt für die richtige Kommunikation
-zwischen den Befehlen, indem sie die Duplizierung der Eingabe- und Ausgabestreams behandelt.
+Diese Funktion koordiniert die Ausführung eines Befehls in einer
+Befehlskette. Sie überwacht,
+ob der Befehl der erste oder letzte in der Kette ist,
+	und sorgt für die richtige Kommunikation
+zwischen den Befehlen,
+	indem sie die Duplizierung der Eingabe- und Ausgabestreams behandelt.
 */
+
 int	handel_get_bid_exe(int idx, t_command *curr)
 {
 	int			process_id;

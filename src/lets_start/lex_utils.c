@@ -6,11 +6,12 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/12/06 21:08:27 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:03:37 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 /*
 lesezeichen_in_pos fügt Leerzeichen in einen String str an einer bestimmten
 Position pos ein. Hier ist eine Aufschlüsselung dessen, was die Funktion tut
@@ -62,6 +63,7 @@ Dabei werden bestimmte Zeichen im String modifiziert,
 um die Lesbarkeit zu verbessern. Das Ergebnis ist ein neuer
 String, der den modifizierten, lesbareren Befehl repräsentiert.
 */
+
 char	*format_cmd(char *input, int index)
 {
 	char	zitat_char;
@@ -69,7 +71,7 @@ char	*format_cmd(char *input, int index)
 
 	zitat_char = '\0';
 	formatted_input = init_for_cmd(input);
-	if(!formatted_input)
+	if (!formatted_input)
 		return (NULL);
 	while (formatted_input[index])
 	{
@@ -79,9 +81,7 @@ char	*format_cmd(char *input, int index)
 			index++;
 		}
 		else if (zitat_char == 0 && check_pipe(formatted_input[index]))
-		{	
 			format_pipe_leerzeichen(formatted_input, &index);
-		}
 		else if (zitat_char == formatted_input[index])
 		{
 			zitat_char = 0;

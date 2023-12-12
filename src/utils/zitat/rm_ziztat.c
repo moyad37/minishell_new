@@ -6,10 +6,9 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/11/14 13:56:21 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:28:33 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../../includes/minishell.h"
 
@@ -44,15 +43,20 @@ void	losche_zitat(void)
 	}
 }
 /*
-1.Durchläuft die Befehle im globalen g_minishell.commands-Array, beginnend mit dem Index i.
-2.Überprüft die Argumente jedes Befehls auf das Vorhandensein von Dateiredirektionen (check_redirect).
+1.Durchläuft die Befehle im globalen g_minishell.commands-Array,
+	beginnend mit dem Index i.
+2.Überprüft die Argumente jedes Befehls auf das Vorhandensein von
+Dateiredirektionen (check_redirect).
 3.Falls eine Dateiredirektion gefunden wird:
-	- Zerlegt das nächste Argument in Subtokens (subtokens) mithilfe von split_string_in_tokens.
+	- Zerlegt das nächste Argument in Subtokens (subtokens) mithilfe von
+	split_string_in_tokens.
 	- Behandelt Zitate in den Subtokens mit hanlde_zitat.
-	- Befreit den Speicher des ursprünglichen Arguments und setzt das Argument auf die Verbindung der Subtokens mithilfe von join_subtokens.
+	- Befreit den Speicher des ursprünglichen Arguments und setzt
+	das Argument auf die Verbindung der Subtokens mithilfe von join_subtokens.
 	- Befreit den Speicher der Subtokens.
 
 */
+
 void	handle_files(int i)
 {
 	int			count;

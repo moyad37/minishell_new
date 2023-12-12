@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/12/07 19:45:31 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/12 17:54:45 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,13 @@ static void	print_after_check(int size, char **args, int out_fd)
 //     }
 // }
 
-
 /*
-Die ft_echo-Funktion behandelt den echo-Befehl in einer Shell. Sie überprüft die Argumente,
-gibt Text aus und berücksichtigt den -n-Schalter. Je nach Situation gibt sie einen Zeilenumbruch
-aus und kümmert sich um die Ein- und Ausgabeverwaltung in einem Kindprozess oder in der Haupt-Shell.
+Die ft_echo-Funktion behandelt den echo-Befehl in einer Shell.
+Sie überprüft die Argumente,
+gibt Text aus und berücksichtigt den
+	-n-Schalter. Je nach Situation gibt sie einen Zeilenumbruch
+aus und kümmert sich um die Ein- und Ausgabeverwaltung in einem
+Kindprozess oder in der Haupt-Shell.
 */
 int	ft_echo(t_command cmd)
 {
@@ -74,9 +76,11 @@ int	ft_echo(t_command cmd)
 	out = 1;
 	check_output_with_pipe(cmd, &out);
 	comparison = 1;
-	if (g_minishell.in_child_process && (cmd.eingabe == -1 || cmd.ausgabe == -1))
+	if (g_minishell.in_child_process
+		&& (cmd.eingabe == -1 || cmd.ausgabe == -1))
 		end_pro_child(0, 1);
-	if (!g_minishell.in_child_process && (cmd.eingabe == -1 || cmd.ausgabe == -1))
+	if (!g_minishell.in_child_process
+		&& (cmd.eingabe == -1 || cmd.ausgabe == -1))
 		return (1);
 	if (cmd.arg_counter < 2)
 		ft_putstr_fd("\n", out);
@@ -91,5 +95,3 @@ int	ft_echo(t_command cmd)
 		end_pro_child(0, 0);
 	return (0);
 }
-
-

@@ -6,13 +6,11 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/12/06 21:57:42 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:29:55 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../../includes/minishell.h"
-
 
 static void	err_on_input_redirect(char *filename)
 {
@@ -43,4 +41,3 @@ void	handle_error(t_command *cmd, char *filename)
 	else if (cmd->ausgabe == -1)
 		err_on_output_redirect(filename);
 }
-

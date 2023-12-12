@@ -6,7 +6,7 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/12/07 19:54:02 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/12 17:56:41 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ int	is_regular_file(char *file)
 		return (NO_SUCH_FILE);
 	if (stat(file, &file_status) != 0)
 		return (NO_SUCH_FILE);
-	return (S_ISREG(file_status.st_mode) ? REG_FILE : DIR_FILE);
+	if (S_ISREG(file_status.st_mode))
+		return (REG_FILE);
+	else
+		return (DIR_FILE);
 }
 
 void	update_pwd_env(void)
@@ -40,16 +43,17 @@ int	change_directory(char *new_dir)
 	if (chdir(new_dir) != 0)
 	{
 		p_fd(STDERR_FILENO, "bash: cd: %s: No such file or directory\n",
-				new_dir);
+			new_dir);
 		return (1);
 	}
 	update_pwd_env();
 	return (0);
 }
 
-int cd_weiter(t_command cmd)
+int	cd_weiter(t_command cmd)
 {
-	int filetype;
+	int	filetype;
+
 	filetype = is_regular_file(cmd.args[1]);
 	if (filetype == REG_FILE)
 		return (p_fd(STDERR_FILENO, "bash: cd: %s: Not a directory\n",
@@ -63,7 +67,8 @@ int cd_weiter(t_command cmd)
 
 int	ft_cd(t_command cmd)
 {
-	char *home;
+	char	*home;
+
 	if (cmd.arg_counter == 1 || (cmd.arg_counter == 2 && *cmd.args[1] == '~'))
 	{
 		home = get_key_value(g_minishell.envp_list, "HOME");

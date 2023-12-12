@@ -6,13 +6,11 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/12/06 22:29:36 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/12 18:24:04 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../includes/minishell.h"
-
 
 static char	*validate_line(void)
 {
@@ -55,15 +53,15 @@ static void	get_heredoc_fd(int fd, char *arg)
 	while (1)
 	{
 		g_minishell.heredoc.line = validate_line();
-		if (!g_minishell.heredoc.line \
-			|| !ft_strcmpl(g_minishell.heredoc.line, arg))
+		if (!g_minishell.heredoc.line || !ft_strcmpl(g_minishell.heredoc.line,
+				arg))
 		{
 			if (g_minishell.heredoc.line)
 				ft_free(g_minishell.heredoc.line);
 			else
 			{
-				p_fd(STDERR_FILENO, "bash: warning: here-document "\
-						"delimited by end of file (wanted `%s`)\n", arg);
+				p_fd(STDERR_FILENO, "bash: warning: here-document "
+					"delimited by end of file (wanted `%s`)\n", arg);
 			}
 			break ;
 		}
@@ -82,13 +80,15 @@ erfolgreich ist (Status ungleich 0), gibt die Funktion 1 zurück.
 Andernfalls wird die Funktion swap_stream_fd aufgerufen, um die
 Eingabe für das cmd-Kommando von der temporären Datei zu lesen.
 */
+
 int	heredoc(t_command *cmd, char *arg)
 {
-	int		pid;
-	int		status;
+	int	pid;
+	int	status;
 
 	g_minishell.in_child_process = 2;
-	g_minishell.heredoc.fd = open(".tmpheredoc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	g_minishell.heredoc.fd = open(".tmpheredoc", O_CREAT | O_WRONLY | O_TRUNC,
+			0644);
 	pid = fork();
 	if (pid == 0)
 	{

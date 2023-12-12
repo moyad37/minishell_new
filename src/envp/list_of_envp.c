@@ -6,16 +6,19 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/12/07 19:45:56 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/12 17:58:48 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 /*
-Die Funktion ev_list_get erstellt eine Liste von Umgebungsvariablen aus dem envp-Array.
-Sie durchläuft das envp-Array, extrahiert Schlüssel-Wert-Paare für jede Umgebungsvariable
-und fügt sie in einen neuen Knoten ein, der der Liste hinzugefügt wird. Dies wird häufig
+Die Funktion ev_list_get erstellt eine Liste von Umgebungsvariablen
+aus dem envp-Array.
+Sie durchläuft das envp-Array,
+	extrahiert Schlüssel-Wert-Paare für jede Umgebungsvariable
+und fügt sie in einen neuen Knoten ein,
+	der der Liste hinzugefügt wird. Dies wird häufig
 in einer Shell-Implementierung verwendet, um Umgebungsvariablen zu verwalten
 */
 t_node	*ev_list_get(char **envp)
