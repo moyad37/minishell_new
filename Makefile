@@ -58,7 +58,7 @@ RM          = rm -f
 
 LIBFT_FLAGS = -L./src/libft -lft -lreadline
 
-CFLAGS      = -Wall -Wextra -Werror #-g3 -I./inc -I./src/libft
+CFLAGS      = -Wall -Wextra -Werror -g3 -I./inc -I./src/libft
 
 all:    ${NAME}
 

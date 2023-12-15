@@ -6,25 +6,15 @@
 /*   By: mmanssou <mmanssou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by mmanssou          #+#    #+#             */
-/*   Updated: 2023/12/12 18:35:39 by mmanssou         ###   ########.fr       */
+/*   Updated: 2023/12/15 22:07:45 by mmanssou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-//# define SET1 " \t\v\n\f\r"
-//# define TMPFILE ".tmpheredoc"
-//# define READ_END 0
-//# define WR_END 1
 # define NO_SUCH_FILE -1
 # define DIR_FILE 0
 # define REG_FILE 1
-
-//# define ENOENT 2
-//# define EACCES 13
-//# define ENAMETOOLONG 36
-//# define EISDIR 126
-//# define ENOCMD 127
 
 # include "../src/libft/libft.h"
 # include <curses.h>
@@ -96,7 +86,6 @@ int					ft_export(t_command cmd);
 int					ft_unset(t_command cmd);
 int					ft_env(t_command cmd);
 int					ft_exit(t_command cmd);
-//void	check_input_with_pipe(t_command cmd, int *fd);
 void				check_output_with_pipe(t_command cmd, int *fd);
 
 // Lexer
